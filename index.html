@@ -158,6 +158,8 @@ footer a{color:inherit}
         <p><b>Validade.</b> Há 3 itens de infrequência, sinalizados quando algum é marcado com 2 ou 3. Há 7 pares de itens de conteúdo próximo; a inconsistência é sinalizada quando 3 ou mais pares diferem em 2 pontos ou mais. Também é sinalizada a proporção de respostas "3" acima de 60%. Os critérios são heurísticos.</p>
         <p><b>Itens em branco.</b> Um domínio é calculado com no máximo 1 item faltante (média dos respondidos).</p>
         <p><b>Limitações.</b> Sem normas, consistência interna ou validade estabelecidas. Use para descrever o perfil, comparar domínios do mesmo paciente e acompanhar mudanças no tempo. Escores elevados não são específicos de TDAH: depressão, ansiedade, privação de sono, uso de substâncias e TEA também os elevam.</p>
+        <p><b>Composição das escalas</b> (número do item como aparece para o paciente):</p>
+        <div id="keyTable"></div>
         <p><b>O código.</b> Contém apenas as 63 respostas e as 3 de impacto, compactadas, com um dígito verificador. Não contém nome, idade nem data.</p>
       </div>
     </details>
@@ -416,7 +418,25 @@ function renderClin(A){
   $("itemList").innerHTML = ORDER.map((o,i)=>`<div style="padding:3px 0;border-top:1px solid var(--line)"><b>${i+1}.</b> ${o.t} <span class="muted">— ${A[o.id]===null?"em branco":A[o.id]+" ("+LBLp[A[o.id]]+")"}${DOM[(BANK.find(b=>b[0]===o.id)||[])[1]]?" · "+DOM[BANK.find(b=>b[0]===o.id)[1]].n:" · infrequência"}</span></div>`).join("");
   $("results").classList.remove("hidden");
 }
+function renderKey(){
+  const num=Object.fromEntries(ORDER.map((o,i)=>[o.id,i+1]));
+  const nums=ids=>ids.map(i=>num[i]).sort((a,b)=>a-b).join(", ");
+  const domIds=d=>BANK.filter(b=>b[1]===d).map(b=>b[0]);
+  const row=(n,v,b)=>`<tr${b?' style="font-weight:600"':''}><td style="padding:4px 10px 4px 0;vertical-align:top">${n}</td><td style="padding:4px 0">${v}</td></tr>`;
+  let h='<table style="border-collapse:collapse;font-size:14px;margin:4px 0 12px">';
+  for(const k of ["RCE","MGT"]){
+    const ds=Object.keys(DOM).filter(d=>DOM[d].idx===k);
+    h+=row(IDX[k], nums(ds.flatMap(domIds)), true);
+    ds.forEach(d=>h+=row("&nbsp;&nbsp;"+DOM[d].n, nums(domIds(d))));
+  }
+  h+=row("Total global", "todos os 60 itens clínicos (exceto "+nums(INFREQ.map(i=>i[0]))+")", true);
+  h+=row("Infrequência", nums(INFREQ.map(i=>i[0])));
+  h+=row("Pares de inconsistência", PAIRS.map(([a,b])=>[num[a],num[b]].sort((x,y)=>x-y)).sort((x,y)=>x[0]-y[0]).map(([x,y])=>`${x}–${y}`).join(" · "));
+  h+=row("Impacto funcional", "a) trabalho/estudos · b) casa/finanças · c) relacionamentos");
+  $("keyTable").innerHTML=h+"</table>";
+}
 function initClinician(){
+  renderKey();
   $("data").valueAsDate=new Date();
   $("decode").addEventListener("click",()=>{
     $("cmsg").innerHTML="";
