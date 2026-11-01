@@ -2,3 +2,5 @@ _versoes-antigas/
 .DS_Store
 publicar.command
 publicar.log
+*.xlsx
+~$*
