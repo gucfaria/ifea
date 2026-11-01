@@ -21,7 +21,7 @@
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
-.wrap{max-width:820px;margin:0 auto;padding:22px 16px 90px}
+.wrap{max-width:860px;margin:0 auto;padding:22px 16px 90px}
 h1{font-family:Georgia,"Times New Roman",serif;font-weight:600;font-size:26px;margin:0 0 2px;letter-spacing:-.01em}
 h2{font-family:Georgia,"Times New Roman",serif;font-weight:600;font-size:19px;margin:0 0 12px}
 .sub{color:var(--muted);margin:0 0 18px;font-size:14px}
@@ -30,7 +30,7 @@ h2{font-family:Georgia,"Times New Roman",serif;font-weight:600;font-size:19px;ma
 label.f{display:flex;flex-direction:column;font-size:13px;color:var(--muted);gap:4px}
 input[type=text],input[type=number],input[type=date],select,textarea{
   font:inherit;font-size:16px;color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:9px 10px;width:100%}
-textarea{min-height:70px;resize:vertical;font-family:ui-monospace,Menlo,monospace;font-size:14px}
+textarea{min-height:80px;resize:vertical;font-family:ui-monospace,Menlo,monospace;font-size:14px}
 .sticky{position:sticky;top:0;z-index:5;background:var(--bg);padding:8px 0 10px;margin:0 0 6px}
 .pbar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
 .pbar span{display:block;height:100%;background:var(--accent);width:0;transition:width .2s}
@@ -45,6 +45,10 @@ textarea{min-height:70px;resize:vertical;font-family:ui-monospace,Menlo,monospac
 .opts label{display:flex;align-items:center;justify-content:center;text-align:center;min-height:44px;padding:6px 4px;border:1px solid var(--line);border-radius:8px;cursor:pointer;font-size:13px;line-height:1.2;user-select:none;-webkit-tap-highlight-color:transparent}
 .opts input:checked+label{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
 .opts input:focus-visible+label{outline:2px solid var(--accent);outline-offset:2px}
+.seg{display:flex;flex-wrap:wrap;gap:6px}
+.seg input{position:absolute;opacity:0;pointer-events:none}
+.seg label{padding:8px 12px;border:1px solid var(--line);border-radius:8px;cursor:pointer;font-size:14px}
+.seg input:checked+label{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
 .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
 button{font:inherit;font-weight:600;font-size:15px;border-radius:9px;padding:12px 18px;border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
 button.ghost{background:transparent;color:var(--accent)}
@@ -52,34 +56,43 @@ button.wide{width:100%}
 .note{background:var(--warn-bg);color:var(--warn-ink);border-radius:8px;padding:10px 12px;font-size:14px;margin:10px 0}
 .ok{background:var(--ok-bg);color:var(--ok-ink);border-radius:8px;padding:12px;font-size:15px;margin:0 0 12px}
 .code{font:600 17px/1.6 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em;word-break:break-all;background:var(--bg);border:1px dashed var(--accent);border-radius:8px;padding:12px;text-align:center;user-select:all;-webkit-user-select:all}
-.res-row{display:grid;grid-template-columns:minmax(170px,1.3fr) 2fr 64px 92px;gap:10px;align-items:center;padding:7px 0;border-top:1px solid var(--line);font-size:14px}
-.res-row.head{border-top:none;color:var(--muted);font-size:12px;text-transform:uppercase;letter-spacing:.04em}
-.res-row.idx{font-weight:600}
-.bar{height:12px;background:var(--accent-soft);border-radius:6px;position:relative;overflow:hidden}
-.bar span{position:absolute;inset:0 auto 0 0;border-radius:6px}
-.bar i{position:absolute;top:0;bottom:0;width:1px;background:var(--line)}
-.num{font-variant-numeric:tabular-nums;text-align:right}
-.tag{font-size:12px;padding:2px 8px;border-radius:999px;text-align:center;color:#1d2229}
-@media (max-width:600px){.res-row{grid-template-columns:1fr 56px 86px}.res-row .bar{grid-column:1/-1;order:5}}
-pre#report{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px;font:13px/1.5 ui-monospace,Menlo,monospace;max-height:440px;overflow:auto}
+.link{font:13px/1.5 ui-monospace,Menlo,monospace;word-break:break-all;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px}
+table.res{width:100%;border-collapse:collapse;font-size:14px}
+table.res th{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;text-align:left;font-weight:600;padding:6px 6px;border-bottom:1px solid var(--line);vertical-align:bottom}
+table.res td{padding:6px;border-top:1px solid var(--line);vertical-align:middle}
+table.res tr.idx td{font-weight:600}
+table.res td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
+.cell{display:flex;align-items:center;gap:8px;min-width:120px}
+.bar{flex:1;height:10px;background:var(--accent-soft);border-radius:5px;position:relative;overflow:hidden;min-width:50px}
+.bar span{position:absolute;inset:0 auto 0 0;border-radius:5px}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:middle}
+pre#report{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px;font:13px/1.5 ui-monospace,Menlo,monospace;max-height:480px;overflow:auto}
 .hidden{display:none!important}
 details summary{cursor:pointer;color:var(--accent);font-weight:500}
-small.muted,.muted{color:var(--muted)}
+.muted{color:var(--muted)}
 footer{color:var(--muted);font-size:12px;margin-top:28px;text-align:center}
 footer a{color:inherit}
+.chip{display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--ink);margin-left:6px}
 </style>
 </head>
 <body>
 <div class="wrap">
 
-<!-- ================= MODO PACIENTE ================= -->
+<!-- ================= MODO RESPONDENTE ================= -->
 <section id="patient">
-  <h1>Questionário de Funções Executivas</h1>
-  <p class="sub">IFE-A · autorrelato · cerca de 10 minutos</p>
+  <h1 id="pTitle">Questionário de Funções Executivas</h1>
+  <p class="sub" id="pSub"></p>
+
+  <div class="card" id="relCard">
+    <h2>Sobre você</h2>
+    <label class="f">Qual é a sua relação com a pessoa avaliada?
+      <select id="rel"><option value="">— selecione —</option></select>
+    </label>
+  </div>
 
   <div class="card">
-    <p style="margin:0 0 8px">Abaixo há frases sobre situações do dia a dia. Pensando <b>nas últimas 4 semanas</b>, marque com que frequência cada uma foi um problema para você. Não há respostas certas ou erradas. Responda a todas.</p>
-    <p class="muted" style="margin:0;font-size:14px">Suas respostas não são enviadas pela internet. Ao final, você recebe um <b>código</b> e o envia ao seu médico. O código não contém seu nome.</p>
+    <p style="margin:0 0 8px" id="pInstr"></p>
+    <p class="muted" style="margin:0;font-size:14px">As respostas não são enviadas pela internet. Ao final, você recebe um <b>código</b> e o envia ao médico. O código não contém nomes.</p>
   </div>
 
   <div class="sticky"><div class="pbar"><span id="pfill"></span></div><div class="ptext" id="prog"></div></div>
@@ -87,8 +100,14 @@ footer a{color:inherit}
   <div class="card"><div id="items"></div></div>
 
   <div class="card">
+    <h2>Como as coisas funcionam no dia a dia</h2>
+    <p class="muted" style="margin:0 0 4px;font-size:14px" id="cmpInstr"></p>
+    <div id="cmp"></div>
+  </div>
+
+  <div class="card">
     <h2>Impacto no dia a dia</h2>
-    <p class="muted" style="margin:0 0 4px;font-size:14px">Nas últimas 4 semanas, quanto essas dificuldades atrapalharam…</p>
+    <p class="muted" style="margin:0 0 4px;font-size:14px" id="impInstr"></p>
     <div id="impact"></div>
   </div>
 
@@ -96,7 +115,7 @@ footer a{color:inherit}
   <button class="wide" id="finish">Concluir e gerar código</button>
 
   <div id="done" class="card hidden" style="margin-top:16px">
-    <div class="ok">Obrigado! Envie o código abaixo ao seu médico, pelo canal combinado com ele.</div>
+    <div class="ok">Obrigado! Envie o código abaixo ao médico, pelo canal combinado.</div>
     <div class="code" id="codeOut"></div>
     <div class="btns">
       <button id="share">Enviar código</button>
@@ -109,16 +128,31 @@ footer a{color:inherit}
 
 <!-- ================= MODO MÉDICO ================= -->
 <section id="clinician" class="hidden">
-  <h1>IFE-A · correção</h1>
+  <h1>IFE-A · área do médico</h1>
   <p class="sub">Inventário de Funções Executivas no Adulto · instrumento clínico sem normas populacionais</p>
 
   <div class="card">
-    <h2>Código do paciente</h2>
-    <textarea id="codeIn" placeholder="Cole aqui o código (IFE1-…)" autocomplete="off" spellcheck="false"></textarea>
+    <h2>Gerar link para envio</h2>
+    <div class="grid">
+      <div><div class="muted" style="font-size:13px;margin-bottom:6px">Formulário</div>
+        <div class="seg"><input type="radio" name="lf" id="lfA" value="a" checked><label for="lfA">Autorrelato</label>
+        <input type="radio" name="lf" id="lfI" value="i"><label for="lfI">Informante</label></div></div>
+      <div><div class="muted" style="font-size:13px;margin-bottom:6px">Período de referência</div>
+        <div class="seg"><input type="radio" name="lp" id="lp4" value="4" checked><label for="lp4">Últimas 4 semanas</label>
+        <input type="radio" name="lp" id="lp6" value="6"><label for="lp6">Últimos 6 meses</label></div></div>
+    </div>
+    <div class="link" id="linkOut" style="margin-top:12px"></div>
+    <div class="btns"><button class="ghost" id="copyLink">Copiar link</button></div>
+    <p class="muted" style="font-size:13px;margin:8px 0 0">4 semanas: acompanhamento e resposta a tratamento. 6 meses: avaliação diagnóstica.</p>
+  </div>
+
+  <div class="card">
+    <h2>Corrigir</h2>
+    <textarea id="codeIn" placeholder="Cole um ou mais códigos (um por linha). Ex.: autorrelato e informante, ou duas aplicações para comparar." autocomplete="off" spellcheck="false"></textarea>
     <div class="grid" style="margin-top:12px">
       <label class="f">Paciente / iniciais<input type="text" id="nome" autocomplete="off"></label>
       <label class="f">Idade<input type="number" id="idade" min="16" max="100"></label>
-      <label class="f">Data da aplicação<input type="date" id="data"></label>
+      <label class="f">Data<input type="date" id="data"></label>
       <label class="f">Momento
         <select id="momento"><option>Avaliação inicial</option><option>Reavaliação / seguimento</option><option>Em uso de medicação</option><option>Sem medicação (washout)</option></select>
       </label>
@@ -132,8 +166,8 @@ footer a{color:inherit}
     <div class="card">
       <h2>Perfil por domínio</h2>
       <div id="validity"></div>
-      <div id="table"></div>
-      <p class="muted" style="margin-top:10px;font-size:13px">Média dos itens (0–3). Faixas descritivas: mínima &lt; 0,75 · leve 0,75–1,49 · moderada 1,50–2,24 · acentuada ≥ 2,25. São cortes clínicos de conveniência, <b>não</b> percentis nem escores T.</p>
+      <div style="overflow-x:auto"><div id="table"></div></div>
+      <p class="muted" style="margin-top:10px;font-size:13px">Média dos itens (0–3). Faixas descritivas: <span class="dot" style="background:var(--b0)"></span>mínima &lt; 0,75 · <span class="dot" style="background:var(--b1)"></span>leve 0,75–1,49 · <span class="dot" style="background:var(--b2)"></span>moderada 1,50–2,24 · <span class="dot" style="background:var(--b3)"></span>acentuada ≥ 2,25. Cortes clínicos de conveniência, <b>não</b> percentis nem escores T.</p>
     </div>
     <div class="card">
       <h2>Texto para o prontuário</h2>
@@ -143,7 +177,7 @@ footer a{color:inherit}
     <div class="card">
       <details>
         <summary>Respostas item a item</summary>
-        <div id="itemList" style="margin-top:10px;font-size:14px"></div>
+        <div id="itemList" style="margin-top:10px;font-size:14px;overflow-x:auto"></div>
       </details>
     </div>
   </div>
@@ -152,182 +186,223 @@ footer a{color:inherit}
     <details>
       <summary>Sobre o instrumento e como interpretar</summary>
       <div style="margin-top:10px;font-size:14px">
-        <p>60 itens originais em 10 domínios de 6 itens, agrupados em dois índices e um total. Cobre os construtos clássicos das funções executivas no comportamento cotidiano, mais um domínio de <b>gestão do tempo</b>.</p>
-        <p><b>Regulação comportamental e emocional:</b> Inibição, Automonitoramento, Flexibilidade, Controle emocional.<br>
-           <b>Metacognição e gestão de tarefas:</b> Iniciação, Memória de trabalho, Planejamento e organização, Gestão do tempo, Monitoramento de tarefas, Organização de materiais.</p>
-        <p><b>Validade.</b> Há 3 itens de infrequência, sinalizados quando algum é marcado com 2 ou 3. Há 7 pares de itens de conteúdo próximo; a inconsistência é sinalizada quando 3 ou mais pares diferem em 2 pontos ou mais. Também é sinalizada a proporção de respostas "3" acima de 60%. Os critérios são heurísticos.</p>
-        <p><b>Itens em branco.</b> Um domínio é calculado com no máximo 1 item faltante (média dos respondidos).</p>
-        <p><b>Limitações.</b> Sem normas, consistência interna ou validade estabelecidas. Use para descrever o perfil, comparar domínios do mesmo paciente e acompanhar mudanças no tempo. Escores elevados não são específicos de TDAH: depressão, ansiedade, privação de sono, uso de substâncias e TEA também os elevam.</p>
-        <p><b>Composição das escalas</b> (número do item como aparece para o paciente):</p>
+        <p>66 itens originais em 11 domínios de 6 itens, agrupados em dois índices e um total, mais um módulo de compensação (6 itens), 3 itens de infrequência e 3 de impacto funcional. Há duas formas, autorrelato e informante, com o mesmo conteúdo; na forma do informante, os itens foram reescritos para descrever comportamentos observáveis por terceiros.</p>
+        <p><b>Composição das escalas</b> (número do item como aparece para o respondente):</p>
         <div id="keyTable"></div>
-        <p><b>O código.</b> Contém apenas as 63 respostas e as 3 de impacto, compactadas, com um dígito verificador. Não contém nome, idade nem data.</p>
+        <p><b>Compensação.</b> Esforço extra, dependência de apoios externos, maratonas de última hora, discrepância entre o que se vê de fora e o que a pessoa vive. Não entra nos domínios nem no total. Compensação alta com domínios moderados sugere mascaramento; compensação alta com domínios altos sugere que a compensação já não é suficiente. Não é específica: ansiedade, perfeccionismo e burnout também a elevam.</p>
+        <p><b>Discrepância entre índices.</b> O relatório informa Metacognição menos Regulação. Um índice metacognitivo bem acima do de regulação é o padrão descrito em TDAH com altas habilidades em estudos com o BRIEF infantil; aqui é apenas uma leitura descritiva do perfil.</p>
+        <p><b>Validade.</b> Infrequência: alerta se algum dos 3 itens implausíveis for marcado com 2 ou 3. Inconsistência: 8 pares de itens próximos; alerta se 3 ou mais diferirem em 2 pontos ou mais. Respostas extremas: alerta se mais de 60% dos itens clínicos forem "3". Critérios heurísticos.</p>
+        <p><b>Autorrelato × informante.</b> Ao corrigir os dois juntos, o relatório aponta domínios em que as médias diferem em 0,75 ponto ou mais. Diferenças podem refletir pouca percepção das próprias dificuldades, compensação que esconde o problema de quem observa, ou contextos diferentes (trabalho × casa).</p>
+        <p><b>Itens em branco.</b> Um domínio é calculado com no máximo 1 item faltante.</p>
+        <p><b>Limitações.</b> Sem normas, consistência interna ou validade estabelecidas. Use para descrever o perfil, comparar domínios e informantes e acompanhar mudanças. Escores elevados não são específicos de TDAH: depressão, ansiedade, privação de sono, uso de substâncias e TEA também os elevam.</p>
+        <p><b>Versões do código.</b> IFE2 contém formulário, período, relação do informante e as 78 respostas, com dígito verificador. Códigos IFE1 (versão anterior, sem Atenção sustentada e compensação) continuam sendo corrigidos.</p>
       </div>
     </details>
   </div>
 </section>
 
-<footer>
-  IFE-A © 2026 Gustavo Coutinho de Faria · uso clínico · <span id="modeLink"></span>
-</footer>
+<footer>IFE-A © 2026 Gustavo Coutinho de Faria · uso clínico · <span id="modeLink"></span></footer>
 </div>
 
 <script>
 "use strict";
-// ---------- Conteúdo ----------
+// ============================================================ CONTEÚDO (IFE2)
 const DOM = {
   INI:{n:"Inibição", idx:"RCE"}, AUT:{n:"Automonitoramento", idx:"RCE"},
   FLE:{n:"Flexibilidade", idx:"RCE"}, EMO:{n:"Controle emocional", idx:"RCE"},
-  INC:{n:"Iniciação", idx:"MGT"}, MEM:{n:"Memória de trabalho", idx:"MGT"},
-  PLA:{n:"Planejamento e organização", idx:"MGT"}, TEM:{n:"Gestão do tempo", idx:"MGT"},
-  MON:{n:"Monitoramento de tarefas", idx:"MGT"}, ORG:{n:"Organização de materiais", idx:"MGT"}
+  INC:{n:"Iniciação", idx:"MGT"}, ATE:{n:"Atenção sustentada", idx:"MGT"},
+  MEM:{n:"Memória de trabalho", idx:"MGT"}, PLA:{n:"Planejamento e organização", idx:"MGT"},
+  TEM:{n:"Gestão do tempo", idx:"MGT"}, MON:{n:"Monitoramento de tarefas", idx:"MGT"},
+  ORG:{n:"Organização de materiais", idx:"MGT"}
 };
+const DOMS2 = Object.keys(DOM);
+const DOMS1 = DOMS2.filter(d=>d!=="ATE");
 const IDX = {RCE:"Índice de Regulação Comportamental e Emocional", MGT:"Índice de Metacognição e Gestão de Tarefas"};
+
+// [id, domínio, autorrelato, informante]
 const BANK = [
- ["INI1","INI","Interrompo as pessoas antes de terminarem de falar."],
- ["INI2","INI","Compro coisas por impulso e depois me arrependo."],
- ["INI3","INI","Respondo mensagens ou e-mails no calor do momento e depois me arrependo do que escrevi."],
- ["INI4","INI","Não resisto a olhar o celular quando deveria estar fazendo outra coisa."],
- ["INI5","INI","Tomo decisões importantes sem pesar os prós e os contras."],
- ["INI6","INI","Fico inquieto em reuniões, filas ou salas de espera."],
- ["AUT1","AUT","Só percebo que falei demais quando a conversa já ficou desconfortável."],
- ["AUT2","AUT","Ouço que meu jeito soa grosseiro, mesmo sem ter essa intenção."],
- ["AUT3","AUT","Não percebo quando estou monopolizando a conversa."],
- ["AUT4","AUT","Tenho dificuldade em avaliar como o meu comportamento afeta o clima de um grupo."],
- ["AUT5","AUT","Percebo tarde demais que meu tom de voz estava alto ou irritado."],
- ["AUT6","AUT","Demoro a notar que a outra pessoa quer encerrar o assunto."],
- ["FLE1","FLE","Fico desnorteado quando um plano muda em cima da hora."],
- ["FLE2","FLE","Insisto na mesma estratégia mesmo quando ela claramente não está dando certo."],
- ["FLE3","FLE","Depois de ser interrompido, custo a retomar o que estava fazendo."],
- ["FLE4","FLE","Resisto a sugestões de fazer algo de um jeito diferente do meu."],
- ["FLE5","FLE","Fico preso a uma preocupação ou ideia e não consigo mudar o foco."],
- ["FLE6","FLE","Tenho dificuldade em me adaptar a um sistema, programa ou rotina nova no trabalho."],
- ["EMO1","EMO","Uma pequena frustração estraga o meu dia inteiro."],
- ["EMO2","EMO","Perco a paciência no trânsito ou em filas mais do que gostaria."],
- ["EMO3","EMO","Minhas reações emocionais são maiores do que a situação pedia."],
- ["EMO4","EMO","Levo muito tempo para me acalmar depois de uma discussão."],
- ["EMO5","EMO","Diante de uma crítica, choro ou me irrito com facilidade."],
- ["EMO6","EMO","As pessoas próximas sentem que precisam \"pisar em ovos\" comigo."],
- ["INC1","INC","Adio tarefas importantes mesmo sabendo que isso vai me prejudicar."],
- ["INC2","INC","Só consigo começar algo quando o prazo está muito perto."],
- ["INC3","INC","Fico parado sem saber por onde começar uma tarefa grande."],
- ["INC4","INC","Dependo de alguém para me colocar em movimento."],
- ["INC5","INC","Passo muito tempo \"me preparando\" sem de fato começar."],
- ["INC6","INC","Custo a começar tarefas chatas, como pagar contas ou responder e-mails."],
- ["MEM1","MEM","Vou a outro cômodo e esqueço o que fui buscar."],
- ["MEM2","MEM","Perco o fio da meada ao ler um texto mais longo."],
- ["MEM3","MEM","Preciso que repitam uma instrução que acabaram de me dar."],
- ["MEM4","MEM","Esqueço de fazer algo que combinei de fazer logo em seguida."],
- ["MEM5","MEM","Tenho dificuldade em guardar um número na cabeça enquanto o digito."],
- ["MEM6","MEM","Numa conversa, esqueço o que ia dizer enquanto espero a minha vez."],
- ["PLA1","PLA","Tenho dificuldade em dividir um projeto grande em etapas menores."],
- ["PLA2","PLA","Começo várias coisas ao mesmo tempo e não termino a maioria."],
- ["PLA3","PLA","Quando tenho várias demandas, não sei o que fazer primeiro."],
- ["PLA4","PLA","Chego a compromissos sem os documentos ou objetos de que vou precisar."],
- ["PLA5","PLA","Quando explico algo, falando ou por escrito, a explicação sai confusa e fora de ordem."],
- ["PLA6","PLA","Começo algo sem pensar nas etapas que vão ser necessárias."],
- ["TEM1","TEM","Chego atrasado a compromissos."],
- ["TEM2","TEM","Perco prazos de trabalho, de contas ou de documentos."],
- ["TEM3","TEM","Perco a noção do tempo quando estou envolvido em alguma coisa."],
- ["TEM4","TEM","Calculo mal quanto tempo as coisas vão levar."],
- ["TEM5","TEM","Esqueço compromissos marcados, mesmo usando agenda."],
- ["TEM6","TEM","Assumo mais compromissos do que consigo cumprir no tempo que tenho."],
- ["MON1","MON","Entrego trabalhos com erros que eu teria visto se tivesse revisado."],
- ["MON2","MON","Pulo etapas de instruções ou procedimentos."],
- ["MON3","MON","Encerro uma tarefa sem conferir se fiz tudo o que precisava."],
- ["MON4","MON","Erro em detalhes como datas, valores ou nomes em documentos."],
- ["MON5","MON","Termino as coisas rápido demais e o resultado fica abaixo do que eu seria capaz."],
- ["MON6","MON","Só percebo que fiz algo errado quando alguém me aponta."],
- ["ORG1","ORG","Perco tempo procurando chaves, carteira, celular ou óculos."],
- ["ORG2","ORG","Minha mesa, bolsa ou mochila fica tão bagunçada que atrapalha."],
- ["ORG3","ORG","Os arquivos no computador ou no celular ficam espalhados e difíceis de achar."],
- ["ORG4","ORG","Papéis importantes, como contas, exames e documentos, se perdem em casa."],
- ["ORG5","ORG","Deixo objetos e pendências se acumularem em casa por falta de organização."],
- ["ORG6","ORG","Esqueço objetos em lugares como restaurantes, carros ou consultórios."]
+ ["INI1","INI","Interrompo as pessoas antes de terminarem de falar.","Interrompe as pessoas antes de terminarem de falar."],
+ ["INI2","INI","Compro coisas por impulso e depois me arrependo.","Compra coisas por impulso e depois se arrepende."],
+ ["INI3","INI","Respondo mensagens ou e-mails no calor do momento e depois me arrependo do que escrevi.","Responde ou discute no calor do momento e depois se arrepende do que disse ou escreveu."],
+ ["INI4","INI","Não resisto a olhar o celular quando deveria estar fazendo outra coisa.","Olha o celular quando deveria estar fazendo outra coisa, como conversar, dirigir ou trabalhar."],
+ ["INI5","INI","Tomo decisões importantes sem pesar os prós e os contras.","Toma decisões importantes de forma precipitada, sem pesar os prós e os contras."],
+ ["INI6","INI","Sinto inquietação em reuniões, filas ou salas de espera.","Mostra inquietação em reuniões, filas ou salas de espera (mexe-se, levanta-se, batuca)."],
+ ["AUT1","AUT","Só percebo que falei demais quando a conversa já ficou desconfortável.","Fala demais sem perceber que a conversa ficou desconfortável."],
+ ["AUT2","AUT","Ouço que meu jeito soa grosseiro, mesmo sem ter essa intenção.","Tem um jeito que soa ríspido para os outros, sem se dar conta disso."],
+ ["AUT3","AUT","Não percebo quando estou monopolizando a conversa.","Monopoliza a conversa sem perceber."],
+ ["AUT4","AUT","Tenho dificuldade em avaliar como o meu comportamento afeta o clima de um grupo.","Não percebe como o próprio comportamento afeta o clima de um grupo."],
+ ["AUT5","AUT","Percebo tarde demais que meu tom de voz estava alto ou irritado.","Fala em tom alto ou irritado sem se dar conta."],
+ ["AUT6","AUT","Demoro a notar que a outra pessoa quer encerrar o assunto.","Não nota quando a outra pessoa quer encerrar o assunto."],
+ ["FLE1","FLE","Fico sem rumo quando um plano muda em cima da hora.","Fica sem rumo quando um plano muda em cima da hora."],
+ ["FLE2","FLE","Insisto na mesma estratégia mesmo quando ela claramente não está dando certo.","Insiste na mesma estratégia mesmo quando ela claramente não está dando certo."],
+ ["FLE3","FLE","Depois de uma interrupção, custo a retomar o que estava fazendo.","Depois de uma interrupção, custa a retomar o que estava fazendo."],
+ ["FLE4","FLE","Resisto a sugestões de fazer algo de um jeito diferente do meu.","Resiste a sugestões de fazer algo de um jeito diferente do seu."],
+ ["FLE5","FLE","Uma preocupação ou ideia gruda na minha cabeça e não consigo mudar o foco.","Volta repetidamente ao mesmo assunto ou preocupação e tem dificuldade de mudar de foco."],
+ ["FLE6","FLE","Tenho dificuldade em me adaptar a um sistema, programa ou rotina nova.","Tem dificuldade em se adaptar a um sistema, programa ou rotina nova."],
+ ["EMO1","EMO","Uma pequena frustração estraga o meu dia inteiro.","Uma pequena frustração muda seu humor pelo resto do dia."],
+ ["EMO2","EMO","Perco a paciência no trânsito ou em filas mais do que gostaria.","Perde a paciência no trânsito ou em filas."],
+ ["EMO3","EMO","Minhas reações emocionais são maiores do que a situação pedia.","Reage com uma emoção maior do que a situação pedia."],
+ ["EMO4","EMO","Levo muito tempo para me acalmar depois de uma discussão.","Leva muito tempo para se acalmar depois de uma discussão."],
+ ["EMO5","EMO","Diante de uma crítica, choro ou me irrito com facilidade.","Diante de uma crítica, chora ou se irrita com facilidade."],
+ ["EMO6","EMO","As pessoas próximas sentem que precisam \"pisar em ovos\" comigo.","Quem convive sente que precisa \"pisar em ovos\" por causa das suas reações."],
+ ["INC1","INC","Adio tarefas importantes mesmo sabendo que isso vai me prejudicar.","Adia tarefas importantes mesmo quando isso traz prejuízo."],
+ ["INC2","INC","Só consigo começar algo quando o prazo está muito perto.","Só começa algo quando o prazo está muito perto."],
+ ["INC3","INC","Travo sem saber por onde começar uma tarefa grande.","Trava diante de uma tarefa grande, sem saber por onde começar."],
+ ["INC4","INC","Dependo de alguém para me colocar em movimento.","Depende de alguém para se colocar em movimento."],
+ ["INC5","INC","Passo muito tempo \"me preparando\" sem de fato começar.","Passa muito tempo \"se preparando\" sem de fato começar."],
+ ["INC6","INC","Custo a começar tarefas chatas, como pagar contas ou responder e-mails.","Deixa de lado tarefas chatas, como pagar contas ou resolver pendências."],
+ ["ATE1","ATE","Perco o foco no meio de tarefas importantes, mesmo com vontade de terminá-las.","Perde o foco no meio de tarefas importantes, mesmo quando quer terminá-las."],
+ ["ATE2","ATE","Perco o foco até em tarefas desafiadoras, que exigem o melhor de mim, e não só nas fáceis ou repetitivas.","Perde o foco até em tarefas desafiadoras, e não só nas fáceis ou repetitivas."],
+ ["ATE3","ATE","Em reuniões, aulas ou palestras, percebo que \"desliguei\" e perdi parte do que foi dito.","Em reuniões, palestras ou filmes, \"desliga\" e depois não sabe parte do que foi dito ou do que aconteceu."],
+ ["ATE4","ATE","Mesmo quando a conversa me interessa, sem celular ou outra atividade, percebo que me distraí e perdi parte do que a pessoa disse.","Mesmo numa conversa que lhe interessa, sem celular ou outra atividade, perde parte do que foi dito e precisa pedir para repetir."],
+ ["ATE5","ATE","Sons, conversas ou movimentos ao redor me tiram do que estou fazendo.","Sons, conversas ou movimentos ao redor tiram sua atenção do que está fazendo."],
+ ["ATE6","ATE","Mesmo depois de uma boa noite de sono e sem preocupações, minha mente vagueia quando preciso me concentrar.","Mesmo em dias tranquilos e depois de dormir bem, parece \"no mundo da lua\" quando precisa se concentrar."],
+ ["MEM1","MEM","Vou a outro cômodo e esqueço o que fui buscar.","Vai a outro cômodo e esquece o que foi buscar."],
+ ["MEM2","MEM","Perco o fio da meada ao ler um texto mais longo.","Relê várias vezes o mesmo trecho ou desiste de textos mais longos."],
+ ["MEM3","MEM","Preciso que repitam uma instrução que acabaram de me dar.","Precisa que repitam uma instrução que acabaram de dar."],
+ ["MEM4","MEM","Esqueço de fazer algo que combinei de fazer logo em seguida.","Esquece de fazer algo que combinou de fazer logo em seguida."],
+ ["MEM5","MEM","Tenho dificuldade em guardar um número na cabeça enquanto o digito.","Pede para repetirem números, endereços ou nomes logo depois de ouvi-los."],
+ ["MEM6","MEM","Numa conversa, esqueço o que ia dizer enquanto espero a minha vez.","Numa conversa, esquece o que ia dizer (\"esqueci o que ia falar\")."],
+ ["PLA1","PLA","Tenho dificuldade em dividir um projeto grande em etapas menores.","Tem dificuldade em dividir um projeto grande em etapas menores."],
+ ["PLA2","PLA","Começo várias coisas ao mesmo tempo e não termino a maioria.","Começa várias coisas ao mesmo tempo e não termina a maioria."],
+ ["PLA3","PLA","Quando tenho várias demandas, não sei o que fazer primeiro.","Diante de várias demandas, não consegue decidir o que fazer primeiro."],
+ ["PLA4","PLA","Chego a compromissos sem os documentos ou objetos de que vou precisar.","Chega a compromissos sem os documentos ou objetos de que vai precisar."],
+ ["PLA5","PLA","Quando explico algo, falando ou por escrito, a explicação sai confusa e fora de ordem.","Suas explicações, faladas ou escritas, saem confusas e fora de ordem."],
+ ["PLA6","PLA","Começo algo sem pensar nas etapas que vão ser necessárias.","Começa algo sem pensar nas etapas que vão ser necessárias."],
+ ["TEM1","TEM","Chego com atraso a compromissos.","Chega com atraso a compromissos."],
+ ["TEM2","TEM","Perco prazos de trabalho, de contas ou de documentos.","Perde prazos de trabalho, de contas ou de documentos."],
+ ["TEM3","TEM","Perco a noção do tempo quando algo prende minha atenção.","Perde a noção do tempo quando algo prende sua atenção."],
+ ["TEM4","TEM","Calculo mal quanto tempo as coisas vão levar.","Calcula mal quanto tempo as coisas vão levar."],
+ ["TEM5","TEM","Esqueço compromissos marcados, mesmo usando agenda.","Esquece compromissos marcados, mesmo usando agenda."],
+ ["TEM6","TEM","Assumo mais compromissos do que consigo cumprir no tempo que tenho.","Assume mais compromissos do que consegue cumprir no tempo que tem."],
+ ["MON1","MON","Entrego trabalhos com erros que eu teria visto se tivesse revisado.","Entrega tarefas com erros que veria se tivesse revisado."],
+ ["MON2","MON","Pulo etapas de instruções ou procedimentos.","Pula etapas de instruções ou procedimentos."],
+ ["MON3","MON","Encerro uma tarefa sem conferir se fiz tudo o que precisava.","Encerra uma tarefa sem conferir se fez tudo o que precisava."],
+ ["MON4","MON","Erro em detalhes como datas, valores ou nomes em documentos.","Erra em detalhes como datas, valores ou nomes em documentos."],
+ ["MON5","MON","Termino as coisas rápido demais e o resultado fica abaixo do que eu seria capaz.","Termina as coisas rápido demais e o resultado fica abaixo do que seria capaz."],
+ ["MON6","MON","Só percebo que fiz algo errado quando alguém me aponta.","Só percebe que fez algo errado quando alguém aponta."],
+ ["ORG1","ORG","Perco tempo procurando chaves, carteira, celular ou óculos.","Perde tempo procurando chaves, carteira, celular ou óculos."],
+ ["ORG2","ORG","Minha mesa, bolsa ou mochila fica tão bagunçada que atrapalha.","Sua mesa, bolsa ou mochila fica tão bagunçada que atrapalha."],
+ ["ORG3","ORG","Os arquivos no computador ou no celular ficam espalhados e difíceis de achar.","Não encontra arquivos, fotos ou mensagens no computador ou celular quando precisa."],
+ ["ORG4","ORG","Papéis importantes, como contas, exames e documentos, se perdem em casa.","Perde papéis importantes, como contas, exames e documentos."],
+ ["ORG5","ORG","Deixo objetos e pendências se acumularem em casa por falta de organização.","Deixa objetos e pendências se acumularem em casa por falta de organização."],
+ ["ORG6","ORG","Esqueço objetos em lugares como restaurantes, carros ou consultórios.","Esquece objetos em lugares como restaurantes, carros ou consultórios."]
 ];
 const INFREQ = [
- ["INF1","Esqueço quantos dias tem uma semana."],
- ["INF2","Tenho dificuldade em lembrar como se usa uma colher."],
- ["INF3","Não consigo dizer se está chovendo, mesmo olhando pela janela."]
+ ["INF1","Esqueço quantos dias tem uma semana.","Esquece quantos dias tem uma semana."],
+ ["INF2","Tenho dificuldade em lembrar como se usa uma colher.","Tem dificuldade em lembrar como se usa uma colher."],
+ ["INF3","Não consigo dizer se está chovendo, mesmo olhando pela janela.","Não consegue dizer se está chovendo, mesmo olhando pela janela."]
 ];
-const PAIRS = [["EMO1","EMO3"],["INC1","INC2"],["MEM1","MEM4"],["PLA1","PLA3"],["TEM2","TEM5"],["MON1","MON4"],["ORG1","ORG6"]];
+const CMP = [
+ ["CMP1","Para dar conta das minhas obrigações, preciso de muito mais esforço ou tempo do que as pessoas ao meu redor.","Precisa de muito mais esforço ou tempo do que os outros para dar conta das obrigações."],
+ ["CMP2","Sem alarmes, lembretes, listas ou aplicativos, eu esqueceria ou atrasaria coisas importantes.","Depende de alarmes, lembretes, listas ou de outras pessoas para não esquecer ou atrasar coisas importantes."],
+ ["CMP3","Viro noites ou faço maratonas de última hora para compensar o que não consegui fazer antes.","Vira noites ou faz maratonas de última hora para dar conta do que não fez antes."],
+ ["CMP4","Quem me vê de fora acha que eu dou conta de tudo, mas por dentro me sinto no limite para manter isso.","Para quem vê de fora parece dar conta de tudo, mas em casa mostra exaustão ou sobrecarga para manter isso."],
+ ["CMP5","Quando a rotina perde a estrutura (férias, troca de emprego, trabalho em casa), minha organização desmorona.","Quando a rotina perde a estrutura (férias, troca de emprego, trabalho em casa), sua organização desmorona."],
+ ["CMP6","Uso a facilidade de raciocínio para improvisar e compensar o que não preparei com antecedência.","Improvisa com facilidade para compensar o que não preparou com antecedência."]
+];
 const IMPACT = [["IMP1","Trabalho ou estudos"],["IMP2","Casa, finanças e tarefas do dia a dia"],["IMP3","Relacionamentos (família, parceiro(a), amigos)"]];
+const PAIRS2 = [["EMO1","EMO3"],["INC1","INC2"],["MEM1","MEM4"],["PLA1","PLA3"],["TEM2","TEM5"],["MON1","MON4"],["ORG1","ORG6"],["ATE3","ATE4"]];
+const PAIRS1 = PAIRS2.slice(0,7);
+const RELS = ["Cônjuge ou parceiro(a)","Pai ou mãe","Outro familiar","Amigo(a)","Colega ou outro"];
 const LBL = ["Nunca","Às vezes","Frequen&shy;temente","Quase sempre"];
 const LBLp = ["nunca","às vezes","frequentemente","quase sempre"];
+const PER = {4:{lbl:"últimas 4 semanas", txt:"nas últimas 4 semanas"}, 6:{lbl:"últimos 6 meses", txt:"nos últimos 6 meses"}};
 
-// Ordem de apresentação (fixa — o código depende dela; mudar = nova versão do código)
-function buildOrder(){
-  const byDom={}; BANK.forEach(b=>{(byDom[b[1]] ||= []).push(b)});
-  const doms=Object.keys(DOM), out=[];
-  for(let r=0;r<6;r++){
-    const k=r%doms.length, rot=doms.slice(k).concat(doms.slice(0,k));
-    rot.forEach(d=>out.push({id:byDom[d][r][0],t:byDom[d][r][2]}));
-  }
-  [[17,0],[38,1],[55,2]].forEach(([pos,i])=>out.splice(pos,0,{id:INFREQ[i][0],t:INFREQ[i][1]}));
+// Ordem fixa de apresentação — o código depende dela (mudar = nova versão)
+function buildOrder(doms, bank, infPos){
+  const byDom={}; bank.forEach(b=>{(byDom[b[1]] ||= []).push(b[0])});
+  const out=[];
+  for(let r=0;r<6;r++){ const k=r%doms.length; doms.slice(k).concat(doms.slice(0,k)).forEach(d=>out.push(byDom[d][r])); }
+  infPos.forEach(([pos,id])=>out.splice(pos,0,id));
   return out;
 }
-const ORDER = buildOrder();
-const ALLIDS = ORDER.map(o=>o.id).concat(IMPACT.map(i=>i[0])); // 66 posições
-const TXT = Object.fromEntries(BANK.map(b=>[b[0],b[2]]).concat(INFREQ));
+const ORDER2 = buildOrder(DOMS2, BANK, [[19,"INF1"],[43,"INF2"],[62,"INF3"]]);      // 69 itens
+const ALLIDS2 = ORDER2.concat(CMP.map(c=>c[0]), IMPACT.map(i=>i[0]));                // 78 posições
+const ALLIDS1 = ["INI1","AUT1","FLE1","EMO1","INC1","MEM1","PLA1","TEM1","MON1","ORG1","AUT2","FLE2","EMO2","INC2","MEM2","PLA2","TEM2","INF1","MON2","ORG2","INI2","FLE3","EMO3","INC3","MEM3","PLA3","TEM3","MON3","ORG3","INI3","AUT3","EMO4","INC4","MEM4","PLA4","TEM4","MON4","ORG4","INF2","INI4","AUT4","FLE4","INC5","MEM5","PLA5","TEM5","MON5","ORG5","INI5","AUT5","FLE5","EMO5","MEM6","PLA6","TEM6","INF3","MON6","ORG6","INI6","AUT6","FLE6","EMO6","INC6","IMP1","IMP2","IMP3"];
+const DOM_OF = Object.fromEntries(BANK.map(b=>[b[0],b[1]]));
+const TXT = {}; BANK.forEach(b=>TXT[b[0]]=[b[2],b[3]]); INFREQ.concat(CMP).forEach(x=>TXT[x[0]]=[x[1],x[2]]); IMPACT.forEach(x=>TXT[x[0]]=[x[1],x[1]]);
+const NUM2 = Object.fromEntries(ORDER2.map((id,i)=>[id,i+1]).concat(CMP.map((c,i)=>[c[0],ORDER2.length+1+i])));
 
-// ---------- Código ----------
-// 66 valores em base 5 (0–3, 4 = em branco) → pares → 1 letra de 25 (sem I/O) → 33 letras + 1 verificadora
-const ALPHA = "ABCDEFGHJKLMNPQRSTUVWXYZ2"; // 25 símbolos
-const VER = "IFE1";
-function encode(ans){ // ans: array 66 de 0..3 ou null
-  const d = ans.map(v=>v===null?4:v); let s="", sum=0;
-  for(let i=0;i<d.length;i+=2){ const n=d[i]*5+d[i+1]; s+=ALPHA[n]; sum=(sum+n*((i/2)%7+1))%25; }
-  s+=ALPHA[sum];
-  return VER+"-"+s.match(/.{1,5}/g).join("-");
+// ============================================================ CÓDIGO
+const ALPHA = "ABCDEFGHJKLMNPQRSTUVWXYZ2"; // 25 símbolos (sem I e O)
+function packLetters(d){ let s="",sum=0; for(let i=0;i<d.length;i+=2){ const n=d[i]*5+d[i+1]; s+=ALPHA[n]; sum=(sum+n*((i/2)%7+1))%25; } return s+ALPHA[sum]; }
+function encode2(form, per, rel, ans){ // form 0/1, per 0(4s)/1(6m), rel 0..4, ans 78 × (0..3|null)
+  const d=[form*2+per, rel].concat(ans.map(v=>v===null?4:v)); // 80 dígitos
+  return "IFE2-"+packLetters(d).match(/.{1,5}/g).join("-");
+}
+function unpack(t){
+  const d=[]; let sum=0;
+  for(let i=0;i<t.length-1;i++){ const n=ALPHA.indexOf(t[i]); if(n<0) throw new Error(`Caractere inválido: "${t[i]}".`); d.push(Math.floor(n/5),n%5); sum=(sum+n*(i%7+1))%25; }
+  if(ALPHA[sum]!==t[t.length-1]) throw new Error("Dígito verificador não confere: algum caractere foi trocado.");
+  return d;
 }
 function decode(str){
-  let t = str.toUpperCase().replace(/[^A-Z0-9]/g,"");
-  if(!t.startsWith(VER)) throw new Error("O código não começa com "+VER+". Confira se foi copiado inteiro.");
-  t = t.slice(VER.length);
-  if(t.length!==ALLIDS.length/2+1) throw new Error(`O código tem ${t.length} caracteres após "${VER}", mas deveria ter ${ALLIDS.length/2+1}. Provavelmente foi cortado.`);
-  const d=[]; let sum=0;
-  for(let i=0;i<t.length-1;i++){
-    const n=ALPHA.indexOf(t[i]); if(n<0) throw new Error(`Caractere inválido: "${t[i]}".`);
-    d.push(Math.floor(n/5), n%5); sum=(sum+n*(i%7+1))%25;
-  }
-  if(ALPHA[sum]!==t[t.length-1]) throw new Error("Dígito verificador não confere: o código tem algum caractere trocado.");
-  return Object.fromEntries(ALLIDS.map((id,i)=>[id, d[i]===4?null:d[i]]));
+  let t=str.toUpperCase().replace(/[^A-Z0-9]/g,"");
+  const ver = t.startsWith("IFE2")?2 : t.startsWith("IFE1")?1 : 0;
+  if(!ver) throw new Error("O código não começa com IFE1 ou IFE2. Confira se foi copiado inteiro.");
+  t=t.slice(4);
+  const want = ver===2 ? 41 : 34;
+  if(t.length!==want) throw new Error(`Código ${ver===2?"IFE2":"IFE1"} com ${t.length} caracteres após o prefixo; deveriam ser ${want}. Provavelmente foi cortado.`);
+  const d=unpack(t);
+  if(ver===1) return {ver:1, form:0, per:4, rel:null, A:Object.fromEntries(ALLIDS1.map((id,i)=>[id,d[i]===4?null:d[i]]))};
+  const meta=d[0], rel=d[1];
+  if(meta>3 || rel>4) throw new Error("Cabeçalho do código inválido.");
+  const form=meta>>1, per=(meta&1)?6:4;
+  return {ver:2, form, per, rel: form?rel:null, A:Object.fromEntries(ALLIDS2.map((id,i)=>[id,d[i+2]===4?null:d[i+2]]))};
 }
 
-// ---------- Utilidades ----------
-const $ = id => document.getElementById(id);
-const fmt = x => x.toFixed(2).replace(".",",");
+// ============================================================ UTILIDADES
+const $=id=>document.getElementById(id);
+const fmt=x=>x.toFixed(2).replace(".",",");
+const sgn=x=>(x>0?"+":x<0?"−":"±")+Math.abs(x).toFixed(2).replace(".",",");
 function band(m){ m=Math.round(m*100)/100; if(m<0.75)return["mínima","var(--b0)"]; if(m<1.5)return["leve","var(--b1)"]; if(m<2.25)return["moderada","var(--b2)"]; return["acentuada","var(--b3)"]; }
-async function copyText(text, btn, label){
+async function copyText(text,btn,label){
   try{ await navigator.clipboard.writeText(text); btn.textContent="Copiado ✓"; }
-  catch{ const ta=document.createElement("textarea"); ta.value=text; document.body.appendChild(ta); ta.select();
-         try{document.execCommand("copy");btn.textContent="Copiado ✓"}catch{btn.textContent="Selecione e copie"} ta.remove(); }
+  catch{ const ta=document.createElement("textarea"); ta.value=text; document.body.appendChild(ta); ta.select(); try{document.execCommand("copy");btn.textContent="Copiado ✓"}catch{btn.textContent="Selecione e copie"} ta.remove(); }
   setTimeout(()=>btn.textContent=label,2000);
 }
+const qs=new URLSearchParams(location.search);
+const FORM = qs.get("f")==="i" ? 1 : 0;
+const PERIOD = qs.get("p")==="6" ? 6 : 4;
 
-// ---------- Modo paciente ----------
-const STORE="ifea_respostas_v1", TTL=48*3600*1000;
-function radio(name){
-  return LBL.map((l,v)=>`<input type="radio" name="${name}" id="${name}_${v}" value="${v}"><label for="${name}_${v}">${l}</label>`).join("");
-}
+// ============================================================ MODO RESPONDENTE
+const STORE=`ifea2_${FORM}_${PERIOD}`, TTL=48*3600*1000;
+const tx=id=>TXT[id][FORM];
+function radio(name){ return LBL.map((l,v)=>`<input type="radio" name="${name}" id="${name}_${v}" value="${v}"><label for="${name}_${v}">${l}</label>`).join(""); }
 function pval(id){ const e=document.querySelector(`input[name="${id}"]:checked`); return e?+e.value:null; }
-function save(){ try{ localStorage.setItem(STORE, JSON.stringify({t:Date.now(), a:Object.fromEntries(ALLIDS.map(id=>[id,pval(id)]))})); }catch{} }
+function save(){ try{ localStorage.setItem(STORE, JSON.stringify({t:Date.now(), rel:$("rel").value, a:Object.fromEntries(ALLIDS2.map(id=>[id,pval(id)]))})); }catch{} }
 function load(){
   try{ const o=JSON.parse(localStorage.getItem(STORE)||"null"); if(!o) return;
        if(Date.now()-o.t>TTL){ localStorage.removeItem(STORE); return; }
+       if(o.rel) $("rel").value=o.rel;
        for(const id in o.a){ if(o.a[id]!==null){ const r=$(id+"_"+o.a[id]); if(r) r.checked=true; } } }catch{}
 }
-function updProg(){
-  const n=ALLIDS.filter(id=>pval(id)!==null).length;
-  $("prog").textContent=`${n} de ${ALLIDS.length} respondidas`;
-  $("pfill").style.width=(n/ALLIDS.length*100)+"%";
-}
+function updProg(){ const n=ALLIDS2.filter(id=>pval(id)!==null).length; $("prog").textContent=`${n} de ${ALLIDS2.length} respondidas`; $("pfill").style.width=(n/ALLIDS2.length*100)+"%"; }
 function initPatient(){
-  $("items").innerHTML = ORDER.map((it,i)=>`<div class="item" id="row_${it.id}"><div class="t"><b>${i+1}.</b>${it.t}</div><div class="opts">${radio(it.id)}</div></div>`).join("");
-  $("impact").innerHTML = IMPACT.map(([id,t],i)=>`<div class="item" id="row_${id}"><div class="t"><b>${String.fromCharCode(97+i)})</b>${t}</div><div class="opts">${radio(id)}</div></div>`).join("");
+  const per=PER[PERIOD].txt;
+  if(FORM){
+    $("pTitle").textContent="Questionário sobre outra pessoa";
+    $("pSub").textContent=`IFE-A · forma do informante · ${PER[PERIOD].lbl} · cerca de 12 minutos`;
+    $("pInstr").innerHTML=`Você vai responder sobre <b>a pessoa que pediu sua ajuda</b>. As frases descrevem comportamentos do dia a dia. Pensando no que você observou <b>${per}</b>, marque com que frequência cada um aconteceu. Se não teve como observar algo, marque o que mais se aproxima do que você vê. Responda a todas.`;
+    $("cmpInstr").innerHTML=`Pensando ${per}, com que frequência isso acontece com essa pessoa?`;
+    $("impInstr").innerHTML=`${per[0].toUpperCase()+per.slice(1)}, quanto essas dificuldades atrapalharam essa pessoa em…`;
+    $("rel").innerHTML=`<option value="">— selecione —</option>`+RELS.map((r,i)=>`<option value="${i}">${r}</option>`).join("");
+  } else {
+    $("relCard").classList.add("hidden");
+    $("pSub").textContent=`IFE-A · autorrelato · ${PER[PERIOD].lbl} · cerca de 12 minutos`;
+    $("pInstr").innerHTML=`Abaixo há frases sobre situações do dia a dia. Pensando <b>${per}</b>, marque com que frequência cada uma foi um problema para você. Não há respostas certas ou erradas. Responda a todas.`;
+    $("cmpInstr").innerHTML=`Pensando ${per}, com que frequência isso acontece com você?`;
+    $("impInstr").innerHTML=`${per[0].toUpperCase()+per.slice(1)}, quanto essas dificuldades atrapalharam…`;
+  }
+  $("items").innerHTML=ORDER2.map((id,i)=>`<div class="item" id="row_${id}"><div class="t"><b>${i+1}.</b>${tx(id)}</div><div class="opts">${radio(id)}</div></div>`).join("");
+  $("cmp").innerHTML=CMP.map(([id],i)=>`<div class="item" id="row_${id}"><div class="t"><b>${ORDER2.length+1+i}.</b>${tx(id)}</div><div class="opts">${radio(id)}</div></div>`).join("");
+  $("impact").innerHTML=IMPACT.map(([id,t],i)=>`<div class="item" id="row_${id}"><div class="t"><b>${String.fromCharCode(97+i)})</b>${t}</div><div class="opts">${radio(id)}</div></div>`).join("");
   load(); updProg();
-  document.addEventListener("change",e=>{ if(e.target.type==="radio"){ $("row_"+e.target.name)?.classList.remove("missing"); updProg(); save(); }});
+  document.addEventListener("change",e=>{ if(e.target.type==="radio"||e.target.id==="rel"){ $("row_"+e.target.name)?.classList.remove("missing"); updProg(); save(); }});
   $("finish").addEventListener("click",()=>{
-    const miss = ALLIDS.filter(id=>pval(id)===null);
+    if(FORM && $("rel").value===""){ $("pmsg").innerHTML=`<div class="note">Informe no início qual é a sua relação com a pessoa avaliada.</div>`; $("relCard").scrollIntoView({behavior:"smooth"}); return; }
+    const miss=ALLIDS2.filter(id=>pval(id)===null);
     document.querySelectorAll(".item.missing").forEach(e=>e.classList.remove("missing"));
     if(miss.length && !$("finish").dataset.confirm){
       miss.forEach(id=>$("row_"+id).classList.add("missing"));
@@ -335,9 +410,8 @@ function initPatient(){
       $("finish").dataset.confirm="1"; $("row_"+miss[0]).scrollIntoView({behavior:"smooth",block:"center"}); return;
     }
     $("pmsg").innerHTML="";
-    const code = encode(ALLIDS.map(pval));
-    $("codeOut").textContent=code; $("done").classList.remove("hidden");
-    $("done").scrollIntoView({behavior:"smooth"});
+    $("codeOut").textContent=encode2(FORM, PERIOD===6?1:0, FORM?+$("rel").value:0, ALLIDS2.map(pval));
+    $("done").classList.remove("hidden"); $("done").scrollIntoView({behavior:"smooth"});
   });
   $("share").addEventListener("click",async()=>{
     const code=$("codeOut").textContent, text="Código do questionário IFE-A: "+code;
@@ -347,114 +421,160 @@ function initPatient(){
   $("copyCode").addEventListener("click",()=>copyText($("codeOut").textContent,$("copyCode"),"Copiar código"));
   $("wipe").addEventListener("click",()=>{
     try{localStorage.removeItem(STORE)}catch{}
-    document.querySelectorAll("input[type=radio]").forEach(r=>r.checked=false);
+    document.querySelectorAll("input[type=radio]").forEach(r=>r.checked=false); $("rel").value="";
     $("done").classList.add("hidden"); delete $("finish").dataset.confirm; updProg(); window.scrollTo(0,0);
   });
 }
 
-// ---------- Modo médico ----------
-function score(A){
-  const v = id => A[id];
+// ============================================================ PONTUAÇÃO
+function score(D){
+  const A=D.A, v=id=>A[id], doms=D.ver===2?DOMS2:DOMS1, pairs=D.ver===2?PAIRS2:PAIRS1;
   const res={};
-  for(const d in DOM){
-    const ids=BANK.filter(b=>b[1]===d).map(b=>b[0]), got=ids.map(v).filter(x=>x!==null);
-    res[d]={ m: ids.length-got.length>1 ? null : got.reduce((a,b)=>a+b,0)/got.length,
-             raw: got.reduce((a,b)=>a+b,0), n: got.length };
+  for(const d of doms){
+    const ids=BANK.filter(b=>b[1]===d).map(b=>b[0]), got=ids.map(v).filter(x=>x!==null&&x!==undefined);
+    res[d]={m: ids.length-got.length>1?null:got.reduce((a,b)=>a+b,0)/got.length, raw:got.reduce((a,b)=>a+b,0), n:got.length};
   }
-  const idxMean=k=>{const ds=Object.keys(DOM).filter(d=>DOM[d].idx===k); return ds.some(d=>res[d].m===null)?null:ds.reduce((a,d)=>a+res[d].m,0)/ds.length;};
+  const idxMean=k=>{const ds=doms.filter(d=>DOM[d].idx===k); return ds.some(d=>res[d].m===null)?null:ds.reduce((a,d)=>a+res[d].m,0)/ds.length;};
   const rce=idxMean("RCE"), mgt=idxMean("MGT");
-  const tot=Object.values(res).some(r=>r.m===null)?null:Object.values(res).reduce((a,r)=>a+r.m,0)/10;
+  const tot=doms.some(d=>res[d].m===null)?null:doms.reduce((a,d)=>a+res[d].m,0)/doms.length;
+  let cmp=null;
+  if(D.ver===2){ const g=CMP.map(c=>v(c[0])).filter(x=>x!==null); cmp=g.length>=5?g.reduce((a,b)=>a+b,0)/g.length:null; }
   const inf=INFREQ.map(([id])=>v(id)).filter(x=>x!==null&&x>=2).length;
-  const pd=PAIRS.map(([a,b])=>(v(a)===null||v(b)===null)?null:Math.abs(v(a)-v(b))).filter(x=>x!==null);
-  const incons=pd.filter(x=>x>=2).length;
-  const ans=BANK.map(b=>v(b[0])).filter(x=>x!==null);
-  const pct3=ans.length?ans.filter(x=>x===3).length/ans.length:0;
+  const incons=pairs.map(([a,b])=>(v(a)===null||v(b)===null)?null:Math.abs(v(a)-v(b))).filter(x=>x!==null&&x>=2).length;
+  const clin=BANK.filter(b=>doms.includes(b[1])).map(b=>v(b[0])).filter(x=>x!==null);
+  const pct3=clin.length?clin.filter(x=>x===3).length/clin.length:0;
+  const ids=D.ver===2?ALLIDS2:ALLIDS1, missing=ids.filter(id=>v(id)===null).length;
   const flags=[];
-  if(inf>0) flags.push(`Infrequência: ${inf} de 3 itens implausíveis marcados como frequentes. Considerar desatenção ao responder, incompreensão, resposta aleatória ou exagero.`);
-  if(incons>=3) flags.push(`Inconsistência: ${incons} de 7 pares de itens semelhantes diferem em 2 pontos ou mais. Considerar resposta descuidada ou aleatória.`);
-  if(pct3>0.6) flags.push(`Respostas extremas: ${Math.round(pct3*100)}% dos itens marcados como "quase sempre". Considerar exagero, sofrimento difuso ou viés de resposta.`);
-  const missing=ALLIDS.filter(id=>v(id)===null).length;
-  return {res,rce,mgt,tot,inf,incons,pct3,flags,missing};
+  if(inf>0) flags.push(`Infrequência: ${inf} de 3 itens implausíveis marcados como frequentes.`);
+  if(incons>=3) flags.push(`Inconsistência: ${incons} de ${pairs.length} pares de itens semelhantes diferem em 2 pontos ou mais.`);
+  if(pct3>0.6) flags.push(`Respostas extremas: ${Math.round(pct3*100)}% dos itens clínicos marcados como "quase sempre".`);
+  return {doms,res,rce,mgt,tot,cmp,inf,incons,npairs:pairs.length,pct3,missing,flags};
 }
-function renderClin(A){
-  const S=score(A), {res,rce,mgt,tot,flags}=S;
-  $("validity").innerHTML = flags.length ? flags.map(f=>`<div class="note">⚠ ${f}</div>`).join("")
-    : `<p class="muted" style="margin:0 0 8px;font-size:13px">Validade sem alertas (infrequência ${S.inf}/3 · pares inconsistentes ${S.incons}/7 · respostas "3": ${Math.round(S.pct3*100)}%).</p>`;
-  const row=(name,m,cls="",extra="")=>{
-    if(m===null) return `<div class="res-row ${cls}"><div>${name}</div><div class="bar"></div><div class="num">—</div><div class="muted">incompleto</div></div>`;
-    const [b,c]=band(m);
-    return `<div class="res-row ${cls}"><div>${name}${extra}</div><div class="bar"><span style="width:${m/3*100}%;background:${c}"></span><i style="left:25%"></i><i style="left:50%"></i><i style="left:75%"></i></div><div class="num">${fmt(m)}</div><div class="tag" style="background:${c}">${b}</div></div>`;
-  };
-  let h=`<div class="res-row head"><div>Domínio</div><div>0 — 3</div><div class="num">Média</div><div>Faixa</div></div>`;
-  for(const k of ["RCE","MGT"]){
-    Object.keys(DOM).filter(d=>DOM[d].idx===k).forEach(d=>h+=row(DOM[d].n,res[d].m,"",` <small class="muted">(${res[d].raw}/${res[d].n*3})</small>`));
-    h+=row(IDX[k],k==="RCE"?rce:mgt,"idx");
-  }
-  h+=row("Total executivo global",tot,"idx");
-  $("table").innerHTML=h;
+const formLbl=D=>D.ver===1?"Autorrelato (IFE1)":D.form?`Informante — ${RELS[D.rel]}`:"Autorrelato";
+const shortLbl=(D,i)=>D.form?"Informante":"Autorrelato";
 
-  const nome=$("nome").value.trim()||"—", idade=$("idade").value||"—";
-  const d=$("data").value, dataBR=d?d.split("-").reverse().join("/"):"—";
-  const L=[];
-  L.push(`IFE-A (Inventário de Funções Executivas no Adulto, autorrelato; instrumento clínico sem normas) — ${dataBR}`);
-  L.push(`Paciente: ${nome} | Idade: ${idade} | ${$("momento").value}`);
-  L.push(`Escala 0 (nunca) a 3 (quase sempre), últimas 4 semanas. Média por domínio (soma bruta):`);
-  const dl=x=>res[x].m===null?`- ${DOM[x].n}: incompleto`:`- ${DOM[x].n}: ${fmt(res[x].m)} (${res[x].raw}/${res[x].n*3}${res[x].n<6?", 1 item em branco":""}) — ${band(res[x].m)[0]}`;
-  const il=(lab,m)=>`${lab}: ${m===null?"incompleto":fmt(m)+" — "+band(m)[0]}`;
-  L.push(il("Regulação comportamental e emocional",rce)); Object.keys(DOM).filter(x=>DOM[x].idx==="RCE").forEach(x=>L.push(dl(x)));
-  L.push(il("Metacognição e gestão de tarefas",mgt));     Object.keys(DOM).filter(x=>DOM[x].idx==="MGT").forEach(x=>L.push(dl(x)));
-  L.push(il("Total global",tot));
-  const ranked=Object.keys(DOM).filter(x=>res[x].m!==null).sort((a,b)=>res[b].m-res[a].m);
-  if(ranked.length) L.push(`Domínios mais comprometidos: ${ranked.slice(0,3).map(x=>`${DOM[x].n} (${fmt(res[x].m)})`).join("; ")}.`);
-  const crit=BANK.filter(b=>A[b[0]]===3).map(b=>b[2].replace(/\.$/,""));
-  if(crit.length) L.push(`Itens marcados como "quase sempre" (${crit.length}): ${crit.join("; ")}.`);
-  L.push(`Impacto funcional (0–3): ${IMPACT.map(([id,t])=>`${t.split(" (")[0]} ${A[id]===null?"—":A[id]+" ("+LBLp[A[id]]+")"}`).join("; ")}.`);
-  const q=$("queixa").value.trim(); if(q) L.push(`Principal dificuldade relatada: "${q}"`);
-  L.push(`Validade: ${flags.length?flags.join(" "):`sem alertas (infrequência ${S.inf}/3; pares inconsistentes ${S.incons}/7; respostas extremas ${Math.round(S.pct3*100)}%).`}`);
-  if(S.missing) L.push(`Itens sem resposta: ${S.missing}.`);
-  L.push(`Obs.: faixas descritivas por cortes clínicos de conveniência; não equivalem a percentis.`);
-  $("report").textContent=L.join("\n");
-
-  $("itemList").innerHTML = ORDER.map((o,i)=>`<div style="padding:3px 0;border-top:1px solid var(--line)"><b>${i+1}.</b> ${o.t} <span class="muted">— ${A[o.id]===null?"em branco":A[o.id]+" ("+LBLp[A[o.id]]+")"}${DOM[(BANK.find(b=>b[0]===o.id)||[])[1]]?" · "+DOM[BANK.find(b=>b[0]===o.id)[1]].n:" · infrequência"}</span></div>`).join("");
-  $("results").classList.remove("hidden");
-}
+// ============================================================ MODO MÉDICO
 function renderKey(){
-  const num=Object.fromEntries(ORDER.map((o,i)=>[o.id,i+1]));
-  const nums=ids=>ids.map(i=>num[i]).sort((a,b)=>a-b).join(", ");
+  const nums=ids=>ids.map(i=>NUM2[i]).sort((a,b)=>a-b).join(", ");
   const domIds=d=>BANK.filter(b=>b[1]===d).map(b=>b[0]);
   const row=(n,v,b)=>`<tr${b?' style="font-weight:600"':''}><td style="padding:4px 10px 4px 0;vertical-align:top">${n}</td><td style="padding:4px 0">${v}</td></tr>`;
   let h='<table style="border-collapse:collapse;font-size:14px;margin:4px 0 12px">';
   for(const k of ["RCE","MGT"]){
-    const ds=Object.keys(DOM).filter(d=>DOM[d].idx===k);
+    const ds=DOMS2.filter(d=>DOM[d].idx===k);
     h+=row(IDX[k], nums(ds.flatMap(domIds)), true);
     ds.forEach(d=>h+=row("&nbsp;&nbsp;"+DOM[d].n, nums(domIds(d))));
   }
-  h+=row("Total global", "todos os 60 itens clínicos (exceto "+nums(INFREQ.map(i=>i[0]))+")", true);
+  h+=row("Total global","os 66 itens clínicos",true);
+  h+=row("Compensação", nums(CMP.map(c=>c[0])), true);
   h+=row("Infrequência", nums(INFREQ.map(i=>i[0])));
-  h+=row("Pares de inconsistência", PAIRS.map(([a,b])=>[num[a],num[b]].sort((x,y)=>x-y)).sort((x,y)=>x[0]-y[0]).map(([x,y])=>`${x}–${y}`).join(" · "));
-  h+=row("Impacto funcional", "a) trabalho/estudos · b) casa/finanças · c) relacionamentos");
+  h+=row("Pares de inconsistência", PAIRS2.map(([a,b])=>[NUM2[a],NUM2[b]].sort((x,y)=>x-y)).sort((x,y)=>x[0]-y[0]).map(([x,y])=>`${x}–${y}`).join(" · "));
+  h+=row("Impacto funcional","a) trabalho/estudos · b) casa/finanças · c) relacionamentos");
   $("keyTable").innerHTML=h+"</table>";
 }
+function updLink(){
+  const f=document.querySelector('input[name="lf"]:checked').value, p=document.querySelector('input[name="lp"]:checked').value;
+  const base=location.href.split("#")[0].split("?")[0];
+  const q=[]; if(f==="i") q.push("f=i"); if(p==="6") q.push("p=6");
+  $("linkOut").textContent=base+(q.length?"?"+q.join("&"):"");
+}
+function cellHTML(m){
+  if(m===null||m===undefined) return `<span class="muted">—</span>`;
+  const [b,c]=band(m);
+  return `<div class="cell"><div class="bar"><span style="width:${m/3*100}%;background:${c}"></span></div><span class="num">${fmt(m)}</span><span class="dot" style="background:${c}" title="${b}"></span></div>`;
+}
+function renderClin(list){
+  const S=list.map(score);
+  const multi=list.length>1;
+  // validade
+  $("validity").innerHTML=list.map((D,i)=>{
+    const s=S[i], tag=multi?`<b>${i+1}. ${formLbl(D)}:</b> `:"";
+    return s.flags.length? s.flags.map(f=>`<div class="note">⚠ ${tag}${f}</div>`).join("")
+      : `<p class="muted" style="margin:0 0 6px;font-size:13px">${tag}validade sem alertas (infrequência ${s.inf}/3 · pares ${s.incons}/${s.npairs} · respostas "3": ${Math.round(s.pct3*100)}%).</p>`;
+  }).join("");
+  // tabela
+  let h=`<table class="res"><thead><tr><th>Domínio</th>${list.map((D,i)=>`<th>${multi?(i+1)+". ":""}${formLbl(D)}<br><span style="text-transform:none;font-weight:400">${PER[D.per].lbl}</span></th>`).join("")}</tr></thead><tbody>`;
+  for(const k of ["RCE","MGT"]){
+    DOMS2.filter(d=>DOM[d].idx===k).forEach(d=>{ h+=`<tr><td>${DOM[d].n}</td>${S.map(s=>`<td>${cellHTML(s.res[d]?.m)}</td>`).join("")}</tr>`; });
+    h+=`<tr class="idx"><td>${IDX[k]}</td>${S.map(s=>`<td>${cellHTML(k==="RCE"?s.rce:s.mgt)}</td>`).join("")}</tr>`;
+  }
+  h+=`<tr class="idx"><td>Total global</td>${S.map(s=>`<td>${cellHTML(s.tot)}</td>`).join("")}</tr>`;
+  h+=`<tr><td>Metacognição − Regulação</td>${S.map(s=>`<td class="num">${s.rce!==null&&s.mgt!==null?sgn(s.mgt-s.rce):"—"}</td>`).join("")}</tr>`;
+  h+=`<tr class="idx"><td>Compensação</td>${S.map(s=>`<td>${cellHTML(s.cmp)}</td>`).join("")}</tr>`;
+  h+=`<tr><td>Impacto (trab. · casa · relac.)</td>${list.map(D=>`<td class="num">${IMPACT.map(([id])=>D.A[id]===null?"—":D.A[id]).join(" · ")}</td>`).join("")}</tr>`;
+  $("table").innerHTML=h+"</tbody></table>";
+
+  // relatório
+  const nome=$("nome").value.trim()||"—", idade=$("idade").value||"—";
+  const dd=$("data").value, dataBR=dd?dd.split("-").reverse().join("/"):"—";
+  const L=[];
+  L.push(`IFE-A (Inventário de Funções Executivas no Adulto; instrumento clínico sem normas) — ${dataBR}`);
+  L.push(`Paciente: ${nome} | Idade: ${idade} | ${$("momento").value}`);
+  L.push(`Escala 0 (nunca) a 3 (quase sempre). Média por domínio (soma bruta).`);
+  list.forEach((D,i)=>{
+    const s=S[i];
+    L.push("");
+    L.push(`${multi?(i+1)+". ":""}${formLbl(D)} — período: ${PER[D.per].lbl}`);
+    const dl=x=>s.res[x].m===null?`  - ${DOM[x].n}: incompleto`:`  - ${DOM[x].n}: ${fmt(s.res[x].m)} (${s.res[x].raw}/${s.res[x].n*3}${s.res[x].n<6?", 1 em branco":""}) — ${band(s.res[x].m)[0]}`;
+    const il=(lab,m)=>`${lab}: ${m===null?"incompleto":fmt(m)+" — "+band(m)[0]}`;
+    L.push(il("Regulação comportamental e emocional",s.rce)); s.doms.filter(x=>DOM[x].idx==="RCE").forEach(x=>L.push(dl(x)));
+    L.push(il("Metacognição e gestão de tarefas",s.mgt)); s.doms.filter(x=>DOM[x].idx==="MGT").forEach(x=>L.push(dl(x)));
+    L.push(il("Total global",s.tot)+(s.rce!==null&&s.mgt!==null?` | Metacognição − Regulação: ${sgn(s.mgt-s.rce)}`:""));
+    if(D.ver===2) L.push(il("Compensação",s.cmp));
+    const ranked=s.doms.filter(x=>s.res[x].m!==null).sort((a,b)=>s.res[b].m-s.res[a].m);
+    if(ranked.length) L.push(`Domínios mais elevados: ${ranked.slice(0,3).map(x=>`${DOM[x].n} (${fmt(s.res[x].m)})`).join("; ")}.`);
+    const crit=BANK.filter(b=>D.A[b[0]]===3).map(b=>b[D.form?3:2].replace(/\.$/,""));
+    if(crit.length) L.push(`Itens "quase sempre" (${crit.length}): ${crit.join("; ")}.`);
+    L.push(`Impacto funcional (0–3): ${IMPACT.map(([id,t])=>`${t.split(" (")[0]} ${D.A[id]===null?"—":D.A[id]+" ("+LBLp[D.A[id]]+")"}`).join("; ")}.`);
+    L.push(`Validade: ${s.flags.length?s.flags.join(" "):`sem alertas (infrequência ${s.inf}/3; pares ${s.incons}/${s.npairs}; extremas ${Math.round(s.pct3*100)}%).`}${s.missing?` Itens sem resposta: ${s.missing}.`:""}`);
+  });
+  // comparação autorrelato × informante
+  const iS=list.findIndex(D=>D.form===0), iI=list.findIndex(D=>D.form===1);
+  if(iS>=0 && iI>=0){
+    const a=S[iS], b=S[iI], diffs=DOMS2.filter(d=>a.res[d]&&b.res[d]&&a.res[d].m!==null&&b.res[d].m!==null).map(d=>[d,b.res[d].m-a.res[d].m]).filter(([,x])=>Math.abs(x)>=0.75);
+    L.push("");
+    L.push(`Comparação informante × autorrelato (diferença ≥ 0,75): ${diffs.length?diffs.map(([d,x])=>`${DOM[d].n} ${sgn(x)} (${x>0?"informante relata mais":"paciente relata mais"})`).join("; "):"sem diferenças relevantes entre domínios"}.`);
+    if(a.tot!==null&&b.tot!==null) L.push(`Total: autorrelato ${fmt(a.tot)} · informante ${fmt(b.tot)} (${sgn(b.tot-a.tot)}).`);
+  }
+  const q=$("queixa").value.trim(); if(q){ L.push(""); L.push(`Principal dificuldade relatada: "${q}"`); }
+  L.push(""); L.push("Obs.: faixas descritivas por cortes clínicos de conveniência; não equivalem a percentis.");
+  $("report").textContent=L.join("\n");
+
+  // item a item
+  const idsAll=ORDER2.concat(CMP.map(c=>c[0]));
+  let t=`<table class="res"><thead><tr><th>Nº</th><th>Item (autorrelato)</th><th>Escala</th>${list.map((D,i)=>`<th>${multi?(i+1)+". ":""}${shortLbl(D)}</th>`).join("")}</tr></thead><tbody>`;
+  idsAll.forEach(id=>{
+    const sc=DOM_OF[id]?DOM[DOM_OF[id]].n:id.startsWith("INF")?"Infrequência":"Compensação";
+    t+=`<tr><td class="num">${NUM2[id]}</td><td>${TXT[id][0]}</td><td class="muted">${sc}</td>${list.map(D=>{const x=D.A[id]; return `<td class="num">${x===undefined?"<span class='muted'>n/a</span>":x===null?"—":x}</td>`;}).join("")}</tr>`;
+  });
+  $("itemList").innerHTML=t+"</tbody></table>"+(list.some(D=>D.ver===1)?`<p class="muted" style="font-size:13px">Códigos IFE1 não têm os itens de Atenção sustentada e Compensação (n/a).</p>`:"");
+  $("results").classList.remove("hidden");
+}
 function initClinician(){
-  renderKey();
+  renderKey(); updLink();
+  document.querySelectorAll('input[name="lf"],input[name="lp"]').forEach(r=>r.addEventListener("change",updLink));
+  $("copyLink").addEventListener("click",()=>copyText($("linkOut").textContent,$("copyLink"),"Copiar link"));
   $("data").valueAsDate=new Date();
   $("decode").addEventListener("click",()=>{
     $("cmsg").innerHTML="";
-    try{ renderClin(decode($("codeIn").value)); $("results").scrollIntoView({behavior:"smooth"}); }
-    catch(e){ $("cmsg").innerHTML=`<div class="note">${e.message}</div>`; $("results").classList.add("hidden"); }
+    const lines=$("codeIn").value.split(/\n+/).map(s=>s.trim()).filter(Boolean);
+    if(!lines.length){ $("cmsg").innerHTML=`<div class="note">Cole ao menos um código.</div>`; return; }
+    const list=[], errs=[];
+    lines.forEach((ln,i)=>{ try{ list.push(decode(ln)); }catch(e){ errs.push(`Linha ${i+1}: ${e.message}`); } });
+    if(errs.length) $("cmsg").innerHTML=errs.map(e=>`<div class="note">${e}</div>`).join("");
+    if(list.length){ renderClin(list); $("results").scrollIntoView({behavior:"smooth"}); } else $("results").classList.add("hidden");
   });
   $("copyRep").addEventListener("click",()=>copyText($("report").textContent,$("copyRep"),"Copiar texto"));
   $("clearC").addEventListener("click",()=>{ ["codeIn","nome","idade","queixa"].forEach(id=>$(id).value=""); $("results").classList.add("hidden"); $("cmsg").innerHTML=""; });
 }
 
-// ---------- Roteamento (#medico) ----------
-let inited={p:false,c:false};
+// ============================================================ ROTEAMENTO
+const inited={p:false,c:false};
 function route(){
-  const clin = location.hash==="#medico";
+  const clin=location.hash==="#medico";
   $("patient").classList.toggle("hidden",clin); $("clinician").classList.toggle("hidden",!clin);
-  $("modeLink").innerHTML = clin ? `<a href="#">modo paciente</a>` : `<a href="#medico">área do médico</a>`;
-  if(clin && !inited.c){ initClinician(); inited.c=true; }
-  if(!clin && !inited.p){ initPatient(); inited.p=true; }
+  $("modeLink").innerHTML=clin?`<a href="${location.pathname}">questionário</a>`:`<a href="#medico">área do médico</a>`;
+  if(clin&&!inited.c){initClinician();inited.c=true;}
+  if(!clin&&!inited.p){initPatient();inited.p=true;}
   window.scrollTo(0,0);
 }
 window.addEventListener("hashchange",route); route();
