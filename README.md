@@ -14,6 +14,7 @@ Questionário clínico modular. O link define quais blocos o paciente responde.
 | `audc` | AUDIT-C (texto do SUPERA/SENAD) | 3 | 12 meses |
 | `sub` | Rastreio de substâncias (pergunta 2 do ASSIST, mais vape, medicamentos para TDAH e para emagrecer sem receita) | 11 | 3 meses |
 | `beh` | Comportamentos com perda de controle (triagem própria, não validada): apostas, jogos eletrônicos, redes sociais/internet, compras, compulsão alimentar, pornografia, outros comportamentos sexuais. Frequência + perda de controle + prejuízo | 21 | 3 meses |
+| `e=` | Aprofundamento forçado no link (ex.: `?m=beh&e=pgsi,ecap`). Sem `e=`, cada escala aparece sozinha quando a triagem do comportamento é positiva: PGSI (apostas), IGDS9-SF (jogos), BSMAS adaptada da BFAS-BR (redes sociais), RCBS (compras), ECAP (compulsão alimentar), BPS (pornografia), CSBD-19 (comportamento sexual) | 5–19 cada | o da escala original |
 | `x2` | Complemento para quem respondeu IFE2 (FLE7, PLA7, TEM7, MED1) | 4 | igual ao IFE |
 | `x1` | Complemento para quem respondeu IFE1 (atenção sustentada, novos itens, compensação, medicação) | 16 | igual ao IFE |
 
@@ -31,7 +32,7 @@ Sem `m=`, o questionário abre só com o IFE-A, então os links antigos continua
 
 ## Código
 - **IFE4:** dígitos de base 6 agrupados em pares, num alfabeto de 36 símbolos. O código guarda formulário, período, relação do informante, a máscara de 10 posições dos blocos e as respostas, com dígito verificador. O tamanho varia com os blocos.
-- **Bloco `beh`:** é o último do código e começa com 7 dígitos reservados para o aprofundamento por escalas (hoje sempre 0), para que essa extensão não exija um novo formato.
+- **Bloco `beh`:** é o último do código. Começa com 7 dígitos que indicam quais escalas de aprofundamento vêm em seguida; os itens da RCBS (7 pontos) ocupam 2 dígitos cada.
 - **Complementos:** no modo médico, colar o código antigo (IFE1/IFE2) junto com o do complemento soma os dois numa correção completa.
 - **IFE1, IFE2 e IFE3:** continuam sendo corrigidos.
 
