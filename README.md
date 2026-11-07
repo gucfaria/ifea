@@ -13,11 +13,13 @@ Questionário clínico modular. O link define quais blocos o paciente responde.
 | `asrm` | ASRM (tradução livre, não validada) | 5 | 1 semana |
 | `audc` | AUDIT-C (texto do SUPERA/SENAD) | 3 | 12 meses |
 | `sub` | Rastreio de substâncias (pergunta 2 do ASSIST, mais vape, medicamentos para TDAH e para emagrecer sem receita) | 11 | 3 meses |
+| `beh` | Comportamentos com perda de controle (triagem própria, não validada): apostas, jogos eletrônicos, redes sociais/internet, compras, compulsão alimentar, pornografia, outros comportamentos sexuais. Frequência + perda de controle + prejuízo | 21 | 3 meses |
 | `x2` | Complemento para quem respondeu IFE2 (FLE7, PLA7, TEM7, MED1) | 4 | igual ao IFE |
 | `x1` | Complemento para quem respondeu IFE1 (atenção sustentada, novos itens, compensação, medicação) | 16 | igual ao IFE |
 
 ## Links
-- Avaliação inicial completa: `https://gucfaria.github.io/ifea/?m=ife,asrs,phq,gad,asrm,audc,sub`
+- Avaliação inicial completa: `https://gucfaria.github.io/ifea/?m=ife,asrs,phq,gad,asrm,audc,sub,beh`
+- Só comportamentos: `https://gucfaria.github.io/ifea/?m=beh`
 - TDAH: `https://gucfaria.github.io/ifea/?m=ife,asrs`
 - Seguimento curto: `https://gucfaria.github.io/ifea/?m=asrs,phq,gad`
 - Complemento IFE2: `https://gucfaria.github.io/ifea/?m=x2`
@@ -28,7 +30,8 @@ Questionário clínico modular. O link define quais blocos o paciente responde.
 Sem `m=`, o questionário abre só com o IFE-A, então os links antigos continuam funcionando.
 
 ## Código
-- **IFE4:** dígitos de base 6 agrupados em pares, num alfabeto de 36 símbolos. O código guarda formulário, período, relação do informante, a máscara de 10 posições dos blocos (uma reservada) e as respostas, com dígito verificador. O tamanho varia com os blocos.
+- **IFE4:** dígitos de base 6 agrupados em pares, num alfabeto de 36 símbolos. O código guarda formulário, período, relação do informante, a máscara de 10 posições dos blocos e as respostas, com dígito verificador. O tamanho varia com os blocos.
+- **Bloco `beh`:** é o último do código e começa com 7 dígitos reservados para o aprofundamento por escalas (hoje sempre 0), para que essa extensão não exija um novo formato.
 - **Complementos:** no modo médico, colar o código antigo (IFE1/IFE2) junto com o do complemento soma os dois numa correção completa.
 - **IFE1, IFE2 e IFE3:** continuam sendo corrigidos.
 
