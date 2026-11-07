@@ -12,18 +12,18 @@
   --bg:#f7f6f2; --card:#fff; --ink:#1d2229; --muted:#5f6670; --line:#e3e1da;
   --accent:#2f5d62; --accent-soft:#e6efef;
   --b0:#9fb8a8; --b1:#d9c27a; --b2:#d9955e; --b3:#c0574f;
-  --warn-bg:#fdf3e4; --warn-ink:#7a4b0c; --ok-bg:#e8f2ec; --ok-ink:#1f5130;
+  --warn-bg:#fdf3e4; --warn-ink:#7a4b0c; --ok-bg:#e8f2ec; --ok-ink:#1f5130; --alert-bg:#fbe9e7; --alert-ink:#8a2a20;
 }
 @media (prefers-color-scheme: dark){
   :root{--bg:#15181c;--card:#1d2127;--ink:#e8e6e1;--muted:#9aa1aa;--line:#2e333a;
-        --accent:#7fb3b8;--accent-soft:#22343a;--warn-bg:#3a2d18;--warn-ink:#f0c98a;--ok-bg:#1d3326;--ok-ink:#a8d8b6;}
+        --accent:#7fb3b8;--accent-soft:#22343a;--warn-bg:#3a2d18;--warn-ink:#f0c98a;--ok-bg:#1d3326;--ok-ink:#a8d8b6;--alert-bg:#3d1f1c;--alert-ink:#f3b3aa;}
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif}
 .wrap{max-width:860px;margin:0 auto;padding:22px 16px 90px}
 h1{font-family:Georgia,"Times New Roman",serif;font-weight:600;font-size:26px;margin:0 0 2px;letter-spacing:-.01em}
-h2{font-family:Georgia,"Times New Roman",serif;font-weight:600;font-size:19px;margin:0 0 12px}
+h2{font-family:Georgia,"Times New Roman",serif;font-weight:600;font-size:19px;margin:0 0 8px}
 .sub{color:var(--muted);margin:0 0 18px;font-size:14px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:18px;margin:0 0 16px}
 .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
@@ -35,30 +35,41 @@ textarea{min-height:80px;resize:vertical;font-family:ui-monospace,Menlo,monospac
 .pbar{height:6px;background:var(--line);border-radius:3px;overflow:hidden}
 .pbar span{display:block;height:100%;background:var(--accent);width:0;transition:width .2s}
 .ptext{font-size:13px;color:var(--muted);margin-top:4px}
+.instr{font-size:14px;color:var(--muted);margin:0 0 6px}
+.instr b{color:var(--ink)}
 .item{padding:14px 0;border-top:1px solid var(--line)}
 .item:first-child{border-top:none;padding-top:4px}
 .item .t{margin-bottom:9px}
 .item .t b{color:var(--muted);font-weight:500;margin-right:4px;font-variant-numeric:tabular-nums}
 .item.missing .t{color:var(--b3)}
-.opts{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.opts{display:grid;grid-template-columns:repeat(var(--n,4),1fr);gap:6px}
+.opts.v{grid-template-columns:1fr!important}
 .opts input{position:absolute;opacity:0;pointer-events:none}
 .opts label{display:flex;align-items:center;justify-content:center;text-align:center;min-height:44px;padding:6px 4px;border:1px solid var(--line);border-radius:8px;cursor:pointer;font-size:13px;line-height:1.2;user-select:none;-webkit-tap-highlight-color:transparent}
+.opts.v label{justify-content:flex-start;text-align:left;padding:8px 12px;font-size:14px}
 .opts input:checked+label{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.opts input:disabled+label{opacity:.45;cursor:default}
 .opts input:focus-visible+label{outline:2px solid var(--accent);outline-offset:2px}
+@media (max-width:520px){.opts.n5{grid-template-columns:repeat(3,1fr)}}
 .seg{display:flex;flex-wrap:wrap;gap:6px}
 .seg input{position:absolute;opacity:0;pointer-events:none}
 .seg label{padding:8px 12px;border:1px solid var(--line);border-radius:8px;cursor:pointer;font-size:14px}
 .seg input:checked+label{background:var(--accent);border-color:var(--accent);color:#fff;font-weight:600}
+.seg input:disabled+label{opacity:.4;cursor:default}
 .btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
 button{font:inherit;font-weight:600;font-size:15px;border-radius:9px;padding:12px 18px;border:1px solid var(--accent);background:var(--accent);color:#fff;cursor:pointer}
 button.ghost{background:transparent;color:var(--accent)}
+button.small{padding:7px 12px;font-size:13px}
 button.wide{width:100%}
 .note{background:var(--warn-bg);color:var(--warn-ink);border-radius:8px;padding:10px 12px;font-size:14px;margin:10px 0}
+.alert{background:var(--alert-bg);color:var(--alert-ink);border-radius:8px;padding:12px;font-size:15px;margin:10px 0}
+.alert a{color:inherit;font-weight:600}
 .ok{background:var(--ok-bg);color:var(--ok-ink);border-radius:8px;padding:12px;font-size:15px;margin:0 0 12px}
-.code{font:600 17px/1.6 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em;word-break:break-all;background:var(--bg);border:1px dashed var(--accent);border-radius:8px;padding:12px;text-align:center;user-select:all;-webkit-user-select:all}
+.code{font:600 16px/1.6 ui-monospace,Menlo,Consolas,monospace;letter-spacing:.04em;word-break:break-all;background:var(--bg);border:1px dashed var(--accent);border-radius:8px;padding:12px;text-align:center;user-select:all;-webkit-user-select:all}
 .link{font:13px/1.5 ui-monospace,Menlo,monospace;word-break:break-all;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px}
+.dosebox{font-size:13px;background:var(--accent-soft);border-radius:8px;padding:10px 12px;margin:6px 0 4px}
 table.res{width:100%;border-collapse:collapse;font-size:14px}
-table.res th{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;text-align:left;font-weight:600;padding:6px 6px;border-bottom:1px solid var(--line);vertical-align:bottom}
+table.res th{font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.03em;text-align:left;font-weight:600;padding:6px;border-bottom:1px solid var(--line);vertical-align:bottom}
 table.res td{padding:6px;border-top:1px solid var(--line);vertical-align:middle}
 table.res tr.idx td{font-weight:600}
 table.res td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
@@ -66,13 +77,16 @@ table.res td.num{font-variant-numeric:tabular-nums;white-space:nowrap}
 .bar{flex:1;height:10px;background:var(--accent-soft);border-radius:5px;position:relative;overflow:hidden;min-width:50px}
 .bar span{position:absolute;inset:0 auto 0 0;border-radius:5px}
 .dot{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:4px;vertical-align:middle}
-pre#report{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px;font:13px/1.5 ui-monospace,Menlo,monospace;max-height:480px;overflow:auto}
+.flag{color:var(--b3);font-weight:600}
+pre#report{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:12px;font:13px/1.5 ui-monospace,Menlo,monospace;max-height:520px;overflow:auto}
 .hidden{display:none!important}
 details summary{cursor:pointer;color:var(--accent);font-weight:500}
 .muted{color:var(--muted)}
 footer{color:var(--muted);font-size:12px;margin-top:28px;text-align:center}
 footer a{color:inherit}
-.chip{display:inline-block;font-size:12px;padding:2px 8px;border-radius:999px;background:var(--accent-soft);color:var(--ink);margin-left:6px}
+.mods{display:flex;flex-wrap:wrap;gap:6px}
+.mods label{display:flex;align-items:center;gap:6px;padding:7px 10px;border:1px solid var(--line);border-radius:8px;font-size:14px;cursor:pointer}
+.mods input:disabled+span{opacity:.45}
 </style>
 </head>
 <body>
@@ -80,7 +94,7 @@ footer a{color:inherit}
 
 <!-- ================= MODO RESPONDENTE ================= -->
 <section id="patient">
-  <h1 id="pTitle">Questionário de Funções Executivas</h1>
+  <h1 id="pTitle">Questionário de saúde e funcionamento</h1>
   <p class="sub" id="pSub"></p>
 
   <div class="card" id="relCard">
@@ -91,25 +105,13 @@ footer a{color:inherit}
   </div>
 
   <div class="card">
-    <p style="margin:0 0 8px" id="pInstr"></p>
+    <p style="margin:0 0 8px" id="pIntro"></p>
     <p class="muted" style="margin:0;font-size:14px">As respostas não são enviadas pela internet. Ao final, você recebe um <b>código</b> e o envia ao médico. O código não contém nomes.</p>
   </div>
 
   <div class="sticky"><div class="pbar"><span id="pfill"></span></div><div class="ptext" id="prog"></div></div>
 
-  <div class="card"><div id="items"></div></div>
-
-  <div class="card">
-    <h2>Como as coisas funcionam no dia a dia</h2>
-    <p class="muted" style="margin:0 0 4px;font-size:14px" id="cmpInstr"></p>
-    <div id="cmp"></div>
-  </div>
-
-  <div class="card">
-    <h2>Impacto no dia a dia</h2>
-    <p class="muted" style="margin:0 0 4px;font-size:14px" id="impInstr"></p>
-    <div id="impact"></div>
-  </div>
+  <div id="blocks"></div>
 
   <div id="pmsg"></div>
   <button class="wide" id="finish">Concluir e gerar código</button>
@@ -121,6 +123,7 @@ footer a{color:inherit}
       <button id="share">Enviar código</button>
       <button class="ghost" id="copyCode">Copiar código</button>
     </div>
+    <div id="doneAlert"></div>
     <p class="muted" style="font-size:13px;margin:14px 0 0">Depois de enviar, você pode apagar as respostas deste aparelho:</p>
     <div class="btns"><button class="ghost" id="wipe">Apagar minhas respostas</button></div>
   </div>
@@ -129,7 +132,7 @@ footer a{color:inherit}
 <!-- ================= MODO MÉDICO ================= -->
 <section id="clinician" class="hidden">
   <h1>IFE-A · área do médico</h1>
-  <p class="sub">Inventário de Funções Executivas no Adulto · instrumento clínico sem normas populacionais</p>
+  <p class="sub">Inventário de Funções Executivas no Adulto e escalas clínicas · correção automática</p>
 
   <div class="card">
     <h2>Gerar link para envio</h2>
@@ -137,21 +140,30 @@ footer a{color:inherit}
       <div><div class="muted" style="font-size:13px;margin-bottom:6px">Formulário</div>
         <div class="seg"><input type="radio" name="lf" id="lfA" value="a" checked><label for="lfA">Autorrelato</label>
         <input type="radio" name="lf" id="lfI" value="i"><label for="lfI">Informante</label></div></div>
-      <div><div class="muted" style="font-size:13px;margin-bottom:6px">Período de referência</div>
-        <div class="seg"><input type="radio" name="lp" id="lp4" value="4" checked><label for="lp4">Últimas 4 semanas</label>
-        <input type="radio" name="lp" id="lp6" value="6"><label for="lp6">Últimos 6 meses</label></div></div>
+      <div><div class="muted" style="font-size:13px;margin-bottom:6px">Período do IFE-A</div>
+        <div class="seg"><input type="radio" name="lp" id="lp4" value="4" checked><label for="lp4">4 semanas</label>
+        <input type="radio" name="lp" id="lp6" value="6"><label for="lp6">6 meses</label></div></div>
     </div>
-    <div class="link" id="linkOut" style="margin-top:12px"></div>
+    <div class="muted" style="font-size:13px;margin:12px 0 6px">Blocos</div>
+    <div class="mods" id="modChecks"></div>
+    <div class="btns" style="margin-top:8px">
+      <button class="ghost small" data-preset="IFE,ASRS,PHQ,GAD,ASRM,AUDC">Avaliação inicial completa</button>
+      <button class="ghost small" data-preset="IFE,ASRS">TDAH</button>
+      <button class="ghost small" data-preset="ASRS,PHQ,GAD">Seguimento curto</button>
+      <button class="ghost small" data-preset="IFE,PHQ,GAD">Seguimento executivo</button>
+    </div>
+    <p class="muted" id="linkInfo" style="font-size:13px;margin:10px 0 6px"></p>
+    <div class="link" id="linkOut"></div>
     <div class="btns"><button class="ghost" id="copyLink">Copiar link</button></div>
-    <p class="muted" style="font-size:13px;margin:8px 0 0">4 semanas: acompanhamento e resposta a tratamento. 6 meses: avaliação diagnóstica.</p>
   </div>
 
   <div class="card">
     <h2>Corrigir</h2>
-    <textarea id="codeIn" placeholder="Cole um ou mais códigos (um por linha). Ex.: autorrelato e informante, ou duas aplicações para comparar." autocomplete="off" spellcheck="false"></textarea>
+    <textarea id="codeIn" placeholder="Cole um ou mais códigos (um por linha): autorrelato e informante, ou aplicações de datas diferentes." autocomplete="off" spellcheck="false"></textarea>
     <div class="grid" style="margin-top:12px">
       <label class="f">Paciente / iniciais<input type="text" id="nome" autocomplete="off"></label>
       <label class="f">Idade<input type="number" id="idade" min="16" max="100"></label>
+      <label class="f">Sexo (para o AUDIT-C)<select id="sexo"><option value="">—</option><option value="F">Feminino</option><option value="M">Masculino</option></select></label>
       <label class="f">Data<input type="date" id="data"></label>
       <label class="f">Momento
         <select id="momento"><option>Avaliação inicial</option><option>Reavaliação / seguimento</option><option>Em uso de medicação</option><option>Sem medicação (washout)</option></select>
@@ -163,11 +175,16 @@ footer a{color:inherit}
   </div>
 
   <div id="results" class="hidden">
-    <div class="card">
-      <h2>Perfil por domínio</h2>
+    <div id="alertsTop"></div>
+    <div class="card" id="ifeCard">
+      <h2>Funções executivas (IFE-A)</h2>
       <div id="validity"></div>
       <div style="overflow-x:auto"><div id="table"></div></div>
       <p class="muted" style="margin-top:10px;font-size:13px">Média dos itens (0–3). Faixas descritivas: <span class="dot" style="background:var(--b0)"></span>mínima &lt; 0,75 · <span class="dot" style="background:var(--b1)"></span>leve 0,75–1,49 · <span class="dot" style="background:var(--b2)"></span>moderada 1,50–2,24 · <span class="dot" style="background:var(--b3)"></span>acentuada ≥ 2,25. Cortes clínicos de conveniência, <b>não</b> percentis nem escores T.</p>
+    </div>
+    <div class="card" id="clinCard">
+      <h2>Escalas clínicas</h2>
+      <div style="overflow-x:auto"><div id="clinTable"></div></div>
     </div>
     <div class="card">
       <h2>Texto para o prontuário</h2>
@@ -184,18 +201,20 @@ footer a{color:inherit}
 
   <div class="card">
     <details>
-      <summary>Sobre o instrumento e como interpretar</summary>
+      <summary>Sobre os instrumentos e como interpretar</summary>
       <div style="margin-top:10px;font-size:14px">
-        <p>66 itens originais em 11 domínios de 6 itens, agrupados em dois índices e um total, mais um módulo de compensação (6 itens), 3 itens de infrequência e 3 de impacto funcional. Há duas formas, autorrelato e informante, com o mesmo conteúdo; na forma do informante, os itens foram reescritos para descrever comportamentos observáveis por terceiros.</p>
-        <p><b>Composição das escalas</b> (número do item como aparece para o respondente):</p>
+        <p><b>IFE-A.</b> 69 itens originais em 11 domínios, agrupados em dois índices e um total, mais um módulo de compensação (6 itens), 3 itens de infrequência, 1 item opcional sobre efeito da medicação e 3 de impacto funcional. Formas de autorrelato e informante (itens reescritos para comportamentos observáveis). Sem normas populacionais.</p>
+        <p><b>Composição das escalas do IFE-A</b> (número do item como aparece para o respondente):</p>
         <div id="keyTable"></div>
-        <p><b>Compensação.</b> Esforço extra, dependência de apoios externos, maratonas de última hora, discrepância entre o que se vê de fora e o que a pessoa vive. Não entra nos domínios nem no total. Compensação alta com domínios moderados sugere mascaramento; compensação alta com domínios altos sugere que a compensação já não é suficiente. Não é específica: ansiedade, perfeccionismo e burnout também a elevam.</p>
-        <p><b>Discrepância entre índices.</b> O relatório informa Metacognição menos Regulação. Um índice metacognitivo bem acima do de regulação é o padrão descrito em TDAH com altas habilidades em estudos com o BRIEF infantil; aqui é apenas uma leitura descritiva do perfil.</p>
-        <p><b>Validade.</b> Infrequência: alerta se algum dos 3 itens implausíveis for marcado com 2 ou 3. Inconsistência: 8 pares de itens próximos; alerta se 3 ou mais diferirem em 2 pontos ou mais. Respostas extremas: alerta se mais de 60% dos itens clínicos forem "3". Critérios heurísticos.</p>
-        <p><b>Autorrelato × informante.</b> Ao corrigir os dois juntos, o relatório aponta domínios em que as médias diferem em 0,75 ponto ou mais. Diferenças podem refletir pouca percepção das próprias dificuldades, compensação que esconde o problema de quem observa, ou contextos diferentes (trabalho × casa).</p>
-        <p><b>Itens em branco.</b> Um domínio é calculado com no máximo 1 item faltante.</p>
-        <p><b>Limitações.</b> Sem normas, consistência interna ou validade estabelecidas. Use para descrever o perfil, comparar domínios e informantes e acompanhar mudanças. Escores elevados não são específicos de TDAH: depressão, ansiedade, privação de sono, uso de substâncias e TEA também os elevam.</p>
-        <p><b>Versões do código.</b> IFE2 contém formulário, período, relação do informante e as 78 respostas, com dígito verificador. Códigos IFE1 (versão anterior, sem Atenção sustentada e compensação) continuam sendo corrigidos.</p>
+        <p><b>Compensação.</b> Não entra nos domínios nem no total. Alta com domínios moderados sugere mascaramento; alta com domínios altos sugere compensação insuficiente. Não é específica (ansiedade, perfeccionismo e burnout também a elevam).</p>
+        <p><b>Item de medicação.</b> "Sob efeito da medicação, não consigo largar a tarefa em que estou…" Descritivo, fora dos escores; útil para acompanhar possível excesso de foco com estimulantes.</p>
+        <p><b>Validade do IFE-A.</b> Infrequência (alerta se algum dos 3 itens ≥ 2), inconsistência (8 pares; alerta se 3 ou mais diferem ≥ 2) e respostas extremas (&gt; 60% de "3"). Critérios heurísticos.</p>
+        <p><b>ASRS-18</b> (versão brasileira, Mattos et al., 2006; últimos 6 meses). O formulário brasileiro agrupa os itens em desatenção (A1–A9) e hiperatividade/impulsividade (B1–B9). Sintoma presente segundo os limiares da pontuação da OMS para a ASRS v1.1: "algumas vezes" ou mais para A3, A4, A5, A9, B2, B7 e B9; "frequentemente" ou mais para os demais. A triagem de 6 itens da OMS (A4, A5, A9, A6, B1, B5) é positiva com 4 ou mais itens nos limiares. Referência DSM-5 para adultos: 5 ou mais sintomas numa dimensão. Rastreio, não diagnóstico.</p>
+        <p><b>PHQ-9</b> (últimas 2 semanas; versão brasileira; uso livre). 0–4 mínima, 5–9 leve, 10–14 moderada, 15–19 moderadamente grave, 20–27 grave. O item 9 (pensamentos de morte ou de se ferir) gera alerta na tela do paciente, com orientação de ajuda, e alerta destacado aqui.</p>
+        <p><b>GAD-7</b> (últimas 2 semanas). 0–4 mínima, 5–9 leve, 10–14 moderada, 15–21 grave; rastreio positivo ≥ 10.</p>
+        <p><b>ASRM</b> (Altman Self-Rating Mania Scale, última semana). <b>Tradução livre, não validada no Brasil.</b> 0–20; escore ≥ 6 sugere (hipo)mania no estudo original.</p>
+        <p><b>AUDIT-C</b> (últimos 12 meses; texto do SUPERA/SENAD). 0–12. Homens: 0–3 baixo risco, 4–5 moderado, 6–7 alto, 8–12 severo. Mulheres: 0–2 baixo, 3–5 moderado, 6–7 alto, 8–12 severo. Avalia apenas álcool.</p>
+        <p><b>Código.</b> IFE3 registra formulário, período, relação do informante, blocos respondidos e as respostas, com dígito verificador; não contém nome nem data. Códigos IFE1 e IFE2 continuam sendo corrigidos.</p>
       </div>
     </details>
   </div>
@@ -206,7 +225,7 @@ footer a{color:inherit}
 
 <script>
 "use strict";
-// ============================================================ CONTEÚDO (IFE2)
+// ============================================================ CONTEÚDO
 const DOM = {
   INI:{n:"Inibição", idx:"RCE"}, AUT:{n:"Automonitoramento", idx:"RCE"},
   FLE:{n:"Flexibilidade", idx:"RCE"}, EMO:{n:"Controle emocional", idx:"RCE"},
@@ -288,6 +307,12 @@ const BANK = [
  ["ORG5","ORG","Deixo objetos e pendências se acumularem em casa por falta de organização.","Deixa objetos e pendências se acumularem em casa por falta de organização."],
  ["ORG6","ORG","Esqueço objetos em lugares como restaurantes, carros ou consultórios.","Esquece objetos em lugares como restaurantes, carros ou consultórios."]
 ];
+const BANK_NEW = [
+ ["FLE7","FLE","Quando algo me interessa, tenho dificuldade de parar para fazer o que deveria, mesmo sabendo que estou me atrasando.","Quando algo lhe interessa, tem dificuldade de parar para fazer o que deveria, mesmo sabendo que está se atrasando."],
+ ["PLA7","PLA","Em vez de fazer o que é prioritário, me ocupo de outras atividades, às vezes úteis ou interessantes, mas que podiam esperar.","Em vez de fazer o que é prioritário, se ocupa de outras atividades, às vezes úteis ou interessantes, mas que podiam esperar."],
+ ["TEM7","TEM","Começo outra tarefa quando já está na hora de sair ou de cumprir um compromisso.","Começa outra tarefa quando já está na hora de sair ou de cumprir um compromisso."]
+];
+const BANK3 = BANK.concat(BANK_NEW);
 const INFREQ = [
  ["INF1","Esqueço quantos dias tem uma semana.","Esquece quantos dias tem uma semana."],
  ["INF2","Tenho dificuldade em lembrar como se usa uma colher.","Tem dificuldade em lembrar como se usa uma colher."],
@@ -305,9 +330,7 @@ const IMPACT = [["IMP1","Trabalho ou estudos"],["IMP2","Casa, finanças e tarefa
 const PAIRS2 = [["EMO1","EMO3"],["INC1","INC2"],["MEM1","MEM4"],["PLA1","PLA3"],["TEM2","TEM5"],["MON1","MON4"],["ORG1","ORG6"],["ATE3","ATE4"]];
 const PAIRS1 = PAIRS2.slice(0,7);
 const RELS = ["Cônjuge ou parceiro(a)","Pai ou mãe","Outro familiar","Amigo(a)","Colega ou outro"];
-const LBL = ["Nunca","Às vezes","Frequen&shy;temente","Quase sempre"];
-const LBLp = ["nunca","às vezes","frequentemente","quase sempre"];
-const PER = {4:{lbl:"últimas 4 semanas", txt:"nas últimas 4 semanas"}, 6:{lbl:"últimos 6 meses", txt:"nos últimos 6 meses"}};
+const MED = ["MED1","Sob efeito da medicação, não consigo largar a tarefa em que estou, mesmo que não seja a prioritária.","Sob efeito da medicação, não consegue largar a tarefa em que está, mesmo que não seja a prioritária."];
 
 // Ordem fixa de apresentação — o código depende dela (mudar = nova versão)
 function buildOrder(doms, bank, infPos){
@@ -317,39 +340,133 @@ function buildOrder(doms, bank, infPos){
   infPos.forEach(([pos,id])=>out.splice(pos,0,id));
   return out;
 }
-const ORDER2 = buildOrder(DOMS2, BANK, [[19,"INF1"],[43,"INF2"],[62,"INF3"]]);      // 69 itens
-const ALLIDS2 = ORDER2.concat(CMP.map(c=>c[0]), IMPACT.map(i=>i[0]));                // 78 posições
+const ORDER2 = buildOrder(DOMS2, BANK, [[19,"INF1"],[43,"INF2"],[62,"INF3"]]);      // 69 (IFE2)
+const ORDER3 = ORDER2.slice(); ORDER3.splice(25,0,"FLE7"); ORDER3.splice(49,0,"PLA7"); ORDER3.push("TEM7"); // 72 (IFE3)
+const ALLIDS2 = ORDER2.concat(CMP.map(c=>c[0]), IMPACT.map(i=>i[0]));                // 78
+const IFE3_IDS = ORDER3.concat(CMP.map(c=>c[0]), ["MED1"], IMPACT.map(i=>i[0]));     // 82
 const ALLIDS1 = ["INI1","AUT1","FLE1","EMO1","INC1","MEM1","PLA1","TEM1","MON1","ORG1","AUT2","FLE2","EMO2","INC2","MEM2","PLA2","TEM2","INF1","MON2","ORG2","INI2","FLE3","EMO3","INC3","MEM3","PLA3","TEM3","MON3","ORG3","INI3","AUT3","EMO4","INC4","MEM4","PLA4","TEM4","MON4","ORG4","INF2","INI4","AUT4","FLE4","INC5","MEM5","PLA5","TEM5","MON5","ORG5","INI5","AUT5","FLE5","EMO5","MEM6","PLA6","TEM6","INF3","MON6","ORG6","INI6","AUT6","FLE6","EMO6","INC6","IMP1","IMP2","IMP3"];
-const DOM_OF = Object.fromEntries(BANK.map(b=>[b[0],b[1]]));
-const TXT = {}; BANK.forEach(b=>TXT[b[0]]=[b[2],b[3]]); INFREQ.concat(CMP).forEach(x=>TXT[x[0]]=[x[1],x[2]]); IMPACT.forEach(x=>TXT[x[0]]=[x[1],x[1]]);
-const NUM2 = Object.fromEntries(ORDER2.map((id,i)=>[id,i+1]).concat(CMP.map((c,i)=>[c[0],ORDER2.length+1+i])));
+const DOM_OF = Object.fromEntries(BANK3.map(b=>[b[0],b[1]]));
+const TXT = {}; BANK3.forEach(b=>TXT[b[0]]=[b[2],b[3]]); INFREQ.concat(CMP,[MED]).forEach(x=>TXT[x[0]]=[x[1],x[2]]); IMPACT.forEach(x=>TXT[x[0]]=[x[1],x[1]]);
+const NUM3 = Object.fromEntries(ORDER3.map((id,i)=>[id,i+1]).concat(CMP.map((c,i)=>[c[0],ORDER3.length+1+i]),[["MED1",ORDER3.length+CMP.length+1]]));
+
+// ---------------- escalas clínicas (texto das versões brasileiras; ASRM: tradução livre)
+const F5 = ["Nunca","Raramente","Algumas vezes","Frequen&shy;temente","Muito frequen&shy;temente"];
+const F4PHQ = ["Nenhuma vez","Vários dias","Mais da metade dos dias","Quase todos os dias"];
+const ASRS = [
+ ["A1","Com que frequência você comete erros por falta de atenção quando tem de trabalhar num projeto chato ou difícil?",3],
+ ["A2","Com que frequência você tem dificuldade para manter a atenção quando está fazendo um trabalho chato ou repetitivo?",3],
+ ["A3","Com que frequência você tem dificuldade para se concentrar no que as pessoas dizem, mesmo quando elas estão falando diretamente com você?",2],
+ ["A4","Com que frequência você deixa um projeto pela metade depois de já ter feito as partes mais difíceis?",2],
+ ["A5","Com que frequência você tem dificuldade para fazer um trabalho que exige organização?",2],
+ ["A6","Quando você precisa fazer algo que exige muita concentração, com que frequência você evita ou adia o início?",3],
+ ["A7","Com que frequência você coloca as coisas fora do lugar ou tem dificuldade de encontrar as coisas em casa ou no trabalho?",3],
+ ["A8","Com que frequência você se distrai com atividades ou barulho a sua volta?",3],
+ ["A9","Com que frequência você tem dificuldade para lembrar de compromissos ou obrigações?",2],
+ ["B1","Com que frequência você fica se mexendo na cadeira ou balançando as mãos ou os pés quando precisa ficar sentado(a) por muito tempo?",3],
+ ["B2","Com que frequência você se levanta da cadeira em reuniões ou em outras situações onde deveria ficar sentado(a)?",2],
+ ["B3","Com que frequência você se sente inquieto(a) ou agitado(a)?",3],
+ ["B4","Com que frequência você tem dificuldade para sossegar e relaxar quando tem tempo livre para você?",3],
+ ["B5","Com que frequência você se sente ativo(a) demais e necessitando fazer coisas, como se estivesse \"com um motor ligado\"?",3],
+ ["B6","Com que frequência você se pega falando demais em situações sociais?",3],
+ ["B7","Quando você está conversando, com que frequência você se pega terminando as frases das pessoas antes delas?",2],
+ ["B8","Com que frequência você tem dificuldade para esperar nas situações onde cada um tem a sua vez?",3],
+ ["B9","Com que frequência você interrompe os outros quando eles estão ocupados?",2]
+];
+const ASRS_SCREEN = ["A4","A5","A9","A6","B1","B5"]; // itens 1–6 da ASRS v1.1 (OMS)
+const PHQ = [
+ ["P1","Pouco interesse ou pouco prazer em fazer as coisas"],
+ ["P2","Se sentir \"para baixo\", deprimido(a) ou sem perspectiva"],
+ ["P3","Dificuldade para pegar no sono ou permanecer dormindo, ou dormir mais do que de costume"],
+ ["P4","Se sentir cansado(a) ou com pouca energia"],
+ ["P5","Falta de apetite ou comendo demais"],
+ ["P6","Se sentir mal consigo mesmo(a) — ou achar que você é um fracasso ou que decepcionou sua família ou você mesmo(a)"],
+ ["P7","Dificuldade para se concentrar nas coisas, como ler o jornal ou ver televisão"],
+ ["P8","Lentidão para se movimentar ou falar, a ponto de as outras pessoas perceberem. Ou o oposto: estar tão agitado(a) ou irrequieto(a) que você fica andando de um lado para o outro muito mais do que de costume"],
+ ["P9","Pensar em se ferir de alguma maneira ou que seria melhor estar morto(a)"]
+];
+const PHQ_DIF = ["PD","Se você assinalou qualquer um dos problemas, quanta dificuldade eles causaram para você trabalhar, cuidar das coisas em casa ou se relacionar com as pessoas?",["Nenhuma dificuldade","Alguma dificuldade","Muita dificuldade","Extrema dificuldade"]];
+const GAD = [
+ ["G1","Sentir-se nervoso(a), ansioso(a) ou muito tenso(a)"],
+ ["G2","Não ser capaz de impedir ou de controlar as preocupações"],
+ ["G3","Preocupar-se muito com diversas coisas"],
+ ["G4","Dificuldade para relaxar"],
+ ["G5","Ficar tão agitado(a) que se torna difícil permanecer sentado(a)"],
+ ["G6","Ficar facilmente aborrecido(a) ou irritado(a)"],
+ ["G7","Sentir medo como se algo horrível fosse acontecer"]
+];
+const ASRM = [
+ ["M1","Alegria",["Não me sinto mais feliz ou animado(a) do que o habitual.","Às vezes me sinto mais feliz ou animado(a) do que o habitual.","Com frequência me sinto mais feliz ou animado(a) do que o habitual.","Na maior parte do tempo me sinto mais feliz ou animado(a) do que o habitual.","O tempo todo me sinto mais feliz ou animado(a) do que o habitual."]],
+ ["M2","Autoconfiança",["Não me sinto mais autoconfiante do que o habitual.","Às vezes me sinto mais autoconfiante do que o habitual.","Com frequência me sinto mais autoconfiante do que o habitual.","Na maior parte do tempo me sinto mais autoconfiante do que o habitual.","Sinto-me extremamente autoconfiante o tempo todo."]],
+ ["M3","Sono",["Não preciso dormir menos do que o habitual.","Às vezes preciso dormir menos do que o habitual.","Com frequência preciso dormir menos do que o habitual.","Na maior parte do tempo preciso dormir menos do que o habitual.","Consigo passar o dia e a noite sem dormir e, mesmo assim, não me sinto cansado(a)."]],
+ ["M4","Fala",["Não falo mais do que o habitual.","Às vezes falo mais do que o habitual.","Com frequência falo mais do que o habitual.","Na maior parte do tempo falo mais do que o habitual.","Falo sem parar e não consigo ser interrompido(a)."]],
+ ["M5","Atividade",["Não tenho estado mais ativo(a) do que o habitual (socialmente, sexualmente, no trabalho, em casa ou nos estudos).","Às vezes tenho estado mais ativo(a) do que o habitual.","Com frequência tenho estado mais ativo(a) do que o habitual.","Na maior parte do tempo tenho estado mais ativo(a) do que o habitual.","Estou constantemente mais ativo(a), \"a mil\" o tempo todo."]]
+];
+const AUDC = [
+ ["C1","Com que frequência você toma bebidas alcoólicas?",["Nunca","Mensalmente ou menos","De 2 a 4 vezes por mês","De 2 a 3 vezes por semana","4 ou mais vezes por semana"]],
+ ["C2","Nas ocasiões em que bebe, quantas doses você consome tipicamente ao beber?",["1 ou 2","3 ou 4","5 ou 6","7, 8 ou 9","10 ou mais"]],
+ ["C3","Com que frequência você toma \"seis ou mais doses\" de uma vez?",["Nunca","Menos do que uma vez ao mês","Mensalmente","Semanalmente","Todos ou quase todos os dias"]]
+];
+
+// Módulos — a ordem e o conteúdo são fixos no IFE3
+const MODS = [
+ {id:"IFE",  nome:"Funções executivas (IFE-A)", curto:"IFE-A", ids:IFE3_IDS, inf:true},
+ {id:"ASRS", nome:"ASRS-18 (TDAH)", curto:"ASRS", ids:ASRS.map(x=>x[0])},
+ {id:"PHQ",  nome:"PHQ-9 (depressão)", curto:"PHQ-9", ids:PHQ.map(x=>x[0]).concat("PD")},
+ {id:"GAD",  nome:"GAD-7 (ansiedade)", curto:"GAD-7", ids:GAD.map(x=>x[0])},
+ {id:"ASRM", nome:"ASRM (mania)", curto:"ASRM", ids:ASRM.map(x=>x[0])},
+ {id:"AUDC", nome:"AUDIT-C (álcool)", curto:"AUDIT-C", ids:AUDC.map(x=>x[0])}
+];
+const MOD = Object.fromEntries(MODS.map(m=>[m.id,m]));
+const LBL = ["Nunca","Às vezes","Frequen&shy;temente","Quase sempre"];
+const LBLp = ["nunca","às vezes","frequentemente","quase sempre"];
+const PER = {4:{lbl:"últimas 4 semanas", txt:"nas últimas 4 semanas"}, 6:{lbl:"últimos 6 meses", txt:"nos últimos 6 meses"}};
 
 // ============================================================ CÓDIGO
-const ALPHA = "ABCDEFGHJKLMNPQRSTUVWXYZ2"; // 25 símbolos (sem I e O)
-function packLetters(d){ let s="",sum=0; for(let i=0;i<d.length;i+=2){ const n=d[i]*5+d[i+1]; s+=ALPHA[n]; sum=(sum+n*((i/2)%7+1))%25; } return s+ALPHA[sum]; }
-function encode2(form, per, rel, ans){ // form 0/1, per 0(4s)/1(6m), rel 0..4, ans 78 × (0..3|null)
-  const d=[form*2+per, rel].concat(ans.map(v=>v===null?4:v)); // 80 dígitos
-  return "IFE2-"+packLetters(d).match(/.{1,5}/g).join("-");
-}
-function unpack(t){
+// IFE1/IFE2: pares base 5 → 25 letras. IFE3: dígitos base 6 (0–4 = resposta, 5 = em branco), pares → 36 símbolos.
+const ALPHA = "ABCDEFGHJKLMNPQRSTUVWXYZ2";
+const A36 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+function unpack25(t){
   const d=[]; let sum=0;
   for(let i=0;i<t.length-1;i++){ const n=ALPHA.indexOf(t[i]); if(n<0) throw new Error(`Caractere inválido: "${t[i]}".`); d.push(Math.floor(n/5),n%5); sum=(sum+n*(i%7+1))%25; }
   if(ALPHA[sum]!==t[t.length-1]) throw new Error("Dígito verificador não confere: algum caractere foi trocado.");
   return d;
 }
+function encode3(form, per, rel, mods, A){
+  const d=[form*2+(per===6?1:0), rel].concat(MODS.map(m=>mods.includes(m.id)?1:0));
+  MODS.forEach(m=>{ if(mods.includes(m.id)) m.ids.forEach(id=>{ const v=A[id]; d.push(v===null||v===undefined?5:v); }); });
+  if(d.length%2) d.push(0);
+  let s="", sum=0;
+  for(let i=0;i<d.length;i+=2){ const n=d[i]*6+d[i+1]; s+=A36[n]; sum=(sum+n*((i/2)%7+1))%36; }
+  s+=A36[sum];
+  return "IFE3-"+s.match(/.{1,5}/g).join("-");
+}
 function decode(str){
   let t=str.toUpperCase().replace(/[^A-Z0-9]/g,"");
-  const ver = t.startsWith("IFE2")?2 : t.startsWith("IFE1")?1 : 0;
-  if(!ver) throw new Error("O código não começa com IFE1 ou IFE2. Confira se foi copiado inteiro.");
+  const ver = t.startsWith("IFE3")?3 : t.startsWith("IFE2")?2 : t.startsWith("IFE1")?1 : 0;
+  if(!ver) throw new Error("O código não começa com IFE1, IFE2 ou IFE3. Confira se foi copiado inteiro.");
   t=t.slice(4);
-  const want = ver===2 ? 41 : 34;
-  if(t.length!==want) throw new Error(`Código ${ver===2?"IFE2":"IFE1"} com ${t.length} caracteres após o prefixo; deveriam ser ${want}. Provavelmente foi cortado.`);
-  const d=unpack(t);
-  if(ver===1) return {ver:1, form:0, per:4, rel:null, A:Object.fromEntries(ALLIDS1.map((id,i)=>[id,d[i]===4?null:d[i]]))};
-  const meta=d[0], rel=d[1];
-  if(meta>3 || rel>4) throw new Error("Cabeçalho do código inválido.");
-  const form=meta>>1, per=(meta&1)?6:4;
-  return {ver:2, form, per, rel: form?rel:null, A:Object.fromEntries(ALLIDS2.map((id,i)=>[id,d[i+2]===4?null:d[i+2]]))};
+  if(ver===3){
+    if(t.length<5) throw new Error("Código IFE3 curto demais; provavelmente foi cortado.");
+    const d=[]; let sum=0;
+    for(let i=0;i<t.length-1;i++){ const n=A36.indexOf(t[i]); if(n<0) throw new Error(`Caractere inválido: "${t[i]}".`); d.push(Math.floor(n/6),n%6); sum=(sum+n*(i%7+1))%36; }
+    if(A36[sum]!==t[t.length-1]) throw new Error("Dígito verificador não confere: algum caractere foi trocado ou o código foi cortado.");
+    const meta=d[0], rel=d[1], mask=d.slice(2,8);
+    if(meta>3||rel>4||mask.some(x=>x>1)) throw new Error("Cabeçalho do código inválido.");
+    const mods=MODS.filter((m,i)=>mask[i]===1).map(m=>m.id);
+    const need=8+mods.reduce((a,id)=>a+MOD[id].ids.length,0);
+    if(d.length!==need+(need%2)) throw new Error(`O código não tem o tamanho esperado para os blocos indicados (${mods.join(", ")}). Provavelmente foi cortado.`);
+    const A={}; let p=8;
+    mods.forEach(id=>MOD[id].ids.forEach(iid=>{ const v=d[p++]; A[iid]=v===5?null:v; }));
+    const form=meta>>1;
+    return {ver:3, form, per:(meta&1)?6:4, rel:form?rel:null, mods, A};
+  }
+  const want=ver===2?41:34;
+  if(t.length!==want) throw new Error(`Código IFE${ver} com ${t.length} caracteres após o prefixo; deveriam ser ${want}. Provavelmente foi cortado.`);
+  const d=unpack25(t);
+  if(ver===1) return {ver:1, form:0, per:4, rel:null, mods:["IFE"], A:Object.fromEntries(ALLIDS1.map((id,i)=>[id,d[i]===4?null:d[i]]))};
+  const meta=d[0], rel=d[1]; if(meta>3||rel>4) throw new Error("Cabeçalho do código inválido.");
+  const form=meta>>1;
+  return {ver:2, form, per:(meta&1)?6:4, rel:form?rel:null, mods:["IFE"], A:Object.fromEntries(ALLIDS2.map((id,i)=>[id,d[i+2]===4?null:d[i+2]]))};
 }
 
 // ============================================================ UTILIDADES
@@ -365,44 +482,97 @@ async function copyText(text,btn,label){
 const qs=new URLSearchParams(location.search);
 const FORM = qs.get("f")==="i" ? 1 : 0;
 const PERIOD = qs.get("p")==="6" ? 6 : 4;
+const MODSEL = (()=>{ if(FORM) return ["IFE"]; const m=(qs.get("m")||"ife").toUpperCase().split(/[,\s]+/); const s=MODS.filter(x=>m.includes(x.id)).map(x=>x.id); return s.length?s:["IFE"]; })();
+const CRISE = `<b>Se você está pensando em se machucar ou em morrer, procure ajuda agora.</b> Ligue para o <b>CVV, 188</b> (gratuito, 24 horas) ou acesse <a href="https://cvv.org.br" target="_blank" rel="noopener">cvv.org.br</a>. Em risco imediato, ligue <b>192 (SAMU)</b> ou vá a um pronto-socorro. Seu médico verá esta resposta quando receber o código, mas talvez não imediatamente.`;
 
 // ============================================================ MODO RESPONDENTE
-const STORE=`ifea2_${FORM}_${PERIOD}`, TTL=48*3600*1000;
-const tx=id=>TXT[id][FORM];
-function radio(name){ return LBL.map((l,v)=>`<input type="radio" name="${name}" id="${name}_${v}" value="${v}"><label for="${name}_${v}">${l}</label>`).join(""); }
+const STORE=`ifea3_${FORM}_${PERIOD}_${MODSEL.join("")}`, TTL=48*3600*1000;
+const ALLQ = MODSEL.flatMap(id=>MOD[id].ids);
+function radioRow(name, labels, values, cls){
+  const n=labels.length;
+  return `<div class="opts ${cls||""} n${n}" style="--n:${n}">`+labels.map((l,i)=>`<input type="radio" name="${name}" id="${name}_${values[i]}" value="${values[i]}"><label for="${name}_${values[i]}">${l}</label>`).join("")+`</div>`;
+}
+const freq4 = name=>radioRow(name, LBL, [0,1,2,3]);
 function pval(id){ const e=document.querySelector(`input[name="${id}"]:checked`); return e?+e.value:null; }
-function save(){ try{ localStorage.setItem(STORE, JSON.stringify({t:Date.now(), rel:$("rel").value, a:Object.fromEntries(ALLIDS2.map(id=>[id,pval(id)]))})); }catch{} }
+function save(){ try{ localStorage.setItem(STORE, JSON.stringify({t:Date.now(), rel:$("rel").value, a:Object.fromEntries(ALLQ.map(id=>[id,pval(id)]))})); }catch{} }
 function load(){
   try{ const o=JSON.parse(localStorage.getItem(STORE)||"null"); if(!o) return;
        if(Date.now()-o.t>TTL){ localStorage.removeItem(STORE); return; }
        if(o.rel) $("rel").value=o.rel;
        for(const id in o.a){ if(o.a[id]!==null){ const r=$(id+"_"+o.a[id]); if(r) r.checked=true; } } }catch{}
 }
-function updProg(){ const n=ALLIDS2.filter(id=>pval(id)!==null).length; $("prog").textContent=`${n} de ${ALLIDS2.length} respondidas`; $("pfill").style.width=(n/ALLIDS2.length*100)+"%"; }
+function updProg(){ const n=ALLQ.filter(id=>pval(id)!==null).length; $("prog").textContent=`${n} de ${ALLQ.length} respondidas`; $("pfill").style.width=(n/ALLQ.length*100)+"%"; }
+const itemHTML=(id,num,text,opts)=>`<div class="item" id="row_${id}"><div class="t">${num?`<b>${num}</b>`:""}${text}</div>${opts}</div>`;
+function blockIFE(){
+  const tx=id=>TXT[id][FORM], per=PER[PERIOD].txt;
+  const instr = FORM
+    ? `Você vai responder sobre <b>a pessoa que pediu sua ajuda</b>. Pensando no que você observou <b>${per}</b>, marque com que frequência cada comportamento aconteceu. Se não teve como observar algo, marque o que mais se aproxima do que você vê.`
+    : `Pensando <b>${per}</b>, marque com que frequência cada situação foi um problema para você. Não há respostas certas ou erradas.`;
+  let h=`<div class="card"><h2>${FORM?"Comportamentos do dia a dia":"Funcionamento no dia a dia"}</h2><p class="instr">${instr}</p>`;
+  h+=ORDER3.map(id=>itemHTML(id,NUM3[id]+".",tx(id),freq4(id))).join("")+`</div>`;
+  h+=`<div class="card"><h2>Como as coisas funcionam</h2><p class="instr">Pensando ${per}, com que frequência isso acontece ${FORM?"com essa pessoa":"com você"}?</p>`;
+  h+=CMP.map(([id])=>itemHTML(id,NUM3[id]+".",tx(id),freq4(id))).join("");
+  h+=itemHTML("MED1",NUM3.MED1+".",tx("MED1"),radioRow("MED1",[FORM?"Não usa medicação":"Não uso medicação"].concat(LBL),[4,0,1,2,3],"n5"))+`</div>`;
+  const pc=per[0].toUpperCase()+per.slice(1);
+  h+=`<div class="card"><h2>Impacto no dia a dia</h2><p class="instr">${pc}, quanto essas dificuldades atrapalharam${FORM?" essa pessoa":""} em…</p>`;
+  h+=IMPACT.map(([id,t],i)=>itemHTML(id,String.fromCharCode(97+i)+")",t,freq4(id))).join("")+`</div>`;
+  return h;
+}
+function blockASRS(){
+  let h=`<div class="card"><h2>Atenção e atividade</h2><p class="instr">Como você se sentiu e se comportou <b>nos últimos 6 meses</b>?</p>`;
+  h+=ASRS.map(([id,t],i)=>itemHTML(id,(i+1)+".",t,radioRow(id,F5,[0,1,2,3,4]))).join("")+`</div>`;
+  return h;
+}
+function blockPHQ(){
+  let h=`<div class="card"><h2>Humor</h2><p class="instr"><b>Durante as últimas 2 semanas</b>, com que frequência você foi incomodado(a) por qualquer um dos problemas abaixo?</p>`;
+  h+=PHQ.map(([id,t],i)=>itemHTML(id,(i+1)+".",t,radioRow(id,F4PHQ,[0,1,2,3]))+(id==="P9"?`<div id="p9alert" class="alert hidden">${CRISE}</div>`:"")).join("");
+  h+=itemHTML("PD","",PHQ_DIF[1],radioRow("PD",PHQ_DIF[2],[0,1,2,3]))+`</div>`;
+  return h;
+}
+function blockGAD(){
+  let h=`<div class="card"><h2>Ansiedade</h2><p class="instr"><b>Durante as últimas 2 semanas</b>, com que frequência você foi incomodado(a) pelos problemas abaixo?</p>`;
+  h+=GAD.map(([id,t],i)=>itemHTML(id,(i+1)+".",t,radioRow(id,F4PHQ,[0,1,2,3]))).join("")+`</div>`;
+  return h;
+}
+function blockASRM(){
+  let h=`<div class="card"><h2>Energia e ânimo</h2><p class="instr">Em cada grupo, escolha a frase que melhor descreve como você tem se sentido <b>na última semana</b>. "Habitual" é como você costuma ser quando está bem.</p>`;
+  h+=ASRM.map(([id,t,o],i)=>itemHTML(id,(i+1)+".",t,radioRow(id,o,[0,1,2,3,4],"v"))).join("")+`</div>`;
+  return h;
+}
+function blockAUDC(){
+  let h=`<div class="card"><h2>Uso de álcool</h2><p class="instr">As perguntas se referem aos <b>últimos 12 meses</b>.</p>`;
+  h+=`<div class="dosebox"><b>1 dose</b> = 1 lata de cerveja ou 1 chope (350 ml) · 1 taça de vinho (140 ml) · 1 dose de destilado (40 ml). Uma garrafa de cerveja de 600 ml ≈ 2 doses; uma garrafa de vinho ≈ 5 doses.</div>`;
+  h+=AUDC.map(([id,t,o],i)=>itemHTML(id,(i+1)+".",t,radioRow(id,o,[0,1,2,3,4],"v"))).join("")+`</div>`;
+  return h;
+}
+const BLOCKS={IFE:blockIFE,ASRS:blockASRS,PHQ:blockPHQ,GAD:blockGAD,ASRM:blockASRM,AUDC:blockAUDC};
+function syncAudit(){
+  if(!MODSEL.includes("AUDC")) return;
+  const never=pval("C1")===0;
+  ["C2","C3"].forEach(id=>document.querySelectorAll(`input[name="${id}"]`).forEach(r=>{ r.disabled=never; if(never) r.checked=(+r.value===0); }));
+}
+function syncP9(){ const a=$("p9alert"); if(a) a.classList.toggle("hidden",!(pval("P9")>0)); }
 function initPatient(){
-  const per=PER[PERIOD].txt;
+  const nm=MODSEL.map(id=>MOD[id].curto).join(" · ");
   if(FORM){
     $("pTitle").textContent="Questionário sobre outra pessoa";
-    $("pSub").textContent=`IFE-A · forma do informante · ${PER[PERIOD].lbl} · cerca de 12 minutos`;
-    $("pInstr").innerHTML=`Você vai responder sobre <b>a pessoa que pediu sua ajuda</b>. As frases descrevem comportamentos do dia a dia. Pensando no que você observou <b>${per}</b>, marque com que frequência cada um aconteceu. Se não teve como observar algo, marque o que mais se aproxima do que você vê. Responda a todas.`;
-    $("cmpInstr").innerHTML=`Pensando ${per}, com que frequência isso acontece com essa pessoa?`;
-    $("impInstr").innerHTML=`${per[0].toUpperCase()+per.slice(1)}, quanto essas dificuldades atrapalharam essa pessoa em…`;
+    $("pSub").textContent=`IFE-A · forma do informante · ${PER[PERIOD].lbl}`;
+    $("pIntro").innerHTML="Obrigado por ajudar. As perguntas são sobre o dia a dia da pessoa que pediu que você respondesse.";
     $("rel").innerHTML=`<option value="">— selecione —</option>`+RELS.map((r,i)=>`<option value="${i}">${r}</option>`).join("");
   } else {
     $("relCard").classList.add("hidden");
-    $("pSub").textContent=`IFE-A · autorrelato · ${PER[PERIOD].lbl} · cerca de 12 minutos`;
-    $("pInstr").innerHTML=`Abaixo há frases sobre situações do dia a dia. Pensando <b>${per}</b>, marque com que frequência cada uma foi um problema para você. Não há respostas certas ou erradas. Responda a todas.`;
-    $("cmpInstr").innerHTML=`Pensando ${per}, com que frequência isso acontece com você?`;
-    $("impInstr").innerHTML=`${per[0].toUpperCase()+per.slice(1)}, quanto essas dificuldades atrapalharam…`;
+    $("pSub").textContent=nm;
+    const mins=Math.max(3,Math.round(ALLQ.length/7));
+    $("pIntro").innerHTML=`São ${MODSEL.length>1?`${MODSEL.length} blocos de perguntas, cada um com seu próprio período de referência (indicado no início de cada bloco)`:"perguntas sobre o seu dia a dia"}. Leva cerca de ${mins} minutos.`;
   }
-  $("items").innerHTML=ORDER2.map((id,i)=>`<div class="item" id="row_${id}"><div class="t"><b>${i+1}.</b>${tx(id)}</div><div class="opts">${radio(id)}</div></div>`).join("");
-  $("cmp").innerHTML=CMP.map(([id],i)=>`<div class="item" id="row_${id}"><div class="t"><b>${ORDER2.length+1+i}.</b>${tx(id)}</div><div class="opts">${radio(id)}</div></div>`).join("");
-  $("impact").innerHTML=IMPACT.map(([id,t],i)=>`<div class="item" id="row_${id}"><div class="t"><b>${String.fromCharCode(97+i)})</b>${t}</div><div class="opts">${radio(id)}</div></div>`).join("");
-  load(); updProg();
-  document.addEventListener("change",e=>{ if(e.target.type==="radio"||e.target.id==="rel"){ $("row_"+e.target.name)?.classList.remove("missing"); updProg(); save(); }});
+  $("blocks").innerHTML=MODSEL.map(id=>BLOCKS[id]()).join("");
+  load(); syncAudit(); syncP9(); updProg();
+  document.addEventListener("change",e=>{
+    if(e.target.type==="radio"||e.target.id==="rel"){ $("row_"+e.target.name)?.classList.remove("missing"); if(e.target.name==="C1") syncAudit(); if(e.target.name==="P9") syncP9(); updProg(); save(); }
+  });
   $("finish").addEventListener("click",()=>{
     if(FORM && $("rel").value===""){ $("pmsg").innerHTML=`<div class="note">Informe no início qual é a sua relação com a pessoa avaliada.</div>`; $("relCard").scrollIntoView({behavior:"smooth"}); return; }
-    const miss=ALLIDS2.filter(id=>pval(id)===null);
+    const miss=ALLQ.filter(id=>pval(id)===null);
     document.querySelectorAll(".item.missing").forEach(e=>e.classList.remove("missing"));
     if(miss.length && !$("finish").dataset.confirm){
       miss.forEach(id=>$("row_"+id).classList.add("missing"));
@@ -410,7 +580,9 @@ function initPatient(){
       $("finish").dataset.confirm="1"; $("row_"+miss[0]).scrollIntoView({behavior:"smooth",block:"center"}); return;
     }
     $("pmsg").innerHTML="";
-    $("codeOut").textContent=encode2(FORM, PERIOD===6?1:0, FORM?+$("rel").value:0, ALLIDS2.map(pval));
+    const A=Object.fromEntries(ALLQ.map(id=>[id,pval(id)]));
+    $("codeOut").textContent=encode3(FORM, PERIOD, FORM?+$("rel").value:0, MODSEL, A);
+    $("doneAlert").innerHTML = (A.P9>0) ? `<div class="alert">${CRISE}</div>` : "";
     $("done").classList.remove("hidden"); $("done").scrollIntoView({behavior:"smooth"});
   });
   $("share").addEventListener("click",async()=>{
@@ -421,42 +593,67 @@ function initPatient(){
   $("copyCode").addEventListener("click",()=>copyText($("codeOut").textContent,$("copyCode"),"Copiar código"));
   $("wipe").addEventListener("click",()=>{
     try{localStorage.removeItem(STORE)}catch{}
-    document.querySelectorAll("input[type=radio]").forEach(r=>r.checked=false); $("rel").value="";
-    $("done").classList.add("hidden"); delete $("finish").dataset.confirm; updProg(); window.scrollTo(0,0);
+    document.querySelectorAll("input[type=radio]").forEach(r=>{r.checked=false;r.disabled=false}); $("rel").value="";
+    $("done").classList.add("hidden"); delete $("finish").dataset.confirm; syncP9(); updProg(); window.scrollTo(0,0);
   });
 }
 
 // ============================================================ PONTUAÇÃO
-function score(D){
-  const A=D.A, v=id=>A[id], doms=D.ver===2?DOMS2:DOMS1, pairs=D.ver===2?PAIRS2:PAIRS1;
+function scoreIFE(D){
+  const A=D.A, v=id=>A[id]===undefined?null:A[id];
+  const doms=D.ver===1?DOMS1:DOMS2, pairs=D.ver===1?PAIRS1:PAIRS2;
+  const bank=D.ver===3?BANK3:BANK;
   const res={};
   for(const d of doms){
-    const ids=BANK.filter(b=>b[1]===d).map(b=>b[0]), got=ids.map(v).filter(x=>x!==null&&x!==undefined);
-    res[d]={m: ids.length-got.length>1?null:got.reduce((a,b)=>a+b,0)/got.length, raw:got.reduce((a,b)=>a+b,0), n:got.length};
+    const ids=bank.filter(b=>b[1]===d).map(b=>b[0]), got=ids.map(v).filter(x=>x!==null);
+    res[d]={m: ids.length-got.length>1?null:got.reduce((a,b)=>a+b,0)/got.length, raw:got.reduce((a,b)=>a+b,0), n:got.length, k:ids.length};
   }
   const idxMean=k=>{const ds=doms.filter(d=>DOM[d].idx===k); return ds.some(d=>res[d].m===null)?null:ds.reduce((a,d)=>a+res[d].m,0)/ds.length;};
   const rce=idxMean("RCE"), mgt=idxMean("MGT");
   const tot=doms.some(d=>res[d].m===null)?null:doms.reduce((a,d)=>a+res[d].m,0)/doms.length;
   let cmp=null;
-  if(D.ver===2){ const g=CMP.map(c=>v(c[0])).filter(x=>x!==null); cmp=g.length>=5?g.reduce((a,b)=>a+b,0)/g.length:null; }
+  if(D.ver>=2){ const g=CMP.map(c=>v(c[0])).filter(x=>x!==null); cmp=g.length>=5?g.reduce((a,b)=>a+b,0)/g.length:null; }
   const inf=INFREQ.map(([id])=>v(id)).filter(x=>x!==null&&x>=2).length;
   const incons=pairs.map(([a,b])=>(v(a)===null||v(b)===null)?null:Math.abs(v(a)-v(b))).filter(x=>x!==null&&x>=2).length;
-  const clin=BANK.filter(b=>doms.includes(b[1])).map(b=>v(b[0])).filter(x=>x!==null);
+  const clin=bank.filter(b=>doms.includes(b[1])).map(b=>v(b[0])).filter(x=>x!==null);
   const pct3=clin.length?clin.filter(x=>x===3).length/clin.length:0;
-  const ids=D.ver===2?ALLIDS2:ALLIDS1, missing=ids.filter(id=>v(id)===null).length;
+  const ids=D.ver===3?IFE3_IDS:D.ver===2?ALLIDS2:ALLIDS1, missing=ids.filter(id=>v(id)===null).length;
+  const med=D.ver===3?v("MED1"):undefined;
   const flags=[];
   if(inf>0) flags.push(`Infrequência: ${inf} de 3 itens implausíveis marcados como frequentes.`);
   if(incons>=3) flags.push(`Inconsistência: ${incons} de ${pairs.length} pares de itens semelhantes diferem em 2 pontos ou mais.`);
   if(pct3>0.6) flags.push(`Respostas extremas: ${Math.round(pct3*100)}% dos itens clínicos marcados como "quase sempre".`);
-  return {doms,res,rce,mgt,tot,cmp,inf,incons,npairs:pairs.length,pct3,missing,flags};
+  return {doms,res,rce,mgt,tot,cmp,inf,incons,npairs:pairs.length,pct3,missing,flags,med};
 }
-const formLbl=D=>D.ver===1?"Autorrelato (IFE1)":D.form?`Informante — ${RELS[D.rel]}`:"Autorrelato";
-const shortLbl=(D,i)=>D.form?"Informante":"Autorrelato";
+const blk=o=>o&&o.n<o.k?` · ${o.k-o.n} em branco`:"";
+const sumOf=(A,ids)=>{ const g=ids.map(i=>A[i]).filter(x=>x!==null&&x!==undefined); return {s:g.reduce((a,b)=>a+b,0), n:g.length, k:ids.length}; };
+function scoreClin(D){
+  const A=D.A, out={};
+  if(D.mods.includes("ASRS")){
+    const sym=ids=>ids.filter(id=>{ const it=ASRS.find(x=>x[0]===id); return A[id]!==null&&A[id]>=it[2]; }).length;
+    const ina=ASRS.filter(x=>x[0][0]==="A").map(x=>x[0]), hip=ASRS.filter(x=>x[0][0]==="B").map(x=>x[0]);
+    out.asrs={ina:sym(ina), hip:sym(hip), sIna:sumOf(A,ina), sHip:sumOf(A,hip), screen:sym(ASRS_SCREEN), all:sumOf(A,ASRS.map(x=>x[0]))};
+  }
+  if(D.mods.includes("PHQ")){ const s=sumOf(A,PHQ.map(x=>x[0])); const t=s.s;
+    out.phq={...s, band:t<5?"mínima":t<10?"leve":t<15?"moderada":t<20?"moderadamente grave":"grave", p9:A.P9, dif:A.PD}; }
+  if(D.mods.includes("GAD")){ const s=sumOf(A,GAD.map(x=>x[0])); const t=s.s;
+    out.gad={...s, band:t<5?"mínima":t<10?"leve":t<15?"moderada":"grave"}; }
+  if(D.mods.includes("ASRM")){ const s=sumOf(A,ASRM.map(x=>x[0])); out.asrm={...s, pos:s.s>=6}; }
+  if(D.mods.includes("AUDC")){ const s=sumOf(A,AUDC.map(x=>x[0])); out.audc=s; }
+  return out;
+}
+function auditBand(s,sexo){
+  if(sexo==="M") return s<=3?"baixo risco":s<=5?"risco moderado":s<=7?"alto risco":"risco severo";
+  if(sexo==="F") return s<=2?"baixo risco":s<=5?"risco moderado":s<=7?"alto risco":"risco severo";
+  return `homem: ${auditBand(s,"M")}; mulher: ${auditBand(s,"F")}`;
+}
+const formLbl=D=>(D.ver<3?`IFE${D.ver} · `:"")+(D.form?`Informante — ${RELS[D.rel]}`:"Autorrelato");
+const shortLbl=D=>D.form?"Informante":"Autorrelato";
 
 // ============================================================ MODO MÉDICO
 function renderKey(){
-  const nums=ids=>ids.map(i=>NUM2[i]).sort((a,b)=>a-b).join(", ");
-  const domIds=d=>BANK.filter(b=>b[1]===d).map(b=>b[0]);
+  const nums=ids=>ids.map(i=>NUM3[i]).sort((a,b)=>a-b).join(", ");
+  const domIds=d=>BANK3.filter(b=>b[1]===d).map(b=>b[0]);
   const row=(n,v,b)=>`<tr${b?' style="font-weight:600"':''}><td style="padding:4px 10px 4px 0;vertical-align:top">${n}</td><td style="padding:4px 0">${v}</td></tr>`;
   let h='<table style="border-collapse:collapse;font-size:14px;margin:4px 0 12px">';
   for(const k of ["RCE","MGT"]){
@@ -464,18 +661,25 @@ function renderKey(){
     h+=row(IDX[k], nums(ds.flatMap(domIds)), true);
     ds.forEach(d=>h+=row("&nbsp;&nbsp;"+DOM[d].n, nums(domIds(d))));
   }
-  h+=row("Total global","os 66 itens clínicos",true);
+  h+=row("Total global","os 69 itens clínicos",true);
   h+=row("Compensação", nums(CMP.map(c=>c[0])), true);
+  h+=row("Efeito da medicação (descritivo)", String(NUM3.MED1));
   h+=row("Infrequência", nums(INFREQ.map(i=>i[0])));
-  h+=row("Pares de inconsistência", PAIRS2.map(([a,b])=>[NUM2[a],NUM2[b]].sort((x,y)=>x-y)).sort((x,y)=>x[0]-y[0]).map(([x,y])=>`${x}–${y}`).join(" · "));
+  h+=row("Pares de inconsistência", PAIRS2.map(([a,b])=>[NUM3[a],NUM3[b]].sort((x,y)=>x-y)).sort((x,y)=>x[0]-y[0]).map(([x,y])=>`${x}–${y}`).join(" · "));
   h+=row("Impacto funcional","a) trabalho/estudos · b) casa/finanças · c) relacionamentos");
   $("keyTable").innerHTML=h+"</table>";
 }
+function linkMods(){ return MODS.filter(m=>$("mod_"+m.id).checked).map(m=>m.id); }
 function updLink(){
   const f=document.querySelector('input[name="lf"]:checked').value, p=document.querySelector('input[name="lp"]:checked').value;
+  MODS.forEach(m=>{ const c=$("mod_"+m.id); if(f==="i"){ c.disabled=!m.inf; if(!m.inf) c.checked=false; else c.checked=true; } else c.disabled=false; });
+  let mods=linkMods(); if(!mods.length){ $("mod_IFE").checked=true; mods=["IFE"]; }
   const base=location.href.split("#")[0].split("?")[0];
   const q=[]; if(f==="i") q.push("f=i"); if(p==="6") q.push("p=6");
+  if(!(mods.length===1&&mods[0]==="IFE")) q.push("m="+mods.map(x=>x.toLowerCase()).join(","));
   $("linkOut").textContent=base+(q.length?"?"+q.join("&"):"");
+  const n=mods.reduce((a,id)=>a+MOD[id].ids.length,0);
+  $("linkInfo").textContent=f==="i" ? "A forma do informante inclui só o IFE-A (as escalas clínicas são de autorrelato)." : `${n} perguntas · cerca de ${Math.max(3,Math.round(n/7))} minutos.`;
 }
 function cellHTML(m){
   if(m===null||m===undefined) return `<span class="muted">—</span>`;
@@ -483,75 +687,111 @@ function cellHTML(m){
   return `<div class="cell"><div class="bar"><span style="width:${m/3*100}%;background:${c}"></span></div><span class="num">${fmt(m)}</span><span class="dot" style="background:${c}" title="${b}"></span></div>`;
 }
 function renderClin(list){
-  const S=list.map(score);
+  const sexo=$("sexo").value;
+  const S=list.map(D=>D.mods.includes("IFE")?scoreIFE(D):null), C=list.map(scoreClin);
   const multi=list.length>1;
-  // validade
-  $("validity").innerHTML=list.map((D,i)=>{
-    const s=S[i], tag=multi?`<b>${i+1}. ${formLbl(D)}:</b> `:"";
-    return s.flags.length? s.flags.map(f=>`<div class="note">⚠ ${tag}${f}</div>`).join("")
-      : `<p class="muted" style="margin:0 0 6px;font-size:13px">${tag}validade sem alertas (infrequência ${s.inf}/3 · pares ${s.incons}/${s.npairs} · respostas "3": ${Math.round(s.pct3*100)}%).</p>`;
-  }).join("");
-  // tabela
-  let h=`<table class="res"><thead><tr><th>Domínio</th>${list.map((D,i)=>`<th>${multi?(i+1)+". ":""}${formLbl(D)}<br><span style="text-transform:none;font-weight:400">${PER[D.per].lbl}</span></th>`).join("")}</tr></thead><tbody>`;
-  for(const k of ["RCE","MGT"]){
-    DOMS2.filter(d=>DOM[d].idx===k).forEach(d=>{ h+=`<tr><td>${DOM[d].n}</td>${S.map(s=>`<td>${cellHTML(s.res[d]?.m)}</td>`).join("")}</tr>`; });
-    h+=`<tr class="idx"><td>${IDX[k]}</td>${S.map(s=>`<td>${cellHTML(k==="RCE"?s.rce:s.mgt)}</td>`).join("")}</tr>`;
+  const head=(D,i)=>`${multi?(i+1)+". ":""}${formLbl(D)}`;
+  // alertas de segurança
+  const al=[]; list.forEach((D,i)=>{ if(C[i].phq&&C[i].phq.p9>0) al.push(`${multi?(i+1)+". ":""}PHQ-9 item 9 = ${C[i].phq.p9} (${F4PHQ[C[i].phq.p9].toLowerCase()}): pensamentos de morte ou de se ferir. Avaliar risco.`); });
+  $("alertsTop").innerHTML=al.map(a=>`<div class="alert">⚠ ${a}</div>`).join("");
+  // IFE
+  const iIFE=list.map((D,i)=>i).filter(i=>S[i]);
+  $("ifeCard").classList.toggle("hidden",!iIFE.length);
+  if(iIFE.length){
+    $("validity").innerHTML=iIFE.map(i=>{ const s=S[i], tag=multi?`<b>${head(list[i],i)}:</b> `:"";
+      return s.flags.length? s.flags.map(f=>`<div class="note">⚠ ${tag}${f}</div>`).join("") : `<p class="muted" style="margin:0 0 6px;font-size:13px">${tag}validade sem alertas (infrequência ${s.inf}/3 · pares ${s.incons}/${s.npairs} · respostas "3": ${Math.round(s.pct3*100)}%).</p>`; }).join("");
+    let h=`<table class="res"><thead><tr><th>Domínio</th>${iIFE.map(i=>`<th>${head(list[i],i)}<br><span style="text-transform:none;font-weight:400">${PER[list[i].per].lbl}</span></th>`).join("")}</tr></thead><tbody>`;
+    for(const k of ["RCE","MGT"]){
+      DOMS2.filter(d=>DOM[d].idx===k).forEach(d=>{ h+=`<tr><td>${DOM[d].n}</td>${iIFE.map(i=>`<td>${cellHTML(S[i].res[d]?.m)}</td>`).join("")}</tr>`; });
+      h+=`<tr class="idx"><td>${IDX[k]}</td>${iIFE.map(i=>`<td>${cellHTML(k==="RCE"?S[i].rce:S[i].mgt)}</td>`).join("")}</tr>`;
+    }
+    h+=`<tr class="idx"><td>Total global</td>${iIFE.map(i=>`<td>${cellHTML(S[i].tot)}</td>`).join("")}</tr>`;
+    h+=`<tr><td>Metacognição − Regulação</td>${iIFE.map(i=>`<td class="num">${S[i].rce!==null&&S[i].mgt!==null?sgn(S[i].mgt-S[i].rce):"—"}</td>`).join("")}</tr>`;
+    h+=`<tr class="idx"><td>Compensação</td>${iIFE.map(i=>`<td>${cellHTML(S[i].cmp)}</td>`).join("")}</tr>`;
+    h+=`<tr><td>Efeito da medicação</td>${iIFE.map(i=>{const m=S[i].med; return `<td class="num">${m===undefined?"—":m===null?"em branco":m===4?"não usa":m+" ("+LBLp[m]+")"}</td>`;}).join("")}</tr>`;
+    h+=`<tr><td>Impacto (trab. · casa · relac.)</td>${iIFE.map(i=>`<td class="num">${IMPACT.map(([id])=>list[i].A[id]===null?"—":list[i].A[id]).join(" · ")}</td>`).join("")}</tr>`;
+    $("table").innerHTML=h+"</tbody></table>";
   }
-  h+=`<tr class="idx"><td>Total global</td>${S.map(s=>`<td>${cellHTML(s.tot)}</td>`).join("")}</tr>`;
-  h+=`<tr><td>Metacognição − Regulação</td>${S.map(s=>`<td class="num">${s.rce!==null&&s.mgt!==null?sgn(s.mgt-s.rce):"—"}</td>`).join("")}</tr>`;
-  h+=`<tr class="idx"><td>Compensação</td>${S.map(s=>`<td>${cellHTML(s.cmp)}</td>`).join("")}</tr>`;
-  h+=`<tr><td>Impacto (trab. · casa · relac.)</td>${list.map(D=>`<td class="num">${IMPACT.map(([id])=>D.A[id]===null?"—":D.A[id]).join(" · ")}</td>`).join("")}</tr>`;
-  $("table").innerHTML=h+"</tbody></table>";
-
+  // escalas clínicas
+  const iC=list.map((D,i)=>i).filter(i=>Object.keys(C[i]).length);
+  $("clinCard").classList.toggle("hidden",!iC.length);
+  if(iC.length){
+    const rows=[
+      ["ASRS · desatenção (sintomas)", c=>c.asrs?`<span class="${c.asrs.ina>=5?"flag":""}">${c.asrs.ina}/9</span> <span class="muted">(soma ${c.asrs.sIna.s}/36${blk(c.asrs.sIna)})</span>`:null],
+      ["ASRS · hiperatividade/impulsividade", c=>c.asrs?`<span class="${c.asrs.hip>=5?"flag":""}">${c.asrs.hip}/9</span> <span class="muted">(soma ${c.asrs.sHip.s}/36${blk(c.asrs.sHip)})</span>`:null],
+      ["ASRS · triagem OMS (6 itens)", c=>c.asrs?`<span class="${c.asrs.screen>=4?"flag":""}">${c.asrs.screen}/6 — ${c.asrs.screen>=4?"positiva":"negativa"}</span>`:null],
+      ["PHQ-9 (depressão)", c=>c.phq?`<span class="${c.phq.s>=10?"flag":""}">${c.phq.s}/27 — ${c.phq.band}</span><span class="muted">${blk(c.phq)}</span>${c.phq.p9>0?` <span class="flag">· item 9 = ${c.phq.p9}</span>`:""}`:null],
+      ["PHQ · dificuldade funcional", c=>c.phq?(c.phq.dif===null?"—":PHQ_DIF[2][c.phq.dif].toLowerCase()):null],
+      ["GAD-7 (ansiedade)", c=>c.gad?`<span class="${c.gad.s>=10?"flag":""}">${c.gad.s}/21 — ${c.gad.band}</span><span class="muted">${blk(c.gad)}</span>`:null],
+      ["ASRM (mania)", c=>c.asrm?`<span class="${c.asrm.pos?"flag":""}">${c.asrm.s}/20 — ${c.asrm.pos?"sugere (hipo)mania":"abaixo do corte"}</span><span class="muted">${blk(c.asrm)}</span>`:null],
+      ["AUDIT-C (álcool)", c=>c.audc?`<span class="${c.audc.s>=(sexo==="M"?4:3)?"flag":""}">${c.audc.s}/12 — ${auditBand(c.audc.s,sexo)}</span><span class="muted">${blk(c.audc)}</span>`:null]
+    ];
+    let h=`<table class="res"><thead><tr><th>Escala</th>${iC.map(i=>`<th>${head(list[i],i)}</th>`).join("")}</tr></thead><tbody>`;
+    rows.forEach(([lab,f])=>{ const cells=iC.map(i=>f(C[i])); if(cells.every(x=>x===null)) return; h+=`<tr><td>${lab}</td>${cells.map(x=>`<td>${x===null?'<span class="muted">—</span>':x}</td>`).join("")}</tr>`; });
+    $("clinTable").innerHTML=h+"</tbody></table>"+`<p class="muted" style="font-size:13px;margin-top:8px">Em vermelho: acima do limiar de referência (ASRS ≥ 5 sintomas numa dimensão ou triagem positiva; PHQ-9 e GAD-7 ≥ 10; ASRM ≥ 6; AUDIT-C acima de baixo risco). Rastreio, não diagnóstico.</p>`;
+  }
   // relatório
   const nome=$("nome").value.trim()||"—", idade=$("idade").value||"—";
   const dd=$("data").value, dataBR=dd?dd.split("-").reverse().join("/"):"—";
   const L=[];
-  L.push(`IFE-A (Inventário de Funções Executivas no Adulto; instrumento clínico sem normas) — ${dataBR}`);
+  L.push(`Avaliação por questionários — ${dataBR}`);
   L.push(`Paciente: ${nome} | Idade: ${idade} | ${$("momento").value}`);
-  L.push(`Escala 0 (nunca) a 3 (quase sempre). Média por domínio (soma bruta).`);
   list.forEach((D,i)=>{
-    const s=S[i];
-    L.push("");
-    L.push(`${multi?(i+1)+". ":""}${formLbl(D)} — período: ${PER[D.per].lbl}`);
-    const dl=x=>s.res[x].m===null?`  - ${DOM[x].n}: incompleto`:`  - ${DOM[x].n}: ${fmt(s.res[x].m)} (${s.res[x].raw}/${s.res[x].n*3}${s.res[x].n<6?", 1 em branco":""}) — ${band(s.res[x].m)[0]}`;
-    const il=(lab,m)=>`${lab}: ${m===null?"incompleto":fmt(m)+" — "+band(m)[0]}`;
-    L.push(il("Regulação comportamental e emocional",s.rce)); s.doms.filter(x=>DOM[x].idx==="RCE").forEach(x=>L.push(dl(x)));
-    L.push(il("Metacognição e gestão de tarefas",s.mgt)); s.doms.filter(x=>DOM[x].idx==="MGT").forEach(x=>L.push(dl(x)));
-    L.push(il("Total global",s.tot)+(s.rce!==null&&s.mgt!==null?` | Metacognição − Regulação: ${sgn(s.mgt-s.rce)}`:""));
-    if(D.ver===2) L.push(il("Compensação",s.cmp));
-    const ranked=s.doms.filter(x=>s.res[x].m!==null).sort((a,b)=>s.res[b].m-s.res[a].m);
-    if(ranked.length) L.push(`Domínios mais elevados: ${ranked.slice(0,3).map(x=>`${DOM[x].n} (${fmt(s.res[x].m)})`).join("; ")}.`);
-    const crit=BANK.filter(b=>D.A[b[0]]===3).map(b=>b[D.form?3:2].replace(/\.$/,""));
-    if(crit.length) L.push(`Itens "quase sempre" (${crit.length}): ${crit.join("; ")}.`);
-    L.push(`Impacto funcional (0–3): ${IMPACT.map(([id,t])=>`${t.split(" (")[0]} ${D.A[id]===null?"—":D.A[id]+" ("+LBLp[D.A[id]]+")"}`).join("; ")}.`);
-    L.push(`Validade: ${s.flags.length?s.flags.join(" "):`sem alertas (infrequência ${s.inf}/3; pares ${s.incons}/${s.npairs}; extremas ${Math.round(s.pct3*100)}%).`}${s.missing?` Itens sem resposta: ${s.missing}.`:""}`);
+    const s=S[i], c=C[i];
+    L.push(""); L.push(`${multi?(i+1)+". ":""}${formLbl(D)} — blocos: ${D.mods.map(id=>MOD[id].curto).join(", ")}`);
+    if(s){
+      L.push(`IFE-A (instrumento clínico sem normas; 0 a 3; período: ${PER[D.per].lbl}). Média por domínio (soma bruta):`);
+      const dl=x=>s.res[x].m===null?`  - ${DOM[x].n}: incompleto`:`  - ${DOM[x].n}: ${fmt(s.res[x].m)} (${s.res[x].raw}/${s.res[x].n*3}${s.res[x].n<s.res[x].k?`, ${s.res[x].k-s.res[x].n} em branco`:""}) — ${band(s.res[x].m)[0]}`;
+      const il=(lab,m)=>`${lab}: ${m===null?"incompleto":fmt(m)+" — "+band(m)[0]}`;
+      L.push(il("Regulação comportamental e emocional",s.rce)); s.doms.filter(x=>DOM[x].idx==="RCE").forEach(x=>L.push(dl(x)));
+      L.push(il("Metacognição e gestão de tarefas",s.mgt)); s.doms.filter(x=>DOM[x].idx==="MGT").forEach(x=>L.push(dl(x)));
+      L.push(il("Total global",s.tot)+(s.rce!==null&&s.mgt!==null?` | Metacognição − Regulação: ${sgn(s.mgt-s.rce)}`:""));
+      if(D.ver>=2) L.push(il("Compensação",s.cmp));
+      if(s.med!==undefined&&s.med!==null&&s.med!==4) L.push(`Sob medicação, dificuldade de largar a tarefa em curso: ${LBLp[s.med]}.`);
+      const ranked=s.doms.filter(x=>s.res[x].m!==null).sort((a,b)=>s.res[b].m-s.res[a].m);
+      if(ranked.length) L.push(`Domínios mais elevados: ${ranked.slice(0,3).map(x=>`${DOM[x].n} (${fmt(s.res[x].m)})`).join("; ")}.`);
+      const crit=(D.ver===3?BANK3:BANK).filter(b=>D.A[b[0]]===3).map(b=>b[D.form?3:2].replace(/\.$/,""));
+      if(crit.length) L.push(`Itens "quase sempre" (${crit.length}): ${crit.join("; ")}.`);
+      L.push(`Impacto funcional (0–3): ${IMPACT.map(([id,t])=>`${t.split(" (")[0]} ${D.A[id]===null?"—":D.A[id]+" ("+LBLp[D.A[id]]+")"}`).join("; ")}.`);
+      L.push(`Validade: ${s.flags.length?s.flags.join(" "):`sem alertas (infrequência ${s.inf}/3; pares ${s.incons}/${s.npairs}; extremas ${Math.round(s.pct3*100)}%).`}${s.missing?` Itens sem resposta: ${s.missing}.`:""}`);
+    }
+    if(c.asrs) L.push(`ASRS-18 (6 meses): desatenção ${c.asrs.ina}/9 sintomas (soma ${c.asrs.sIna.s}/36); hiperatividade/impulsividade ${c.asrs.hip}/9 (soma ${c.asrs.sHip.s}/36); triagem OMS ${c.asrs.screen}/6, ${c.asrs.screen>=4?"positiva":"negativa"}${blk(c.asrs.all)}.`);
+    if(c.phq) L.push(`PHQ-9 (2 semanas): ${c.phq.s}/27, ${c.phq.band}${c.phq.p9>0?`; ITEM 9 = ${c.phq.p9} (${F4PHQ[c.phq.p9].toLowerCase()})`:"; item 9 = 0"}${c.phq.dif!==null&&c.phq.dif!==undefined?`; dificuldade funcional: ${PHQ_DIF[2][c.phq.dif].toLowerCase()}`:""}${blk(c.phq)}.`);
+    if(c.gad) L.push(`GAD-7 (2 semanas): ${c.gad.s}/21, ${c.gad.band}${blk(c.gad)}${c.gad.n<c.gad.k?" (escore subestimado)":""}.`);
+    if(c.asrm) L.push(`ASRM (1 semana; tradução não validada): ${c.asrm.s}/20, ${c.asrm.pos?"acima do corte (≥ 6)":"abaixo do corte"}${blk(c.asrm)}.`);
+    if(c.audc) L.push(`AUDIT-C (12 meses): ${c.audc.s}/12, ${auditBand(c.audc.s,sexo)}${blk(c.audc)}.`);
   });
-  // comparação autorrelato × informante
-  const iS=list.findIndex(D=>D.form===0), iI=list.findIndex(D=>D.form===1);
-  if(iS>=0 && iI>=0){
+  const iS=list.findIndex((D,i)=>D.form===0&&S[i]), iI=list.findIndex((D,i)=>D.form===1&&S[i]);
+  if(iS>=0&&iI>=0){
     const a=S[iS], b=S[iI], diffs=DOMS2.filter(d=>a.res[d]&&b.res[d]&&a.res[d].m!==null&&b.res[d].m!==null).map(d=>[d,b.res[d].m-a.res[d].m]).filter(([,x])=>Math.abs(x)>=0.75);
-    L.push("");
-    L.push(`Comparação informante × autorrelato (diferença ≥ 0,75): ${diffs.length?diffs.map(([d,x])=>`${DOM[d].n} ${sgn(x)} (${x>0?"informante relata mais":"paciente relata mais"})`).join("; "):"sem diferenças relevantes entre domínios"}.`);
+    L.push(""); L.push(`Comparação informante × autorrelato (IFE-A, diferença ≥ 0,75): ${diffs.length?diffs.map(([d,x])=>`${DOM[d].n} ${sgn(x)} (${x>0?"informante relata mais":"paciente relata mais"})`).join("; "):"sem diferenças relevantes entre domínios"}.`);
     if(a.tot!==null&&b.tot!==null) L.push(`Total: autorrelato ${fmt(a.tot)} · informante ${fmt(b.tot)} (${sgn(b.tot-a.tot)}).`);
   }
   const q=$("queixa").value.trim(); if(q){ L.push(""); L.push(`Principal dificuldade relatada: "${q}"`); }
-  L.push(""); L.push("Obs.: faixas descritivas por cortes clínicos de conveniência; não equivalem a percentis.");
+  L.push(""); L.push("Obs.: IFE-A sem normas (faixas por cortes de conveniência). Escalas clínicas são instrumentos de rastreio e não substituem a avaliação diagnóstica.");
   $("report").textContent=L.join("\n");
-
   // item a item
-  const idsAll=ORDER2.concat(CMP.map(c=>c[0]));
-  let t=`<table class="res"><thead><tr><th>Nº</th><th>Item (autorrelato)</th><th>Escala</th>${list.map((D,i)=>`<th>${multi?(i+1)+". ":""}${shortLbl(D)}</th>`).join("")}</tr></thead><tbody>`;
-  idsAll.forEach(id=>{
-    const sc=DOM_OF[id]?DOM[DOM_OF[id]].n:id.startsWith("INF")?"Infrequência":"Compensação";
-    t+=`<tr><td class="num">${NUM2[id]}</td><td>${TXT[id][0]}</td><td class="muted">${sc}</td>${list.map(D=>{const x=D.A[id]; return `<td class="num">${x===undefined?"<span class='muted'>n/a</span>":x===null?"—":x}</td>`;}).join("")}</tr>`;
-  });
-  $("itemList").innerHTML=t+"</tbody></table>"+(list.some(D=>D.ver===1)?`<p class="muted" style="font-size:13px">Códigos IFE1 não têm os itens de Atenção sustentada e Compensação (n/a).</p>`:"");
+  const lines=[];
+  const addRows=(title,ids,txt,valfmt)=>{ if(!list.some(D=>ids.some(id=>D.A[id]!==undefined))) return;
+    lines.push(`<tr><td colspan="${2+list.length}" style="font-weight:600;padding-top:12px">${title}</td></tr>`);
+    ids.forEach(id=>lines.push(`<tr><td class="num">${txt(id)[0]}</td><td>${txt(id)[1]}</td>${list.map(D=>{const x=D.A[id]; return `<td class="num">${x===undefined?"<span class='muted'>n/a</span>":x===null?"—":valfmt(id,x)}</td>`;}).join("")}</tr>`)); };
+  addRows("IFE-A", ORDER3.concat(CMP.map(c=>c[0]),["MED1"]), id=>[NUM3[id], TXT[id][0]+` <span class="muted">· ${DOM_OF[id]?DOM[DOM_OF[id]].n:id.startsWith("INF")?"Infrequência":id==="MED1"?"Medicação":"Compensação"}</span>`], (id,x)=>id==="MED1"&&x===4?"não usa":x);
+  addRows("ASRS-18", ASRS.map(x=>x[0]), id=>[id, ASRS.find(x=>x[0]===id)[1]], (id,x)=>{const t=ASRS.find(z=>z[0]===id)[2]; return x>=t?`<b>${x}</b>`:x;});
+  addRows("PHQ-9", PHQ.map(x=>x[0]).concat("PD"), id=>id==="PD"?["dif.",PHQ_DIF[1]]:[id.slice(1), PHQ.find(x=>x[0]===id)[1]], (id,x)=>id==="P9"&&x>0?`<span class="flag">${x}</span>`:x);
+  addRows("GAD-7", GAD.map(x=>x[0]), id=>[id.slice(1), GAD.find(x=>x[0]===id)[1]], (id,x)=>x);
+  addRows("ASRM", ASRM.map(x=>x[0]), id=>[id.slice(1), ASRM.find(x=>x[0]===id)[1]], (id,x)=>x);
+  addRows("AUDIT-C", AUDC.map(x=>x[0]), id=>[id.slice(1), AUDC.find(x=>x[0]===id)[1]], (id,x)=>x);
+  $("itemList").innerHTML=`<table class="res"><thead><tr><th>Nº</th><th>Item</th>${list.map((D,i)=>`<th>${multi?(i+1)+". ":""}${shortLbl(D)}</th>`).join("")}</tr></thead><tbody>${lines.join("")}</tbody></table>`;
   $("results").classList.remove("hidden");
 }
 function initClinician(){
-  renderKey(); updLink();
-  document.querySelectorAll('input[name="lf"],input[name="lp"]').forEach(r=>r.addEventListener("change",updLink));
+  renderKey();
+  $("modChecks").innerHTML=MODS.map(m=>`<label><input type="checkbox" id="mod_${m.id}" ${m.id==="IFE"?"checked":""}><span>${m.nome}</span></label>`).join("");
+  document.querySelectorAll('input[name="lf"],input[name="lp"],#modChecks input').forEach(r=>r.addEventListener("change",updLink));
+  document.querySelectorAll("[data-preset]").forEach(b=>b.addEventListener("click",()=>{
+    $("lfA").checked=true; const p=b.dataset.preset.split(",");
+    MODS.forEach(m=>$("mod_"+m.id).checked=p.includes(m.id)); updLink(); }));
+  updLink();
   $("copyLink").addEventListener("click",()=>copyText($("linkOut").textContent,$("copyLink"),"Copiar link"));
   $("data").valueAsDate=new Date();
   $("decode").addEventListener("click",()=>{
@@ -563,8 +803,9 @@ function initClinician(){
     if(errs.length) $("cmsg").innerHTML=errs.map(e=>`<div class="note">${e}</div>`).join("");
     if(list.length){ renderClin(list); $("results").scrollIntoView({behavior:"smooth"}); } else $("results").classList.add("hidden");
   });
+  $("sexo").addEventListener("change",()=>{ if(!$("results").classList.contains("hidden")) $("decode").click(); });
   $("copyRep").addEventListener("click",()=>copyText($("report").textContent,$("copyRep"),"Copiar texto"));
-  $("clearC").addEventListener("click",()=>{ ["codeIn","nome","idade","queixa"].forEach(id=>$(id).value=""); $("results").classList.add("hidden"); $("cmsg").innerHTML=""; });
+  $("clearC").addEventListener("click",()=>{ ["codeIn","nome","idade","queixa"].forEach(id=>$(id).value=""); $("sexo").value=""; $("results").classList.add("hidden"); $("cmsg").innerHTML=""; $("alertsTop").innerHTML=""; });
 }
 
 // ============================================================ ROTEAMENTO

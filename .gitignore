@@ -4,3 +4,5 @@ publicar.command
 publicar.log
 *.xlsx
 ~$*
+Escalas base/
+*.pdf
