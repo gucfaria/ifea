@@ -147,10 +147,12 @@ footer a{color:inherit}
     <div class="muted" style="font-size:13px;margin:12px 0 6px">Blocos</div>
     <div class="mods" id="modChecks"></div>
     <div class="btns" style="margin-top:8px">
-      <button class="ghost small" data-preset="IFE,ASRS,PHQ,GAD,ASRM,AUDC">Avaliação inicial completa</button>
+      <button class="ghost small" data-preset="IFE,ASRS,PHQ,GAD,ASRM,AUDC,SUB">Avaliação inicial completa</button>
       <button class="ghost small" data-preset="IFE,ASRS">TDAH</button>
       <button class="ghost small" data-preset="ASRS,PHQ,GAD">Seguimento curto</button>
       <button class="ghost small" data-preset="IFE,PHQ,GAD">Seguimento executivo</button>
+      <button class="ghost small" data-preset="X2">Complemento (já respondeu IFE2)</button>
+      <button class="ghost small" data-preset="X1">Complemento (já respondeu IFE1)</button>
     </div>
     <p class="muted" id="linkInfo" style="font-size:13px;margin:10px 0 6px"></p>
     <div class="link" id="linkOut"></div>
@@ -213,8 +215,10 @@ footer a{color:inherit}
         <p><b>PHQ-9</b> (últimas 2 semanas; versão brasileira; uso livre). 0–4 mínima, 5–9 leve, 10–14 moderada, 15–19 moderadamente grave, 20–27 grave. O item 9 (pensamentos de morte ou de se ferir) gera alerta na tela do paciente, com orientação de ajuda, e alerta destacado aqui.</p>
         <p><b>GAD-7</b> (últimas 2 semanas). 0–4 mínima, 5–9 leve, 10–14 moderada, 15–21 grave; rastreio positivo ≥ 10.</p>
         <p><b>ASRM</b> (Altman Self-Rating Mania Scale, última semana). <b>Tradução livre, não validada no Brasil.</b> 0–20; escore ≥ 6 sugere (hipo)mania no estudo original.</p>
+        <p><b>Outras substâncias</b> (pergunta 2 do ASSIST, versão do SUPERA/SENAD; últimos 3 meses; uso não prescrito). Descritivo: frequência de uso por substância (nunca, 1–2 vezes, mensal, semanal, diário). Não calcula o escore de risco do ASSIST completo. Incluídos além do ASSIST original: cigarro eletrônico/vape (no tabaco), medicamentos para TDAH e medicamentos para emagrecer (GLP-1 e similares) sem receita ou acima da dose. Destaque: tabaco semanal ou mais; demais substâncias mensal ou mais.</p>
+        <p><b>Complementos.</b> Para quem já respondeu versões anteriores do IFE-A: o complemento do IFE2 tem 4 itens (os 3 itens novos e o de medicação); o do IFE1 tem 16 (acrescenta Atenção sustentada e Compensação). Cole o código antigo e o do complemento juntos na correção: eles são combinados automaticamente num perfil completo, com aviso de que parte dos itens foi respondida em outro momento.</p>
         <p><b>AUDIT-C</b> (últimos 12 meses; texto do SUPERA/SENAD). 0–12. Homens: 0–3 baixo risco, 4–5 moderado, 6–7 alto, 8–12 severo. Mulheres: 0–2 baixo, 3–5 moderado, 6–7 alto, 8–12 severo. Avalia apenas álcool.</p>
-        <p><b>Código.</b> IFE3 registra formulário, período, relação do informante, blocos respondidos e as respostas, com dígito verificador; não contém nome nem data. Códigos IFE1 e IFE2 continuam sendo corrigidos.</p>
+        <p><b>Código.</b> IFE4 (e IFE3) registra formulário, período, relação do informante, blocos respondidos e as respostas, com dígito verificador; não contém nome nem data. Códigos IFE1, IFE2 e IFE3 continuam sendo corrigidos. O IFE4 tem vagas reservadas para blocos futuros, sem mudar a versão do código.</p>
       </div>
     </details>
   </div>
@@ -407,15 +411,36 @@ const AUDC = [
  ["C3","Com que frequência você toma \"seis ou mais doses\" de uma vez?",["Nunca","Menos do que uma vez ao mês","Mensalmente","Semanalmente","Todos ou quase todos os dias"]]
 ];
 
-// Módulos — a ordem e o conteúdo são fixos no IFE3
+const SUBF = ["Nunca","1 ou 2 vezes","Mensalmente","Semanalmente","Diariamente ou quase todos os dias"];
+const SUB = [
+ ["S1","Derivados do tabaco (cigarro, cigarro eletrônico/vape, charuto, cachimbo, fumo de corda)"],
+ ["S2","Maconha (baseado, erva, haxixe, skank etc.)"],
+ ["S3","Cocaína, crack (pó, pedra etc.)"],
+ ["S4","Estimulantes, como anfetaminas ou êxtase (bolinhas, rebites, MDMA)"],
+ ["S5","Medicamentos para TDAH (metilfenidato, lisdexanfetamina) sem receita ou em dose maior que a prescrita"],
+ ["S6","Inalantes (solventes, cola, tíner, gasolina, lança-perfume, loló)"],
+ ["S7","Hipnóticos/sedativos (calmantes, remédios para dormir, benzodiazepínicos) sem receita ou além do prescrito"],
+ ["S8","Alucinógenos (LSD, ácido, chá de cogumelo, mescalina etc.)"],
+ ["S9","Opioides (morfina, codeína, tramadol, heroína, metadona) sem receita ou além do prescrito"],
+ ["S11","Medicamentos para emagrecer (semaglutida, tirzepatida, liraglutida, sibutramina etc.) sem receita ou em dose maior que a prescrita"],
+ ["S10","Outras substâncias"]
+];
+// Complementos para quem respondeu versões anteriores do IFE-A
+const X2_IDS = ["FLE7","PLA7","TEM7","MED1"];
+const X1_IDS = ORDER3.filter(id=>DOM_OF[id]==="ATE"||["FLE7","PLA7","TEM7"].includes(id)).concat(CMP.map(c=>c[0]),["MED1"]);
+// Módulos — a ordem é fixa. IFE3 usa os 6 primeiros; IFE4 tem 10 vagas (as não usadas ficam reservadas)
 const MODS = [
  {id:"IFE",  nome:"Funções executivas (IFE-A)", curto:"IFE-A", ids:IFE3_IDS, inf:true},
  {id:"ASRS", nome:"ASRS-18 (TDAH)", curto:"ASRS", ids:ASRS.map(x=>x[0])},
  {id:"PHQ",  nome:"PHQ-9 (depressão)", curto:"PHQ-9", ids:PHQ.map(x=>x[0]).concat("PD")},
  {id:"GAD",  nome:"GAD-7 (ansiedade)", curto:"GAD-7", ids:GAD.map(x=>x[0])},
  {id:"ASRM", nome:"ASRM (mania)", curto:"ASRM", ids:ASRM.map(x=>x[0])},
- {id:"AUDC", nome:"AUDIT-C (álcool)", curto:"AUDIT-C", ids:AUDC.map(x=>x[0])}
+ {id:"AUDC", nome:"AUDIT-C (álcool)", curto:"AUDIT-C", ids:AUDC.map(x=>x[0])},
+ {id:"SUB",  nome:"Outras substâncias (ASSIST)", curto:"Substâncias", ids:SUB.map(x=>x[0])},
+ {id:"X2",   nome:"Complemento para quem respondeu IFE2", curto:"Complemento IFE2", ids:X2_IDS, inf:true, comp:2},
+ {id:"X1",   nome:"Complemento para quem respondeu IFE1", curto:"Complemento IFE1", ids:X1_IDS, comp:1}
 ];
+const NSLOT4 = 10;
 const MOD = Object.fromEntries(MODS.map(m=>[m.id,m]));
 const LBL = ["Nunca","Às vezes","Frequen&shy;temente","Quase sempre"];
 const LBLp = ["nunca","às vezes","frequentemente","quase sempre"];
@@ -431,34 +456,37 @@ function unpack25(t){
   if(ALPHA[sum]!==t[t.length-1]) throw new Error("Dígito verificador não confere: algum caractere foi trocado.");
   return d;
 }
-function encode3(form, per, rel, mods, A){
-  const d=[form*2+(per===6?1:0), rel].concat(MODS.map(m=>mods.includes(m.id)?1:0));
+function encode4(form, per, rel, mods, A){
+  const mask=MODS.map(m=>mods.includes(m.id)?1:0); while(mask.length<NSLOT4) mask.push(0);
+  const d=[form*2+(per===6?1:0), rel].concat(mask);
   MODS.forEach(m=>{ if(mods.includes(m.id)) m.ids.forEach(id=>{ const v=A[id]; d.push(v===null||v===undefined?5:v); }); });
   if(d.length%2) d.push(0);
   let s="", sum=0;
   for(let i=0;i<d.length;i+=2){ const n=d[i]*6+d[i+1]; s+=A36[n]; sum=(sum+n*((i/2)%7+1))%36; }
   s+=A36[sum];
-  return "IFE3-"+s.match(/.{1,5}/g).join("-");
+  return "IFE4-"+s.match(/.{1,5}/g).join("-");
 }
 function decode(str){
   let t=str.toUpperCase().replace(/[^A-Z0-9]/g,"");
-  const ver = t.startsWith("IFE3")?3 : t.startsWith("IFE2")?2 : t.startsWith("IFE1")?1 : 0;
-  if(!ver) throw new Error("O código não começa com IFE1, IFE2 ou IFE3. Confira se foi copiado inteiro.");
+  const ver = t.startsWith("IFE4")?4 : t.startsWith("IFE3")?3 : t.startsWith("IFE2")?2 : t.startsWith("IFE1")?1 : 0;
+  if(!ver) throw new Error("O código não começa com IFE1 a IFE4. Confira se foi copiado inteiro.");
   t=t.slice(4);
-  if(ver===3){
-    if(t.length<5) throw new Error("Código IFE3 curto demais; provavelmente foi cortado.");
+  if(ver>=3){
+    if(t.length<5) throw new Error("Código curto demais; provavelmente foi cortado.");
     const d=[]; let sum=0;
     for(let i=0;i<t.length-1;i++){ const n=A36.indexOf(t[i]); if(n<0) throw new Error(`Caractere inválido: "${t[i]}".`); d.push(Math.floor(n/6),n%6); sum=(sum+n*(i%7+1))%36; }
     if(A36[sum]!==t[t.length-1]) throw new Error("Dígito verificador não confere: algum caractere foi trocado ou o código foi cortado.");
-    const meta=d[0], rel=d[1], mask=d.slice(2,8);
-    if(meta>3||rel>4||mask.some(x=>x>1)) throw new Error("Cabeçalho do código inválido.");
+    const nslot=ver===3?6:NSLOT4, start=2+nslot;
+    const meta=d[0], rel=d[1], mask=d.slice(2,start);
+    if(meta>3||rel>4||mask.some(x=>x>1)||mask.slice(MODS.length).some(x=>x)) throw new Error("Cabeçalho do código inválido (talvez de uma versão mais nova do questionário).");
     const mods=MODS.filter((m,i)=>mask[i]===1).map(m=>m.id);
-    const need=8+mods.reduce((a,id)=>a+MOD[id].ids.length,0);
+    const need=start+mods.reduce((a,id)=>a+MOD[id].ids.length,0);
     if(d.length!==need+(need%2)) throw new Error(`O código não tem o tamanho esperado para os blocos indicados (${mods.join(", ")}). Provavelmente foi cortado.`);
-    const A={}; let p=8;
+    const A={}; let p=start;
     mods.forEach(id=>MOD[id].ids.forEach(iid=>{ const v=d[p++]; A[iid]=v===5?null:v; }));
     const form=meta>>1;
-    return {ver:3, form, per:(meta&1)?6:4, rel:form?rel:null, mods, A};
+    const comp=mods.length&&mods.every(id=>MOD[id].comp)?Math.min(...mods.map(id=>MOD[id].comp)):0;
+    return {ver, form, per:(meta&1)?6:4, rel:form?rel:null, mods, A, comp};
   }
   const want=ver===2?41:34;
   if(t.length!==want) throw new Error(`Código IFE${ver} com ${t.length} caracteres após o prefixo; deveriam ser ${want}. Provavelmente foi cortado.`);
@@ -482,7 +510,11 @@ async function copyText(text,btn,label){
 const qs=new URLSearchParams(location.search);
 const FORM = qs.get("f")==="i" ? 1 : 0;
 const PERIOD = qs.get("p")==="6" ? 6 : 4;
-const MODSEL = (()=>{ if(FORM) return ["IFE"]; const m=(qs.get("m")||"ife").toUpperCase().split(/[,\s]+/); const s=MODS.filter(x=>m.includes(x.id)).map(x=>x.id); return s.length?s:["IFE"]; })();
+const MODSEL = (()=>{ const m=(qs.get("m")||"ife").toUpperCase().split(/[,\s]+/); let s=MODS.filter(x=>m.includes(x.id)).map(x=>x.id);
+  if(s.includes("IFE")) s=s.filter(id=>!MOD[id].comp);           // IFE completo dispensa complemento
+  if(s.includes("X1")) s=s.filter(id=>id!=="X2");                  // X1 já contém X2
+  if(FORM) s=s.filter(id=>MOD[id].inf);
+  return s.length?s:["IFE"]; })();
 const CRISE = `<b>Se você está pensando em se machucar ou em morrer, procure ajuda agora.</b> Ligue para o <b>CVV, 188</b> (gratuito, 24 horas) ou acesse <a href="https://cvv.org.br" target="_blank" rel="noopener">cvv.org.br</a>. Em risco imediato, ligue <b>192 (SAMU)</b> ou vá a um pronto-socorro. Seu médico verá esta resposta quando receber o código, mas talvez não imediatamente.`;
 
 // ============================================================ MODO RESPONDENTE
@@ -545,7 +577,18 @@ function blockAUDC(){
   h+=AUDC.map(([id,t,o],i)=>itemHTML(id,(i+1)+".",t,radioRow(id,o,[0,1,2,3,4],"v"))).join("")+`</div>`;
   return h;
 }
-const BLOCKS={IFE:blockIFE,ASRS:blockASRS,PHQ:blockPHQ,GAD:blockGAD,ASRM:blockASRM,AUDC:blockAUDC};
+function blockSUB(){
+  let h=`<div class="card"><h2>Outras substâncias</h2><p class="instr"><b>Durante os últimos 3 meses</b>, com que frequência você usou cada uma das substâncias abaixo? Considere apenas uso <b>não prescrito</b> pelo médico, ou em dose maior que a prescrita.</p>`;
+  h+=SUB.map(([id,t],i)=>itemHTML(id,(i+1)+".",t,radioRow(id,SUBF,[0,1,2,3,4],"n5"))).join("")+`</div>`;
+  return h;
+}
+function blockX(modId){
+  const tx=id=>TXT[id][FORM], per=PER[PERIOD].txt, ids=MOD[modId].ids;
+  let h=`<div class="card"><h2>Perguntas complementares</h2><p class="instr">Estas perguntas completam um questionário que ${FORM?"você já respondeu sobre essa pessoa":"você já respondeu"}. Pensando <b>${per}</b>, marque com que frequência cada situação ${FORM?"aconteceu":"foi um problema para você"}.</p>`;
+  h+=ids.map((id,i)=>itemHTML(id,(i+1)+".",tx(id), id==="MED1"?radioRow("MED1",[FORM?"Não usa medicação":"Não uso medicação"].concat(LBL),[4,0,1,2,3],"n5"):freq4(id))).join("")+`</div>`;
+  return h;
+}
+const BLOCKS={IFE:blockIFE,ASRS:blockASRS,PHQ:blockPHQ,GAD:blockGAD,ASRM:blockASRM,AUDC:blockAUDC,SUB:blockSUB,X2:()=>blockX("X2"),X1:()=>blockX("X1")};
 function syncAudit(){
   if(!MODSEL.includes("AUDC")) return;
   const never=pval("C1")===0;
@@ -556,7 +599,7 @@ function initPatient(){
   const nm=MODSEL.map(id=>MOD[id].curto).join(" · ");
   if(FORM){
     $("pTitle").textContent="Questionário sobre outra pessoa";
-    $("pSub").textContent=`IFE-A · forma do informante · ${PER[PERIOD].lbl}`;
+    $("pSub").textContent=`${MODSEL.map(id=>MOD[id].curto).join(" · ")} · forma do informante · ${PER[PERIOD].lbl}`;
     $("pIntro").innerHTML="Obrigado por ajudar. As perguntas são sobre o dia a dia da pessoa que pediu que você respondesse.";
     $("rel").innerHTML=`<option value="">— selecione —</option>`+RELS.map((r,i)=>`<option value="${i}">${r}</option>`).join("");
   } else {
@@ -581,7 +624,7 @@ function initPatient(){
     }
     $("pmsg").innerHTML="";
     const A=Object.fromEntries(ALLQ.map(id=>[id,pval(id)]));
-    $("codeOut").textContent=encode3(FORM, PERIOD, FORM?+$("rel").value:0, MODSEL, A);
+    $("codeOut").textContent=encode4(FORM, PERIOD, FORM?+$("rel").value:0, MODSEL, A);
     $("doneAlert").innerHTML = (A.P9>0) ? `<div class="alert">${CRISE}</div>` : "";
     $("done").classList.remove("hidden"); $("done").scrollIntoView({behavior:"smooth"});
   });
@@ -601,8 +644,9 @@ function initPatient(){
 // ============================================================ PONTUAÇÃO
 function scoreIFE(D){
   const A=D.A, v=id=>A[id]===undefined?null:A[id];
-  const doms=D.ver===1?DOMS1:DOMS2, pairs=D.ver===1?PAIRS1:PAIRS2;
-  const bank=D.ver===3?BANK3:BANK;
+  const full=D.ver>=3||D.merged;
+  const doms=(D.ver===1&&!D.merged)?DOMS1:DOMS2, pairs=(D.ver===1&&!D.merged)?PAIRS1:PAIRS2;
+  const bank=full?BANK3:BANK;
   const res={};
   for(const d of doms){
     const ids=bank.filter(b=>b[1]===d).map(b=>b[0]), got=ids.map(v).filter(x=>x!==null);
@@ -612,13 +656,13 @@ function scoreIFE(D){
   const rce=idxMean("RCE"), mgt=idxMean("MGT");
   const tot=doms.some(d=>res[d].m===null)?null:doms.reduce((a,d)=>a+res[d].m,0)/doms.length;
   let cmp=null;
-  if(D.ver>=2){ const g=CMP.map(c=>v(c[0])).filter(x=>x!==null); cmp=g.length>=5?g.reduce((a,b)=>a+b,0)/g.length:null; }
+  if(D.ver>=2||D.merged){ const g=CMP.map(c=>v(c[0])).filter(x=>x!==null); cmp=g.length>=5?g.reduce((a,b)=>a+b,0)/g.length:null; }
   const inf=INFREQ.map(([id])=>v(id)).filter(x=>x!==null&&x>=2).length;
   const incons=pairs.map(([a,b])=>(v(a)===null||v(b)===null)?null:Math.abs(v(a)-v(b))).filter(x=>x!==null&&x>=2).length;
   const clin=bank.filter(b=>doms.includes(b[1])).map(b=>v(b[0])).filter(x=>x!==null);
   const pct3=clin.length?clin.filter(x=>x===3).length/clin.length:0;
-  const ids=D.ver===3?IFE3_IDS:D.ver===2?ALLIDS2:ALLIDS1, missing=ids.filter(id=>v(id)===null).length;
-  const med=D.ver===3?v("MED1"):undefined;
+  const ids=full?IFE3_IDS:D.ver===2?ALLIDS2:ALLIDS1, missing=ids.filter(id=>v(id)===null).length;
+  const med=A.MED1===undefined?undefined:v("MED1");
   const flags=[];
   if(inf>0) flags.push(`Infrequência: ${inf} de 3 itens implausíveis marcados como frequentes.`);
   if(incons>=3) flags.push(`Inconsistência: ${incons} de ${pairs.length} pares de itens semelhantes diferem em 2 pontos ou mais.`);
@@ -640,6 +684,7 @@ function scoreClin(D){
     out.gad={...s, band:t<5?"mínima":t<10?"leve":t<15?"moderada":"grave"}; }
   if(D.mods.includes("ASRM")){ const s=sumOf(A,ASRM.map(x=>x[0])); out.asrm={...s, pos:s.s>=6}; }
   if(D.mods.includes("AUDC")){ const s=sumOf(A,AUDC.map(x=>x[0])); out.audc=s; }
+  if(D.mods.includes("SUB")){ out.sub=SUB.map(([id,t])=>({id,t,v:A[id]})); out.subUse=out.sub.filter(x=>x.v>0); }
   return out;
 }
 function auditBand(s,sexo){
@@ -647,8 +692,23 @@ function auditBand(s,sexo){
   if(sexo==="F") return s<=2?"baixo risco":s<=5?"risco moderado":s<=7?"alto risco":"risco severo";
   return `homem: ${auditBand(s,"M")}; mulher: ${auditBand(s,"F")}`;
 }
-const formLbl=D=>(D.ver<3?`IFE${D.ver} · `:"")+(D.form?`Informante — ${RELS[D.rel]}`:"Autorrelato");
-const shortLbl=D=>D.form?"Informante":"Autorrelato";
+const formLbl=D=>(D.merged?`IFE${D.baseVer} + complemento · `:D.comp?"Complemento · ":D.ver<3?`IFE${D.ver} · `:"")+(D.form?`Informante — ${RELS[D.rel]}`:"Autorrelato");
+const shortLbl=D=>(D.merged?"Combinado · ":D.comp?"Complemento · ":"")+(D.form?"Informante":"Autorrelato");
+// Combina um código IFE1/IFE2 com o complemento correspondente (mesmo formulário)
+function mergeComplements(list){
+  const out=list.slice(), notes=[];
+  out.forEach((C,ci)=>{
+    if(!C||!C.comp) return;
+    const bi=out.findIndex(B=>B&&!B.comp&&!B.merged&&B.mods.includes("IFE")&&B.ver<3&&B.form===C.form&&C.comp<=B.ver);
+    if(bi<0) return;
+    const B=out[bi];
+    const A=Object.assign({},B.A); Object.entries(C.A).forEach(([k,v])=>{ if(A[k]===undefined||A[k]===null) A[k]=v; });
+    out[bi]={...B, A, merged:true, baseVer:B.ver, mods:Array.from(new Set(B.mods.concat("IFE"))), per:B.per, perC:C.per};
+    out[ci]=null;
+    notes.push(`IFE${B.ver} combinado com o complemento: os itens novos foram respondidos em outro momento${B.per!==C.per?" e com outro período de referência":""}.`);
+  });
+  return {list:out.filter(Boolean), notes};
+}
 
 // ============================================================ MODO MÉDICO
 function renderKey(){
@@ -672,28 +732,31 @@ function renderKey(){
 function linkMods(){ return MODS.filter(m=>$("mod_"+m.id).checked).map(m=>m.id); }
 function updLink(){
   const f=document.querySelector('input[name="lf"]:checked').value, p=document.querySelector('input[name="lp"]:checked').value;
-  MODS.forEach(m=>{ const c=$("mod_"+m.id); if(f==="i"){ c.disabled=!m.inf; if(!m.inf) c.checked=false; else c.checked=true; } else c.disabled=false; });
+  MODS.forEach(m=>{ const c=$("mod_"+m.id); if(f==="i"){ c.disabled=!m.inf; if(!m.inf) c.checked=false; } else c.disabled=false; });
+  if($("mod_IFE").checked) ["X1","X2"].forEach(id=>$("mod_"+id).checked=false);
+  if($("mod_X1").checked) $("mod_X2").checked=false;
   let mods=linkMods(); if(!mods.length){ $("mod_IFE").checked=true; mods=["IFE"]; }
   const base=location.href.split("#")[0].split("?")[0];
   const q=[]; if(f==="i") q.push("f=i"); if(p==="6") q.push("p=6");
   if(!(mods.length===1&&mods[0]==="IFE")) q.push("m="+mods.map(x=>x.toLowerCase()).join(","));
   $("linkOut").textContent=base+(q.length?"?"+q.join("&"):"");
   const n=mods.reduce((a,id)=>a+MOD[id].ids.length,0);
-  $("linkInfo").textContent=f==="i" ? "A forma do informante inclui só o IFE-A (as escalas clínicas são de autorrelato)." : `${n} perguntas · cerca de ${Math.max(3,Math.round(n/7))} minutos.`;
+  $("linkInfo").textContent=(f==="i"?"Forma do informante: só IFE-A ou o complemento do IFE2 (as escalas clínicas são de autorrelato). ":"")+`${n} perguntas · cerca de ${Math.max(2,Math.round(n/7))} minutos.`;
 }
 function cellHTML(m){
   if(m===null||m===undefined) return `<span class="muted">—</span>`;
   const [b,c]=band(m);
   return `<div class="cell"><div class="bar"><span style="width:${m/3*100}%;background:${c}"></span></div><span class="num">${fmt(m)}</span><span class="dot" style="background:${c}" title="${b}"></span></div>`;
 }
-function renderClin(list){
+function renderClin(list0){
   const sexo=$("sexo").value;
-  const S=list.map(D=>D.mods.includes("IFE")?scoreIFE(D):null), C=list.map(scoreClin);
+  const mg=mergeComplements(list0), list=mg.list;
+  const S=list.map(D=>(D.mods.includes("IFE")||D.comp)?scoreIFE(D):null), C=list.map(scoreClin);
   const multi=list.length>1;
   const head=(D,i)=>`${multi?(i+1)+". ":""}${formLbl(D)}`;
   // alertas de segurança
   const al=[]; list.forEach((D,i)=>{ if(C[i].phq&&C[i].phq.p9>0) al.push(`${multi?(i+1)+". ":""}PHQ-9 item 9 = ${C[i].phq.p9} (${F4PHQ[C[i].phq.p9].toLowerCase()}): pensamentos de morte ou de se ferir. Avaliar risco.`); });
-  $("alertsTop").innerHTML=al.map(a=>`<div class="alert">⚠ ${a}</div>`).join("");
+  $("alertsTop").innerHTML=al.map(a=>`<div class="alert">⚠ ${a}</div>`).join("")+mg.notes.map(n=>`<div class="note">${n}</div>`).join("");
   // IFE
   const iIFE=list.map((D,i)=>i).filter(i=>S[i]);
   $("ifeCard").classList.toggle("hidden",!iIFE.length);
@@ -709,7 +772,7 @@ function renderClin(list){
     h+=`<tr><td>Metacognição − Regulação</td>${iIFE.map(i=>`<td class="num">${S[i].rce!==null&&S[i].mgt!==null?sgn(S[i].mgt-S[i].rce):"—"}</td>`).join("")}</tr>`;
     h+=`<tr class="idx"><td>Compensação</td>${iIFE.map(i=>`<td>${cellHTML(S[i].cmp)}</td>`).join("")}</tr>`;
     h+=`<tr><td>Efeito da medicação</td>${iIFE.map(i=>{const m=S[i].med; return `<td class="num">${m===undefined?"—":m===null?"em branco":m===4?"não usa":m+" ("+LBLp[m]+")"}</td>`;}).join("")}</tr>`;
-    h+=`<tr><td>Impacto (trab. · casa · relac.)</td>${iIFE.map(i=>`<td class="num">${IMPACT.map(([id])=>list[i].A[id]===null?"—":list[i].A[id]).join(" · ")}</td>`).join("")}</tr>`;
+    h+=`<tr><td>Impacto (trab. · casa · relac.)</td>${iIFE.map(i=>`<td class="num">${IMPACT.map(([id])=>list[i].A[id]===null||list[i].A[id]===undefined?"—":list[i].A[id]).join(" · ")}</td>`).join("")}</tr>`;
     $("table").innerHTML=h+"</tbody></table>";
   }
   // escalas clínicas
@@ -724,7 +787,8 @@ function renderClin(list){
       ["PHQ · dificuldade funcional", c=>c.phq?(c.phq.dif===null?"—":PHQ_DIF[2][c.phq.dif].toLowerCase()):null],
       ["GAD-7 (ansiedade)", c=>c.gad?`<span class="${c.gad.s>=10?"flag":""}">${c.gad.s}/21 — ${c.gad.band}</span><span class="muted">${blk(c.gad)}</span>`:null],
       ["ASRM (mania)", c=>c.asrm?`<span class="${c.asrm.pos?"flag":""}">${c.asrm.s}/20 — ${c.asrm.pos?"sugere (hipo)mania":"abaixo do corte"}</span><span class="muted">${blk(c.asrm)}</span>`:null],
-      ["AUDIT-C (álcool)", c=>c.audc?`<span class="${c.audc.s>=(sexo==="M"?4:3)?"flag":""}">${c.audc.s}/12 — ${auditBand(c.audc.s,sexo)}</span><span class="muted">${blk(c.audc)}</span>`:null]
+      ["AUDIT-C (álcool)", c=>c.audc?`<span class="${c.audc.s>=(sexo==="M"?4:3)?"flag":""}">${c.audc.s}/12 — ${auditBand(c.audc.s,sexo)}</span><span class="muted">${blk(c.audc)}</span>`:null],
+      ["Outras substâncias (3 meses)", c=>c.sub?(c.subUse.length?c.subUse.map(x=>`<span class="${x.v>=3||(x.id!=="S1"&&x.v>=2)?"flag":""}">${x.t.split(" (")[0]}: ${SUBF[x.v].toLowerCase()}</span>`).join("<br>"):"nenhum uso relatado")+(c.sub.some(x=>x.v===null)?`<span class="muted"> · ${c.sub.filter(x=>x.v===null).length} em branco</span>`:""):null]
     ];
     let h=`<table class="res"><thead><tr><th>Escala</th>${iC.map(i=>`<th>${head(list[i],i)}</th>`).join("")}</tr></thead><tbody>`;
     rows.forEach(([lab,f])=>{ const cells=iC.map(i=>f(C[i])); if(cells.every(x=>x===null)) return; h+=`<tr><td>${lab}</td>${cells.map(x=>`<td>${x===null?'<span class="muted">—</span>':x}</td>`).join("")}</tr>`; });
@@ -739,6 +803,8 @@ function renderClin(list){
   list.forEach((D,i)=>{
     const s=S[i], c=C[i];
     L.push(""); L.push(`${multi?(i+1)+". ":""}${formLbl(D)} — blocos: ${D.mods.map(id=>MOD[id].curto).join(", ")}`);
+    if(D.merged) L.push(`(Combinação de IFE${D.baseVer} com complemento respondido em outro momento.)`);
+    if(D.comp&&!D.merged) L.push(`(Complemento isolado: apenas os itens novos; cole junto com o código IFE${D.comp} original para obter o perfil completo.)`);
     if(s){
       L.push(`IFE-A (instrumento clínico sem normas; 0 a 3; período: ${PER[D.per].lbl}). Média por domínio (soma bruta):`);
       const dl=x=>s.res[x].m===null?`  - ${DOM[x].n}: incompleto`:`  - ${DOM[x].n}: ${fmt(s.res[x].m)} (${s.res[x].raw}/${s.res[x].n*3}${s.res[x].n<s.res[x].k?`, ${s.res[x].k-s.res[x].n} em branco`:""}) — ${band(s.res[x].m)[0]}`;
@@ -746,13 +812,13 @@ function renderClin(list){
       L.push(il("Regulação comportamental e emocional",s.rce)); s.doms.filter(x=>DOM[x].idx==="RCE").forEach(x=>L.push(dl(x)));
       L.push(il("Metacognição e gestão de tarefas",s.mgt)); s.doms.filter(x=>DOM[x].idx==="MGT").forEach(x=>L.push(dl(x)));
       L.push(il("Total global",s.tot)+(s.rce!==null&&s.mgt!==null?` | Metacognição − Regulação: ${sgn(s.mgt-s.rce)}`:""));
-      if(D.ver>=2) L.push(il("Compensação",s.cmp));
+      if(D.ver>=2||D.merged||s.cmp!==null) L.push(il("Compensação",s.cmp));
       if(s.med!==undefined&&s.med!==null&&s.med!==4) L.push(`Sob medicação, dificuldade de largar a tarefa em curso: ${LBLp[s.med]}.`);
       const ranked=s.doms.filter(x=>s.res[x].m!==null).sort((a,b)=>s.res[b].m-s.res[a].m);
       if(ranked.length) L.push(`Domínios mais elevados: ${ranked.slice(0,3).map(x=>`${DOM[x].n} (${fmt(s.res[x].m)})`).join("; ")}.`);
-      const crit=(D.ver===3?BANK3:BANK).filter(b=>D.A[b[0]]===3).map(b=>b[D.form?3:2].replace(/\.$/,""));
+      const crit=BANK3.filter(b=>D.A[b[0]]===3).map(b=>b[D.form?3:2].replace(/\.$/,""));
       if(crit.length) L.push(`Itens "quase sempre" (${crit.length}): ${crit.join("; ")}.`);
-      L.push(`Impacto funcional (0–3): ${IMPACT.map(([id,t])=>`${t.split(" (")[0]} ${D.A[id]===null?"—":D.A[id]+" ("+LBLp[D.A[id]]+")"}`).join("; ")}.`);
+      if(D.A.IMP1!==undefined) L.push(`Impacto funcional (0–3): ${IMPACT.map(([id,t])=>`${t.split(" (")[0]} ${D.A[id]===null?"—":D.A[id]+" ("+LBLp[D.A[id]]+")"}`).join("; ")}.`);
       L.push(`Validade: ${s.flags.length?s.flags.join(" "):`sem alertas (infrequência ${s.inf}/3; pares ${s.incons}/${s.npairs}; extremas ${Math.round(s.pct3*100)}%).`}${s.missing?` Itens sem resposta: ${s.missing}.`:""}`);
     }
     if(c.asrs) L.push(`ASRS-18 (6 meses): desatenção ${c.asrs.ina}/9 sintomas (soma ${c.asrs.sIna.s}/36); hiperatividade/impulsividade ${c.asrs.hip}/9 (soma ${c.asrs.sHip.s}/36); triagem OMS ${c.asrs.screen}/6, ${c.asrs.screen>=4?"positiva":"negativa"}${blk(c.asrs.all)}.`);
@@ -760,6 +826,7 @@ function renderClin(list){
     if(c.gad) L.push(`GAD-7 (2 semanas): ${c.gad.s}/21, ${c.gad.band}${blk(c.gad)}${c.gad.n<c.gad.k?" (escore subestimado)":""}.`);
     if(c.asrm) L.push(`ASRM (1 semana; tradução não validada): ${c.asrm.s}/20, ${c.asrm.pos?"acima do corte (≥ 6)":"abaixo do corte"}${blk(c.asrm)}.`);
     if(c.audc) L.push(`AUDIT-C (12 meses): ${c.audc.s}/12, ${auditBand(c.audc.s,sexo)}${blk(c.audc)}.`);
+    if(c.sub) L.push(`Outras substâncias (ASSIST, 3 meses): ${c.subUse.length?c.subUse.map(x=>`${(t=>t[0].toLowerCase()+t.slice(1))(x.t.split(" (")[0])}: ${SUBF[x.v].toLowerCase()}`).join("; "):"nenhum uso relatado"}${c.sub.some(x=>x.v===null)?` (${c.sub.filter(x=>x.v===null).length} em branco)`:""}.`);
   });
   const iS=list.findIndex((D,i)=>D.form===0&&S[i]), iI=list.findIndex((D,i)=>D.form===1&&S[i]);
   if(iS>=0&&iI>=0){
@@ -781,6 +848,7 @@ function renderClin(list){
   addRows("GAD-7", GAD.map(x=>x[0]), id=>[id.slice(1), GAD.find(x=>x[0]===id)[1]], (id,x)=>x);
   addRows("ASRM", ASRM.map(x=>x[0]), id=>[id.slice(1), ASRM.find(x=>x[0]===id)[1]], (id,x)=>x);
   addRows("AUDIT-C", AUDC.map(x=>x[0]), id=>[id.slice(1), AUDC.find(x=>x[0]===id)[1]], (id,x)=>x);
+  addRows("Outras substâncias", SUB.map(x=>x[0]), id=>[id.slice(1), SUB.find(x=>x[0]===id)[1]], (id,x)=>x>0?`<b>${x}</b>`:x);
   $("itemList").innerHTML=`<table class="res"><thead><tr><th>Nº</th><th>Item</th>${list.map((D,i)=>`<th>${multi?(i+1)+". ":""}${shortLbl(D)}</th>`).join("")}</tr></thead><tbody>${lines.join("")}</tbody></table>`;
   $("results").classList.remove("hidden");
 }

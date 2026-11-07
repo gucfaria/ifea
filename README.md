@@ -12,19 +12,25 @@ Questionário clínico modular. O link define quais blocos o paciente responde.
 | `gad` | GAD-7 | 7 | 2 semanas |
 | `asrm` | ASRM (tradução livre, não validada) | 5 | 1 semana |
 | `audc` | AUDIT-C (texto do SUPERA/SENAD) | 3 | 12 meses |
+| `sub` | Rastreio de substâncias (pergunta 2 do ASSIST, mais vape, medicamentos para TDAH e para emagrecer sem receita) | 11 | 3 meses |
+| `x2` | Complemento para quem respondeu IFE2 (FLE7, PLA7, TEM7, MED1) | 4 | igual ao IFE |
+| `x1` | Complemento para quem respondeu IFE1 (atenção sustentada, novos itens, compensação, medicação) | 16 | igual ao IFE |
 
 ## Links
-- Avaliação inicial completa: `https://gucfaria.github.io/ifea/?m=ife,asrs,phq,gad,asrm,audc`
+- Avaliação inicial completa: `https://gucfaria.github.io/ifea/?m=ife,asrs,phq,gad,asrm,audc,sub`
 - TDAH: `https://gucfaria.github.io/ifea/?m=ife,asrs`
 - Seguimento curto: `https://gucfaria.github.io/ifea/?m=asrs,phq,gad`
+- Complemento IFE2: `https://gucfaria.github.io/ifea/?m=x2`
+- Complemento IFE1: `https://gucfaria.github.io/ifea/?m=x1`
 - Informante (só IFE-A): `https://gucfaria.github.io/ifea/?f=i`
 - Área do médico (gera os links): `https://gucfaria.github.io/ifea/#medico`
 
 Sem `m=`, o questionário abre só com o IFE-A, então os links antigos continuam funcionando.
 
 ## Código
-- **IFE3:** dígitos de base 6 agrupados em pares, num alfabeto de 36 símbolos. O código guarda formulário, período, relação do informante, a máscara dos blocos respondidos e as respostas, com dígito verificador. O tamanho varia com os blocos.
-- **IFE1 e IFE2:** continuam sendo corrigidos.
+- **IFE4:** dígitos de base 6 agrupados em pares, num alfabeto de 36 símbolos. O código guarda formulário, período, relação do informante, a máscara de 10 posições dos blocos (uma reservada) e as respostas, com dígito verificador. O tamanho varia com os blocos.
+- **Complementos:** no modo médico, colar o código antigo (IFE1/IFE2) junto com o do complemento soma os dois numa correção completa.
+- **IFE1, IFE2 e IFE3:** continuam sendo corrigidos.
 
 ## Segurança
 Se o item 9 do PHQ-9 for maior que zero, a página mostra na hora a orientação de ajuda (CVV 188, SAMU 192), e o modo médico exibe um alerta.
