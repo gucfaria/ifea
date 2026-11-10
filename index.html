@@ -659,7 +659,9 @@ function decode(str){
         if(x===1) BEH_DEEP[b].forEach(rd); }); });
     if(d.length!==p+(p%2)) throw new Error(sizeErr);
     const form=meta>>1;
-    const comp=mods.length&&mods.every(id=>MOD[id].comp)?Math.min(...mods.map(id=>MOD[id].comp)):0;
+    // complemento: há bloco X1/X2 e não há IFE completo (pode vir junto com escalas clínicas)
+    const cm=mods.filter(id=>MOD[id].comp);
+    const comp=!mods.includes("IFE")&&cm.length?Math.min(...cm.map(id=>MOD[id].comp)):0;
     return {ver, form, per:(meta&1)?6:4, rel:form?rel:null, mods, A, comp};
   }
   const want=ver===2?41:34;
@@ -908,7 +910,9 @@ function mergeComplements(list){
     const B=out[bi];
     const A=Object.assign({},B.A); Object.entries(C.A).forEach(([k,v])=>{ if(A[k]===undefined||A[k]===null) A[k]=v; });
     out[bi]={...B, A, merged:true, baseVer:B.ver, mods:Array.from(new Set(B.mods.concat("IFE"))), per:B.per, perC:C.per};
-    out[ci]=null;
+    // escalas que vieram no mesmo código do complemento continuam como aplicação própria
+    const rest=C.mods.filter(id=>!MOD[id].comp);
+    out[ci]=rest.length?{...C, mods:rest, comp:0, fromComp:true}:null;
     notes.push(`IFE${B.ver} combinado com o complemento: os itens novos foram respondidos em outro momento${B.per!==C.per?" e com outro período de referência":""}.`);
   });
   return {list:out.filter(Boolean), notes};
