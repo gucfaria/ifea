@@ -213,7 +213,7 @@ footer a{color:inherit}
         <p><b>Composição das escalas do IFE-A</b> (número do item como aparece para o respondente):</p>
         <div id="keyTable"></div>
         <p><b>Compensação.</b> Não entra nos domínios nem no total. Alta com domínios moderados sugere mascaramento; alta com domínios altos sugere compensação insuficiente. Não é específica (ansiedade, perfeccionismo e burnout também a elevam).</p>
-        <p><b>Priorização.</b> Indicador descritivo com os 3 itens de priorização (FLE7: largar o que interessa; PLA7: ocupar-se do que não é prioritário; TEM7: começar outra tarefa na hora de sair). Os itens continuam nos seus domínios; aqui são só reunidos para leitura. Com 3 itens, é pouco preciso: acompanhar tendência, não usar como corte.</p>
+        <p><b>Domínios complementares (fora dos índices e do total).</b> <i>Tomada de decisão</i>: adiar ou travar diante de escolhas, revisar o que já decidiu, depender dos outros ou das circunstâncias para decidir (o lado impulsivo continua em Inibição). <i>Priorização</i>: os 3 itens de priorização dos domínios (largar o que interessa, ocupar-se do não prioritário, começar outra tarefa na hora de sair) mais 3 próprios (detalhes, reagir ao que chega, fim do dia sem o essencial). Ler junto com PHQ-9 e GAD-7: decisão alta com humor e ansiedade baixos sugere traço executivo; alta junto com eles pode ser estado. Itens próprios, sem validação; para quem respondeu IFE-A antes, há o complemento "Decisão e priorização" (9 itens), que se combina com o IFE-A anterior.</p>
         <p><b>Item de medicação.</b> "Sob efeito da medicação, não consigo largar a tarefa em que estou…" Descritivo, fora dos escores; útil para acompanhar possível excesso de foco com estimulantes.</p>
         <p><b>Validade do IFE-A.</b> Infrequência (alerta se algum dos 3 itens ≥ 2), inconsistência (8 pares; alerta se 3 ou mais diferem ≥ 2) e respostas extremas (&gt; 60% de "3"). Critérios heurísticos.</p>
         <p><b>ASRS-18</b> (versão brasileira, Mattos et al., 2006; últimos 6 meses). O formulário brasileiro agrupa os itens em desatenção (A1–A9) e hiperatividade/impulsividade (B1–B9). Sintoma presente segundo os limiares da pontuação da OMS para a ASRS v1.1: "algumas vezes" ou mais para A3, A4, A5, A9, B2, B7 e B9; "frequentemente" ou mais para os demais. A triagem de 6 itens da OMS (A4, A5, A9, A6, B1, B5) é positiva com 4 ou mais itens nos limiares. Referência DSM-5 para adultos: 5 ou mais sintomas numa dimensão. Rastreio, não diagnóstico.</p>
@@ -225,7 +225,7 @@ footer a{color:inherit}
         <p><b>Aprofundamento</b> (aparece automaticamente para cada comportamento positivo na triagem, ou quando pedido no link). Cada escala mantém seu período original. <span id="deepAbout"></span></p>
         <p><b>Complementos.</b> Para quem já respondeu versões anteriores do IFE-A: o complemento do IFE2 tem 4 itens (os 3 itens novos e o de medicação); o do IFE1 tem 16 (acrescenta Atenção sustentada e Compensação). Cole o código antigo e o do complemento juntos na correção: eles são combinados automaticamente num perfil completo, com aviso de que parte dos itens foi respondida em outro momento.</p>
         <p><b>AUDIT-C</b> (últimos 12 meses; texto do SUPERA/SENAD). 0–12. Homens: 0–3 baixo risco, 4–5 moderado, 6–7 alto, 8–12 severo. Mulheres: 0–2 baixo, 3–5 moderado, 6–7 alto, 8–12 severo. Avalia apenas álcool.</p>
-        <p><b>Código.</b> IFE4 (e IFE3) registra formulário, período, relação do informante, blocos respondidos e as respostas, com dígito verificador; não contém nome nem data. Códigos IFE1, IFE2 e IFE3 continuam sendo corrigidos. O IFE4 tem vagas reservadas para blocos futuros, sem mudar a versão do código.</p>
+        <p><b>Código.</b> IFE5 (e IFE3/IFE4) registra formulário, período, relação do informante, blocos respondidos e as respostas, com dígito verificador; não contém nome nem data. Códigos IFE1 a IFE4 continuam sendo corrigidos. O IFE5 acrescentou o bloco de decisão e priorização.</p>
       </div>
     </details>
   </div>
@@ -337,6 +337,22 @@ const CMP = [
  ["CMP5","Quando a rotina perde a estrutura (férias, troca de emprego, trabalho em casa), minha organização desmorona.","Quando a rotina perde a estrutura (férias, troca de emprego, trabalho em casa), sua organização desmorona."],
  ["CMP6","Uso a facilidade de raciocínio para improvisar e compensar o que não preparei com antecedência.","Improvisa com facilidade para compensar o que não preparou com antecedência."]
 ];
+// Domínios complementares (fora dos índices e do total): tomada de decisão e priorização (IFE5)
+const DECP = [
+ ["DEC1","Adio decisões (uma compra, uma consulta, uma resposta) porque não consigo escolher entre as opções.","Adia decisões (compras, consultas, respostas) por não conseguir escolher entre as opções."],
+ ["PRI4","Gasto tempo e energia em detalhes que importam pouco, enquanto o essencial fica para depois.","Gasta tempo e energia em detalhes que importam pouco, enquanto o essencial fica para depois."],
+ ["DEC2","Diante de opções parecidas, travo e acabo não escolhendo nenhuma.","Diante de opções parecidas, trava e acaba não escolhendo nenhuma."],
+ ["DEC3","Passo muito mais tempo do que o necessário comparando opções, mesmo em escolhas pequenas.","Gasta muito mais tempo do que o necessário comparando opções, mesmo em escolhas pequenas."],
+ ["PRI5","Respondo primeiro ao que vai chegando (mensagens, pedidos) e o que eu tinha planejado fica para trás.","Responde primeiro ao que vai chegando (mensagens, pedidos) e o que tinha planejado fica para trás."],
+ ["DEC4","Depois de decidir, volto atrás ou fico revendo a decisão várias vezes.","Depois de decidir, volta atrás ou revê a decisão várias vezes."],
+ ["DEC5","Preciso perguntar a outras pessoas o que fazer antes de decidir coisas do dia a dia.","Pergunta a outras pessoas o que fazer antes de decidir coisas do dia a dia."],
+ ["PRI6","No fim do dia, percebo que fiz muitas coisas, mas não as mais importantes.","No fim do dia, fez muitas coisas, mas não as mais importantes."],
+ ["DEC6","Deixo que outras pessoas ou as circunstâncias decidam por mim, para não ter de escolher.","Deixa que outras pessoas ou as circunstâncias decidam, para não ter de escolher."]
+];
+const DP_IDS = DECP.map(x=>x[0]);
+const DEC_IDS = DP_IDS.filter(id=>id.startsWith("DEC"));
+const PRI_IDS = ["FLE7","PLA7","TEM7"].concat(DP_IDS.filter(id=>id.startsWith("PRI")));
+const COMPL = {DEC:{n:"Tomada de decisão", ids:DEC_IDS}, PRI:{n:"Priorização", ids:PRI_IDS}};
 const IMPACT = [["IMP1","Trabalho ou estudos"],["IMP2","Casa, finanças e tarefas do dia a dia"],["IMP3","Relacionamentos (família, parceiro(a), amigos)"]];
 const PAIRS2 = [["EMO1","EMO3"],["INC1","INC2"],["MEM1","MEM4"],["PLA1","PLA3"],["TEM2","TEM5"],["MON1","MON4"],["ORG1","ORG6"],["ATE3","ATE4"]];
 const PAIRS1 = PAIRS2.slice(0,7);
@@ -357,8 +373,8 @@ const ALLIDS2 = ORDER2.concat(CMP.map(c=>c[0]), IMPACT.map(i=>i[0]));           
 const IFE3_IDS = ORDER3.concat(CMP.map(c=>c[0]), ["MED1"], IMPACT.map(i=>i[0]));     // 82
 const ALLIDS1 = ["INI1","AUT1","FLE1","EMO1","INC1","MEM1","PLA1","TEM1","MON1","ORG1","AUT2","FLE2","EMO2","INC2","MEM2","PLA2","TEM2","INF1","MON2","ORG2","INI2","FLE3","EMO3","INC3","MEM3","PLA3","TEM3","MON3","ORG3","INI3","AUT3","EMO4","INC4","MEM4","PLA4","TEM4","MON4","ORG4","INF2","INI4","AUT4","FLE4","INC5","MEM5","PLA5","TEM5","MON5","ORG5","INI5","AUT5","FLE5","EMO5","MEM6","PLA6","TEM6","INF3","MON6","ORG6","INI6","AUT6","FLE6","EMO6","INC6","IMP1","IMP2","IMP3"];
 const DOM_OF = Object.fromEntries(BANK3.map(b=>[b[0],b[1]]));
-const TXT = {}; BANK3.forEach(b=>TXT[b[0]]=[b[2],b[3]]); INFREQ.concat(CMP,[MED]).forEach(x=>TXT[x[0]]=[x[1],x[2]]); IMPACT.forEach(x=>TXT[x[0]]=[x[1],x[1]]);
-const NUM3 = Object.fromEntries(ORDER3.map((id,i)=>[id,i+1]).concat(CMP.map((c,i)=>[c[0],ORDER3.length+1+i]),[["MED1",ORDER3.length+CMP.length+1]]));
+const TXT = {}; BANK3.forEach(b=>TXT[b[0]]=[b[2],b[3]]); INFREQ.concat(CMP,[MED],DECP).forEach(x=>TXT[x[0]]=[x[1],x[2]]); IMPACT.forEach(x=>TXT[x[0]]=[x[1],x[1]]);
+const NUM3 = Object.fromEntries(ORDER3.map((id,i)=>[id,i+1]).concat(CMP.map((c,i)=>[c[0],ORDER3.length+1+i]),[["MED1",ORDER3.length+CMP.length+1]],DP_IDS.map((id,i)=>[id,ORDER3.length+CMP.length+2+i])));
 
 // ---------------- escalas clínicas (texto das versões brasileiras; ASRM: tradução livre)
 const F5 = ["Nunca","Raramente","Algumas vezes","Frequen&shy;temente","Muito frequen&shy;temente"];
@@ -593,7 +609,7 @@ function scoreDeep(S,A){
 // Complementos para quem respondeu versões anteriores do IFE-A
 const X2_IDS = ["FLE7","PLA7","TEM7","MED1"];
 const X1_IDS = ORDER3.filter(id=>DOM_OF[id]==="ATE"||["FLE7","PLA7","TEM7"].includes(id)).concat(CMP.map(c=>c[0]),["MED1"]);
-// Módulos — a ordem é fixa. IFE3 usa os 6 primeiros; IFE4 tem 10 vagas (todas ocupadas; BEH é o último e pode crescer com o aprofundamento)
+// Módulos — a ordem é fixa. IFE3 usa os 6 primeiros; IFE4 tem 10 vagas; IFE5 acrescenta a 11ª (DP). BEH cresce com o aprofundamento; DP vem depois dele no código
 const MODS = [
  {id:"IFE",  nome:"Funções executivas (IFE-A)", curto:"IFE-A", ids:IFE3_IDS, inf:true},
  {id:"ASRS", nome:"ASRS-18 (TDAH)", curto:"ASRS", ids:ASRS.map(x=>x[0])},
@@ -604,9 +620,10 @@ const MODS = [
  {id:"SUB",  nome:"Outras substâncias (ASSIST)", curto:"Substâncias", ids:SUB.map(x=>x[0])},
  {id:"X2",   nome:"Complemento para quem respondeu IFE2", curto:"Complemento IFE2", ids:X2_IDS, inf:true, comp:2},
  {id:"X1",   nome:"Complemento para quem respondeu IFE1", curto:"Complemento IFE1", ids:X1_IDS, comp:1},
- {id:"BEH",  nome:"Comportamentos com perda de controle", curto:"Comportamentos", ids:BEH_IDS}
+ {id:"BEH",  nome:"Comportamentos com perda de controle", curto:"Comportamentos", ids:BEH_IDS},
+ {id:"DP",   nome:"Decisão e priorização (vai junto com o IFE-A; sozinho, completa um IFE-A anterior)", curto:"Decisão/priorização", ids:DP_IDS, inf:true, comp:9}
 ];
-const NSLOT4 = 10;
+const NSLOT4 = 10, NSLOT5 = 11;   // IFE5 = IFE4 + vaga 11 (DP)
 const MOD = Object.fromEntries(MODS.map(m=>[m.id,m]));
 const LBL = ["Nunca","Às vezes","Frequen&shy;temente","Quase sempre"];
 const LBLp = ["nunca","às vezes","frequentemente","quase sempre"];
@@ -623,7 +640,7 @@ function unpack25(t){
   return d;
 }
 function encode4(form, per, rel, mods, A){
-  const mask=MODS.map(m=>mods.includes(m.id)?1:0); while(mask.length<NSLOT4) mask.push(0);
+  const mask=MODS.map(m=>mods.includes(m.id)?1:0); while(mask.length<NSLOT5) mask.push(0);
   const d=[form*2+(per===6?1:0), rel].concat(mask);
   const put=id=>{ const v=/^BX/.test(id)?(A[id]??0):A[id], blank=v===null||v===undefined;
     if(WIDE.has(id)) d.push(blank?5:Math.floor(v/5), blank?5:v%5); else d.push(blank?5:v); };
@@ -633,22 +650,22 @@ function encode4(form, per, rel, mods, A){
   let s="", sum=0;
   for(let i=0;i<d.length;i+=2){ const n=d[i]*6+d[i+1]; s+=A36[n]; sum=(sum+n*((i/2)%7+1))%36; }
   s+=A36[sum];
-  return "IFE4-"+s.match(/.{1,5}/g).join("-");
+  return "IFE5-"+s.match(/.{1,5}/g).join("-");
 }
 function decode(str){
   let t=str.toUpperCase().replace(/[^A-Z0-9]/g,"");
-  const ver = t.startsWith("IFE4")?4 : t.startsWith("IFE3")?3 : t.startsWith("IFE2")?2 : t.startsWith("IFE1")?1 : 0;
-  if(!ver) throw new Error("O código não começa com IFE1 a IFE4. Confira se foi copiado inteiro.");
+  const ver = t.startsWith("IFE5")?5 : t.startsWith("IFE4")?4 : t.startsWith("IFE3")?3 : t.startsWith("IFE2")?2 : t.startsWith("IFE1")?1 : 0;
+  if(!ver) throw new Error("O código não começa com IFE1 a IFE5. Confira se foi copiado inteiro.");
   t=t.slice(4);
   if(ver>=3){
     if(t.length<5) throw new Error("Código curto demais; provavelmente foi cortado.");
     const d=[]; let sum=0;
     for(let i=0;i<t.length-1;i++){ const n=A36.indexOf(t[i]); if(n<0) throw new Error(`Caractere inválido: "${t[i]}".`); d.push(Math.floor(n/6),n%6); sum=(sum+n*(i%7+1))%36; }
     if(A36[sum]!==t[t.length-1]) throw new Error("Dígito verificador não confere: algum caractere foi trocado ou o código foi cortado.");
-    const nslot=ver===3?6:NSLOT4, start=2+nslot;
+    const nslot=ver===3?6:ver===4?NSLOT4:NSLOT5, start=2+nslot;
     const meta=d[0], rel=d[1], mask=d.slice(2,start);
     if(meta>3||rel>4||mask.some(x=>x>1)||mask.slice(MODS.length).some(x=>x)) throw new Error("Cabeçalho do código inválido (talvez de uma versão mais nova do questionário).");
-    const mods=MODS.filter((m,i)=>mask[i]===1).map(m=>m.id);
+    const mods=MODS.filter((m,i)=>i<nslot&&mask[i]===1).map(m=>m.id);
     const sizeErr=`O código não tem o tamanho esperado para os blocos indicados (${mods.join(", ")}). Provavelmente foi cortado.`;
     const A={}; let p=start;
     const rd=iid=>{ if(p>=d.length) throw new Error(sizeErr);
@@ -689,7 +706,7 @@ const FORM = qs.get("f")==="i" ? 1 : 0;
 const PERIOD = qs.get("p")==="6" ? 6 : 4;
 const DEEPFORCE = (qs.get("e")||"").toLowerCase().split(/[,\s]+/).filter(k=>DEEP_KEY[k]).map(k=>DEEP_KEY[k].b);
 const MODSEL = (()=>{ const m=(qs.get("m")||"ife").toUpperCase().split(/[,\s]+/); let s=MODS.filter(x=>m.includes(x.id)).map(x=>x.id);
-  if(s.includes("IFE")) s=s.filter(id=>!MOD[id].comp);           // IFE completo dispensa complemento
+  if(s.includes("IFE")) s=s.filter(id=>!MOD[id].comp).concat("DP");   // IFE completo dispensa complemento e já inclui decisão/priorização
   if(s.includes("X1")) s=s.filter(id=>id!=="X2");                  // X1 já contém X2
   if(DEEPFORCE.length&&!s.includes("BEH")) s.push("BEH");
   if(FORM) s=s.filter(id=>MOD[id].inf);
@@ -728,10 +745,17 @@ function blockIFE(){
   h+=`<div class="card"><h2>Como as coisas funcionam</h2><p class="instr">Pensando ${per}, com que frequência isso acontece ${FORM?"com essa pessoa":"com você"}?</p>`;
   h+=CMP.map(([id])=>itemHTML(id,NUM3[id]+".",tx(id),freq4(id))).join("");
   h+=itemHTML("MED1",NUM3.MED1+".",tx("MED1"),radioRow("MED1",[FORM?"Não usa medicação":"Não uso medicação"].concat(LBL),[4,0,1,2,3],"n5"))+`</div>`;
+  if(MODSEL.includes("DP")) h+=cardDP(true);
   const pc=per[0].toUpperCase()+per.slice(1);
   h+=`<div class="card"><h2>Impacto no dia a dia</h2><p class="instr">${pc}, quanto essas dificuldades atrapalharam${FORM?" essa pessoa":""} em…</p>`;
   h+=IMPACT.map(([id,t],i)=>itemHTML(id,String.fromCharCode(97+i)+")",t,freq4(id))).join("")+`</div>`;
   return h;
+}
+function cardDP(withIFE){
+  const tx=id=>TXT[id][FORM], per=PER[PERIOD].txt;
+  const instr=withIFE?`Pensando ${per}, com que frequência isso acontece ${FORM?"com essa pessoa":"com você"}?`
+    :`Estas perguntas completam um questionário que ${FORM?"você já respondeu sobre essa pessoa":"você já respondeu"}. Pensando <b>${per}</b>, marque com que frequência cada situação ${FORM?"aconteceu":"foi um problema para você"}.`;
+  return `<div class="card"><h2>Decisões e prioridades</h2><p class="instr">${instr}</p>`+DP_IDS.map((id,i)=>itemHTML(id,(withIFE?NUM3[id]:i+1)+".",tx(id),freq4(id))).join("")+`</div>`;
 }
 function blockASRS(){
   let h=`<div class="card"><h2>Atenção e atividade</h2><p class="instr">Como você se sentiu e se comportou <b>nos últimos 6 meses</b>?</p>`;
@@ -782,7 +806,7 @@ function blockX(modId){
   h+=ids.map((id,i)=>itemHTML(id,(i+1)+".",tx(id), id==="MED1"?radioRow("MED1",[FORM?"Não usa medicação":"Não uso medicação"].concat(LBL),[4,0,1,2,3],"n5"):freq4(id))).join("")+`</div>`;
   return h;
 }
-const BLOCKS={IFE:blockIFE,ASRS:blockASRS,PHQ:blockPHQ,GAD:blockGAD,ASRM:blockASRM,AUDC:blockAUDC,SUB:blockSUB,X2:()=>blockX("X2"),X1:()=>blockX("X1"),BEH:blockBEH};
+const BLOCKS={IFE:blockIFE,ASRS:blockASRS,PHQ:blockPHQ,GAD:blockGAD,ASRM:blockASRM,AUDC:blockAUDC,SUB:blockSUB,X2:()=>blockX("X2"),X1:()=>blockX("X1"),BEH:blockBEH,DP:()=>MODSEL.includes("IFE")?"":cardDP(false)};
 function syncAudit(){
   if(!MODSEL.includes("AUDC")) return;
   const never=pval("C1")===0;
@@ -859,18 +883,22 @@ function scoreIFE(D){
   const tot=doms.some(d=>res[d].m===null)?null:doms.reduce((a,d)=>a+res[d].m,0)/doms.length;
   let cmp=null;
   if(D.ver>=2||D.merged){ const g=CMP.map(c=>v(c[0])).filter(x=>x!==null); cmp=g.length>=5?g.reduce((a,b)=>a+b,0)/g.length:null; }
-  const PRI=["FLE7","PLA7","TEM7"], pg=PRI.map(v).filter(x=>x!==null), pri=pg.length===3?pg.reduce((a,b)=>a+b,0)/3:null;
+  // domínios complementares (fora dos índices): até 1 item em branco; sem os itens novos, priorização usa só os 3 itens antigos
+  const mean=a=>a.reduce((x,y)=>x+y,0)/a.length;
+  const dg=DEC_IDS.map(v).filter(x=>x!==null), dec=dg.length>=DEC_IDS.length-1?mean(dg):null;
+  const pg=PRI_IDS.map(v).filter(x=>x!==null), pNew=PRI_IDS.slice(3).map(v).filter(x=>x!==null).length, pOld=PRI_IDS.slice(0,3).map(v).filter(x=>x!==null);
+  const pri=pg.length>=PRI_IDS.length-1?mean(pg):(pNew===0&&pOld.length===3?mean(pOld):null), pri3=pNew===0&&pri!==null;
   const inf=INFREQ.map(([id])=>v(id)).filter(x=>x!==null&&x>=2).length;
   const incons=pairs.map(([a,b])=>(v(a)===null||v(b)===null)?null:Math.abs(v(a)-v(b))).filter(x=>x!==null&&x>=2).length;
   const clin=bank.filter(b=>doms.includes(b[1])).map(b=>v(b[0])).filter(x=>x!==null);
   const pct3=clin.length?clin.filter(x=>x===3).length/clin.length:0;
-  const ids=full?IFE3_IDS:D.ver===2?ALLIDS2:ALLIDS1, missing=ids.filter(id=>v(id)===null).length;
+  const ids=(full?IFE3_IDS:D.ver===2?ALLIDS2:ALLIDS1).concat(D.mods.includes("DP")?DP_IDS:[]), missing=ids.filter(id=>v(id)===null).length;
   const med=A.MED1===undefined?undefined:v("MED1");
   const flags=[];
   if(inf>0) flags.push(`Infrequência: ${inf} de 3 itens implausíveis marcados como frequentes.`);
   if(incons>=3) flags.push(`Inconsistência: ${incons} de ${pairs.length} pares de itens semelhantes diferem em 2 pontos ou mais.`);
   if(pct3>0.6) flags.push(`Respostas extremas: ${Math.round(pct3*100)}% dos itens clínicos marcados como "quase sempre".`);
-  return {doms,res,rce,mgt,tot,cmp,pri,inf,incons,npairs:pairs.length,pct3,missing,flags,med};
+  return {doms,res,rce,mgt,tot,cmp,dec,pri,pri3,inf,incons,npairs:pairs.length,pct3,missing,flags,med};
 }
 const blk=o=>o&&o.n<o.k?` · ${o.k-o.n} em branco`:"";
 const sumOf=(A,ids)=>{ const g=ids.map(i=>A[i]).filter(x=>x!==null&&x!==undefined); return {s:g.reduce((a,b)=>a+b,0), n:g.length, k:ids.length}; };
@@ -907,11 +935,11 @@ function mergeComplements(list){
   const out=list.slice(), notes=[];
   out.forEach((C,ci)=>{
     if(!C||!C.comp) return;
-    const bi=out.findIndex(B=>B&&!B.comp&&!B.merged&&B.mods.includes("IFE")&&B.ver<3&&B.form===C.form&&C.comp<=B.ver);
+    const bi=out.findIndex(B=>B&&!B.comp&&!B.merged&&B.mods.includes("IFE")&&B.form===C.form&&(C.comp===9?!B.mods.includes("DP"):B.ver<3&&C.comp<=B.ver));
     if(bi<0) return;
     const B=out[bi];
     const A=Object.assign({},B.A); Object.entries(C.A).forEach(([k,v])=>{ if(A[k]===undefined||A[k]===null) A[k]=v; });
-    out[bi]={...B, A, merged:true, baseVer:B.ver, mods:Array.from(new Set(B.mods.concat("IFE"))), per:B.per, perC:C.per};
+    out[bi]={...B, A, merged:true, baseVer:B.ver, mods:Array.from(new Set(B.mods.concat("IFE",C.mods.includes("DP")?["DP"]:[]))), per:B.per, perC:C.per};
     // escalas que vieram no mesmo código do complemento continuam como aplicação própria
     const rest=C.mods.filter(id=>!MOD[id].comp);
     out[ci]=rest.length?{...C, mods:rest, comp:0, fromComp:true}:null;
@@ -933,7 +961,8 @@ function renderKey(){
   }
   h+=row("Total global","os 69 itens clínicos",true);
   h+=row("Compensação", nums(CMP.map(c=>c[0])), true);
-  h+=row("Priorização (indicador)", nums(["FLE7","PLA7","TEM7"]), true);
+  h+=row("Tomada de decisão (complementar)", nums(DEC_IDS), true);
+  h+=row("Priorização (complementar)", nums(PRI_IDS)+" (os 3 primeiros também contam nos seus domínios)", true);
   h+=row("Efeito da medicação (descritivo)", String(NUM3.MED1));
   h+=row("Infrequência", nums(INFREQ.map(i=>i[0])));
   h+=row("Pares de inconsistência", PAIRS2.map(([a,b])=>[NUM3[a],NUM3[b]].sort((x,y)=>x-y)).sort((x,y)=>x[0]-y[0]).map(([x,y])=>`${x}–${y}`).join(" · "));
@@ -945,16 +974,18 @@ function updLink(){
   const f=document.querySelector('input[name="lf"]:checked').value, p=document.querySelector('input[name="lp"]:checked').value;
   MODS.forEach(m=>{ const c=$("mod_"+m.id); if(f==="i"){ c.disabled=!m.inf; if(!m.inf) c.checked=false; } else c.disabled=false; });
   if($("mod_IFE").checked) ["X1","X2"].forEach(id=>$("mod_"+id).checked=false);
+  $("mod_DP").disabled=$("mod_IFE").checked; if($("mod_IFE").checked) $("mod_DP").checked=true;
   if($("mod_X1").checked) $("mod_X2").checked=false;
-  let mods=linkMods(); if(!mods.length){ $("mod_IFE").checked=true; mods=["IFE"]; }
+  let mods=linkMods(); if(!mods.length){ $("mod_IFE").checked=true; mods=["IFE","DP"]; }
+  const urlMods=mods.includes("IFE")?mods.filter(id=>id!=="DP"):mods;
   const base=location.href.split("#")[0].split("?")[0];
   const q=[]; if(f==="i") q.push("f=i"); if(p==="6") q.push("p=6");
-  if(!(mods.length===1&&mods[0]==="IFE")) q.push("m="+mods.map(x=>x.toLowerCase()).join(","));
+  if(!(urlMods.length===1&&urlMods[0]==="IFE")) q.push("m="+urlMods.map(x=>x.toLowerCase()).join(","));
   $("deepChecks").classList.toggle("hidden",!mods.includes("BEH"));
   const dk=mods.includes("BEH")?DEEP.filter(S=>$("dp_"+S.key).checked):[]; if(dk.length) q.push("e="+dk.map(S=>S.key).join(","));
   $("linkOut").textContent=base+(q.length?"?"+q.join("&"):"");
   const n=mods.reduce((a,id)=>a+MOD[id].ids.filter(x=>!/^BX/.test(x)).length,0)+dk.reduce((a,S)=>a+S.items.length,0);
-  $("linkInfo").textContent=(f==="i"?"Forma do informante: só IFE-A ou o complemento do IFE2 (as escalas clínicas são de autorrelato). ":"")+`${n} perguntas · cerca de ${Math.max(2,Math.round(n/7))} minutos.`;
+  $("linkInfo").textContent=(f==="i"?"Forma do informante: só IFE-A e complementos (as escalas clínicas são de autorrelato). ":"")+`${n} perguntas · cerca de ${Math.max(2,Math.round(n/7))} minutos.`;
 }
 function cellHTML(m){
   if(m===null||m===undefined) return `<span class="muted">—</span>`;
@@ -984,7 +1015,8 @@ function renderClin(list0){
     h+=`<tr class="idx"><td>Total global</td>${iIFE.map(i=>`<td>${cellHTML(S[i].tot)}</td>`).join("")}</tr>`;
     h+=`<tr><td>Metacognição − Regulação</td>${iIFE.map(i=>`<td class="num">${S[i].rce!==null&&S[i].mgt!==null?sgn(S[i].mgt-S[i].rce):"—"}</td>`).join("")}</tr>`;
     h+=`<tr class="idx"><td>Compensação</td>${iIFE.map(i=>`<td>${cellHTML(S[i].cmp)}</td>`).join("")}</tr>`;
-    h+=`<tr class="idx"><td>Priorização (3 itens)</td>${iIFE.map(i=>`<td>${cellHTML(S[i].pri)}</td>`).join("")}</tr>`;
+    h+=`<tr class="idx"><td>Tomada de decisão</td>${iIFE.map(i=>`<td>${cellHTML(S[i].dec)}</td>`).join("")}</tr>`;
+    h+=`<tr class="idx"><td>Priorização</td>${iIFE.map(i=>`<td>${cellHTML(S[i].pri)}${S[i].pri3?'<br><span class="muted" style="font-size:11px">3 itens</span>':""}</td>`).join("")}</tr>`;
     h+=`<tr><td>Efeito da medicação</td>${iIFE.map(i=>{const m=S[i].med; return `<td class="num">${m===undefined?"—":m===null?"em branco":m===4?"não usa":m+" ("+LBLp[m]+")"}</td>`;}).join("")}</tr>`;
     h+=`<tr><td>Impacto (trab. · casa · relac.)</td>${iIFE.map(i=>`<td class="num">${IMPACT.map(([id])=>list[i].A[id]===null||list[i].A[id]===undefined?"—":list[i].A[id]).join(" · ")}</td>`).join("")}</tr>`;
     $("table").innerHTML=h+"</tbody></table>";
@@ -1020,7 +1052,7 @@ function renderClin(list0){
     const s=S[i], c=C[i];
     L.push(""); L.push(`${multi?(i+1)+". ":""}${formLbl(D)} — blocos: ${D.mods.map(id=>MOD[id].curto).join(", ")}`);
     if(D.merged) L.push(`(Combinação de IFE${D.baseVer} com complemento respondido em outro momento.)`);
-    if(D.comp&&!D.merged) L.push(`(Complemento isolado: apenas os itens novos; cole junto com o código IFE${D.comp} original para obter o perfil completo.)`);
+    if(D.comp&&!D.merged) L.push(D.comp===9?`(Complemento isolado de decisão e priorização: cole junto com o código do IFE-A anterior para combinar.)`:`(Complemento isolado: apenas os itens novos; cole junto com o código IFE${D.comp} original para obter o perfil completo.)`);
     if(s){
       L.push(`IFE-A (instrumento clínico sem normas; 0 a 3; período: ${PER[D.per].lbl}). Média por domínio (soma bruta):`);
       const dl=x=>s.res[x].m===null?`  - ${DOM[x].n}: incompleto`:`  - ${DOM[x].n}: ${fmt(s.res[x].m)} (${s.res[x].raw}/${s.res[x].n*3}${s.res[x].n<s.res[x].k?`, ${s.res[x].k-s.res[x].n} em branco`:""}) — ${band(s.res[x].m)[0]}`;
@@ -1029,7 +1061,8 @@ function renderClin(list0){
       L.push(il("Metacognição e gestão de tarefas",s.mgt)); s.doms.filter(x=>DOM[x].idx==="MGT").forEach(x=>L.push(dl(x)));
       L.push(il("Total global",s.tot)+(s.rce!==null&&s.mgt!==null?` | Metacognição − Regulação: ${sgn(s.mgt-s.rce)}`:""));
       if(D.ver>=2||D.merged||s.cmp!==null) L.push(il("Compensação",s.cmp));
-      if(s.pri!==null) L.push(il("Priorização (indicador de 3 itens, já contados nos domínios)",s.pri));
+      if(s.dec!==null) L.push(il("Tomada de decisão (complementar, fora dos índices)",s.dec));
+      if(s.pri!==null) L.push(il(s.pri3?"Priorização (só os 3 itens antigos, fora dos índices)":"Priorização (complementar, fora dos índices)",s.pri));
       if(s.med!==undefined&&s.med!==null&&s.med!==4) L.push(`Sob medicação, dificuldade de largar a tarefa em curso: ${LBLp[s.med]}.`);
       const ranked=s.doms.filter(x=>s.res[x].m!==null).sort((a,b)=>s.res[b].m-s.res[a].m);
       if(ranked.length) L.push(`Domínios mais elevados: ${ranked.slice(0,3).map(x=>`${DOM[x].n} (${fmt(s.res[x].m)})`).join("; ")}.`);
