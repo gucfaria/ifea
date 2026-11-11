@@ -213,6 +213,7 @@ footer a{color:inherit}
         <p><b>Composição das escalas do IFE-A</b> (número do item como aparece para o respondente):</p>
         <div id="keyTable"></div>
         <p><b>Compensação.</b> Não entra nos domínios nem no total. Alta com domínios moderados sugere mascaramento; alta com domínios altos sugere compensação insuficiente. Não é específica (ansiedade, perfeccionismo e burnout também a elevam).</p>
+        <p><b>Priorização.</b> Indicador descritivo com os 3 itens de priorização (FLE7: largar o que interessa; PLA7: ocupar-se do que não é prioritário; TEM7: começar outra tarefa na hora de sair). Os itens continuam nos seus domínios; aqui são só reunidos para leitura. Com 3 itens, é pouco preciso: acompanhar tendência, não usar como corte.</p>
         <p><b>Item de medicação.</b> "Sob efeito da medicação, não consigo largar a tarefa em que estou…" Descritivo, fora dos escores; útil para acompanhar possível excesso de foco com estimulantes.</p>
         <p><b>Validade do IFE-A.</b> Infrequência (alerta se algum dos 3 itens ≥ 2), inconsistência (8 pares; alerta se 3 ou mais diferem ≥ 2) e respostas extremas (&gt; 60% de "3"). Critérios heurísticos.</p>
         <p><b>ASRS-18</b> (versão brasileira, Mattos et al., 2006; últimos 6 meses). O formulário brasileiro agrupa os itens em desatenção (A1–A9) e hiperatividade/impulsividade (B1–B9). Sintoma presente segundo os limiares da pontuação da OMS para a ASRS v1.1: "algumas vezes" ou mais para A3, A4, A5, A9, B2, B7 e B9; "frequentemente" ou mais para os demais. A triagem de 6 itens da OMS (A4, A5, A9, A6, B1, B5) é positiva com 4 ou mais itens nos limiares. Referência DSM-5 para adultos: 5 ou mais sintomas numa dimensão. Rastreio, não diagnóstico.</p>
@@ -858,6 +859,7 @@ function scoreIFE(D){
   const tot=doms.some(d=>res[d].m===null)?null:doms.reduce((a,d)=>a+res[d].m,0)/doms.length;
   let cmp=null;
   if(D.ver>=2||D.merged){ const g=CMP.map(c=>v(c[0])).filter(x=>x!==null); cmp=g.length>=5?g.reduce((a,b)=>a+b,0)/g.length:null; }
+  const PRI=["FLE7","PLA7","TEM7"], pg=PRI.map(v).filter(x=>x!==null), pri=pg.length===3?pg.reduce((a,b)=>a+b,0)/3:null;
   const inf=INFREQ.map(([id])=>v(id)).filter(x=>x!==null&&x>=2).length;
   const incons=pairs.map(([a,b])=>(v(a)===null||v(b)===null)?null:Math.abs(v(a)-v(b))).filter(x=>x!==null&&x>=2).length;
   const clin=bank.filter(b=>doms.includes(b[1])).map(b=>v(b[0])).filter(x=>x!==null);
@@ -868,7 +870,7 @@ function scoreIFE(D){
   if(inf>0) flags.push(`Infrequência: ${inf} de 3 itens implausíveis marcados como frequentes.`);
   if(incons>=3) flags.push(`Inconsistência: ${incons} de ${pairs.length} pares de itens semelhantes diferem em 2 pontos ou mais.`);
   if(pct3>0.6) flags.push(`Respostas extremas: ${Math.round(pct3*100)}% dos itens clínicos marcados como "quase sempre".`);
-  return {doms,res,rce,mgt,tot,cmp,inf,incons,npairs:pairs.length,pct3,missing,flags,med};
+  return {doms,res,rce,mgt,tot,cmp,pri,inf,incons,npairs:pairs.length,pct3,missing,flags,med};
 }
 const blk=o=>o&&o.n<o.k?` · ${o.k-o.n} em branco`:"";
 const sumOf=(A,ids)=>{ const g=ids.map(i=>A[i]).filter(x=>x!==null&&x!==undefined); return {s:g.reduce((a,b)=>a+b,0), n:g.length, k:ids.length}; };
@@ -931,6 +933,7 @@ function renderKey(){
   }
   h+=row("Total global","os 69 itens clínicos",true);
   h+=row("Compensação", nums(CMP.map(c=>c[0])), true);
+  h+=row("Priorização (indicador)", nums(["FLE7","PLA7","TEM7"]), true);
   h+=row("Efeito da medicação (descritivo)", String(NUM3.MED1));
   h+=row("Infrequência", nums(INFREQ.map(i=>i[0])));
   h+=row("Pares de inconsistência", PAIRS2.map(([a,b])=>[NUM3[a],NUM3[b]].sort((x,y)=>x-y)).sort((x,y)=>x[0]-y[0]).map(([x,y])=>`${x}–${y}`).join(" · "));
@@ -981,6 +984,7 @@ function renderClin(list0){
     h+=`<tr class="idx"><td>Total global</td>${iIFE.map(i=>`<td>${cellHTML(S[i].tot)}</td>`).join("")}</tr>`;
     h+=`<tr><td>Metacognição − Regulação</td>${iIFE.map(i=>`<td class="num">${S[i].rce!==null&&S[i].mgt!==null?sgn(S[i].mgt-S[i].rce):"—"}</td>`).join("")}</tr>`;
     h+=`<tr class="idx"><td>Compensação</td>${iIFE.map(i=>`<td>${cellHTML(S[i].cmp)}</td>`).join("")}</tr>`;
+    h+=`<tr class="idx"><td>Priorização (3 itens)</td>${iIFE.map(i=>`<td>${cellHTML(S[i].pri)}</td>`).join("")}</tr>`;
     h+=`<tr><td>Efeito da medicação</td>${iIFE.map(i=>{const m=S[i].med; return `<td class="num">${m===undefined?"—":m===null?"em branco":m===4?"não usa":m+" ("+LBLp[m]+")"}</td>`;}).join("")}</tr>`;
     h+=`<tr><td>Impacto (trab. · casa · relac.)</td>${iIFE.map(i=>`<td class="num">${IMPACT.map(([id])=>list[i].A[id]===null||list[i].A[id]===undefined?"—":list[i].A[id]).join(" · ")}</td>`).join("")}</tr>`;
     $("table").innerHTML=h+"</tbody></table>";
@@ -1025,6 +1029,7 @@ function renderClin(list0){
       L.push(il("Metacognição e gestão de tarefas",s.mgt)); s.doms.filter(x=>DOM[x].idx==="MGT").forEach(x=>L.push(dl(x)));
       L.push(il("Total global",s.tot)+(s.rce!==null&&s.mgt!==null?` | Metacognição − Regulação: ${sgn(s.mgt-s.rce)}`:""));
       if(D.ver>=2||D.merged||s.cmp!==null) L.push(il("Compensação",s.cmp));
+      if(s.pri!==null) L.push(il("Priorização (indicador de 3 itens, já contados nos domínios)",s.pri));
       if(s.med!==undefined&&s.med!==null&&s.med!==4) L.push(`Sob medicação, dificuldade de largar a tarefa em curso: ${LBLp[s.med]}.`);
       const ranked=s.doms.filter(x=>s.res[x].m!==null).sort((a,b)=>s.res[b].m-s.res[a].m);
       if(ranked.length) L.push(`Domínios mais elevados: ${ranked.slice(0,3).map(x=>`${DOM[x].n} (${fmt(s.res[x].m)})`).join("; ")}.`);
