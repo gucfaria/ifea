@@ -935,7 +935,9 @@ function mergeComplements(list){
   const out=list.slice(), notes=[];
   out.forEach((C,ci)=>{
     if(!C||!C.comp) return;
-    const bi=out.findIndex(B=>B&&!B.comp&&!B.merged&&B.mods.includes("IFE")&&B.form===C.form&&(C.comp===9?!B.mods.includes("DP"):B.ver<3&&C.comp<=B.ver));
+    // X1/X2: IFE1/IFE2 ainda não combinado. DP: o IFE-A mais recente da mesma forma (inclusive já combinado com X1/X2) que ainda não tenha DP
+    const ok=B=>B&&!B.comp&&B.mods.includes("IFE")&&B.form===C.form&&(C.comp===9?!B.mods.includes("DP"):!B.merged&&B.ver<3&&C.comp<=B.ver);
+    let bi=-1; if(C.comp===9){ out.forEach((B,i)=>{ if(ok(B)&&(i<ci||bi<0)) bi=i; }); } else bi=out.findIndex(ok);
     if(bi<0) return;
     const B=out[bi];
     const A=Object.assign({},B.A); Object.entries(C.A).forEach(([k,v])=>{ if(A[k]===undefined||A[k]===null) A[k]=v; });
